@@ -1,0 +1,8 @@
+prefix=/home/thomas/ros1/install
+
+Name: Quanser
+Description: Description of Quanser
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

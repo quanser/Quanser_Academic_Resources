@@ -1,0 +1,46 @@
+# Definition files for generating the breakout mapping of data stored with the "To Host File" or "To File" blocks.
+# Any line starting with the hash (#) symbol will be ignored (like this line)
+# The fields are separated by commas (,)
+#
+# The column format is as follows:
+#
+# variable_name, length, Description/Comments
+#
+# variable_name: The broken out data are assigned to for that field
+# length    : The size of the vector associated with the variable name (min 1, if 0, ignored)
+# Description/Comments : Documentation comments, will appear as comment in the generated script
+#
+t,1,Default Model Time vector - always in the first row of the data file
+pose_home_1,4,Initial Home POSE (x,y,z,heading) for Vehicle 1
+pose_home_2,4,Initial Home POSE (x,y,z,heading) for Vehicle 2
+pose_home_3,4,Initial Home POSE (x,y,z,heading) for Vehicle 3
+pose_home_4,4,Initial Home POSE (x,y,z,heading) for Vehicle 4
+pose_home_5,4,Initial Home POSE (x,y,z,heading) for Vehicle 5
+pose_home_6,4,Initial Home POSE (x,y,z,heading) for Vehicle 6
+traj_1,4,Desired Trajectory (x,y,z,heading) for Vehicle 1
+traj_2,4,Desired Trajectory (x,y,z,heading) for Vehicle 2
+traj_3,4,Desired Trajectory (x,y,z,heading) for Vehicle 3
+traj_4,4,Desired Trajectory (x,y,z,heading) for Vehicle 4
+traj_5,4,Desired Trajectory (x,y,z,heading) for Vehicle 5
+traj_6,4,Desired Trajectory (x,y,z,heading) for Vehicle 6
+traj_enable,1,Enable Signal for Swarm Trajectory (for all of the vehicles)
+traj_play,1,Play/Pause Signal (1/0) for Swarm Trajectory (for all of the vehicles)
+loop_times,6,Loop Back Time (s) for each of the vehicles in the Swarm
+comm_issues,6,Communiation Issue Flag for each of the vehicles in the Swarm
+arm,1,Arm/Disarm (1/0) Signal from Operator
+takeoff,1,Takeoff/Land (1/0) Signal from Operator
+estop,1,Emergency Stop Signal (eStop) from Operator
+joystick_issue,1,Joystick Issue Signal
+pos_1,3,Measured Position (x,y,z) (m) for Vehicle 1
+pos_2,3,Measured Position (x,y,z) (m) for Vehicle 2
+pos_3,3,Measured Position (x,y,z) (m) for Vehicle 3
+pos_4,3,Measured Position (x,y,z) (m) for Vehicle 4
+pos_5,3,Measured Position (x,y,z) (m) for Vehicle 5
+pos_6,3,Measured Position (x,y,z) (m) for Vehicle 6
+rot_1,3,Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 1
+rot_2,3,Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 2
+rot_3,3,Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 3
+rot_4,3,Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 4
+rot_5,3,Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 5
+rot_6,3,Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 6
+is_tracking,6,isTracking signal for each of the vehicles in the swarm

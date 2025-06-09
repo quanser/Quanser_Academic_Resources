@@ -1,0 +1,86 @@
+# -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+#region : File Description and Imports
+'''
+filename.py
+
+High-level summary of the python file with a description of which PDFs
+accompany the python example.
+'''
+import sys
+import numpy as np
+import os
+
+from qvl.qlabs import QuanserInteractiveLabs
+from qvl.qcar import QLabsQCar
+from qvl.qcar2 import QLabsQCar2
+from qvl.free_camera import QLabsFreeCamera
+from qvl.real_time import QLabsRealTime
+import pal.resources.rtmodels as rtmodels
+from pal.products.qcar import QCAR_CONFIG
+
+#endregion
+
+# -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+#region : Main Loop
+#=================== Virtual Env Setup ===================
+# Connecting to Quanser Interactive Labs
+
+def setup(
+        initialPosition=[16.6, 2, 0.000],
+        initialOrientation=[0,0,np.pi/2],
+        rtModel=rtmodels.QCAR
+    ):
+    # Try to connect to Qlabs
+    os.system('cls')
+    qlabs = QuanserInteractiveLabs()
+    # Ensure that QLabs is running on your local machine
+    print("Connecting to QLabs...")
+    if (not qlabs.open("localhost")):
+        print("Unable to connect to QLabs")
+        sys.exit()
+        return
+    print("Connected to QLabs")
+
+    # Delete any previous QCar instances and stop any running spawn models
+    qlabs.destroy_all_spawned_actors()
+    QLabsRealTime().terminate_all_real_time_models()
+
+    # Spawn a QCar at the given initial pose
+    if QCAR_CONFIG['cartype']==1:
+        hqcar = QLabsQCar(qlabs)
+        rtModel = rtmodels.QCAR
+    elif QCAR_CONFIG['cartype']==2:
+        hqcar = QLabsQCar2(qlabs)
+        rtModel = rtmodels.QCAR2
+    hqcar.spawn_id(
+        actorNumber=0,
+        location=initialPosition,
+        rotation=initialOrientation,
+        waitForConfirmation=True
+    )
+
+    # Create a new camera view and attach it to the QCar
+    hcamera = QLabsFreeCamera(qlabs)
+    hcamera.spawn([8.484, 1.973, 12.209], [-0, 0.748, 0.792])
+    hqcar.possess()
+
+    # Start spawn model
+    QLabsRealTime().start_real_time_model(rtModel)
+
+def terminate():
+    QLabsRealTime().terminate_real_time_model("QCar_Workspace")
+    QLabsRealTime().terminate_real_time_model("QCar2_Workspace")
+
+#endregion
+
+# -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+#region : Run
+def main():
+    setup(initialPosition=[-25.614, 35.574, 0], initialOrientation=[0, 0, 3*np.pi/2])
+
+if __name__ == '__main__':
+    main()
+#endregion

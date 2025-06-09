@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find qcar)/urdf/qcar_model.xacro'"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  </node>
+
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz"/>
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find mybot_description)/launch/myrobot.rviz"/-->
+
+  <node name="command_node" pkg="qcar"	
+	  type="commandnode.py" output="screen">
+      
+  </node>    
+  <node name="qcar_node" pkg="qcar"
+          type="qcarnode.py" output="screen">
+      
+  </node>
+
+  <node name="lidar_node" pkg="qcar"
+          type="lidarnode.py" output="screen">
+      
+  </node>
+
+  <node name="csi_node" pkg="qcar"
+          type="csinode.py" output="screen">      
+  </node>
+
+
+  <node name="rgbd_node" pkg="qcar"
+          type="rgbdnode.py" output="screen">
+  </node>
+
+
+</launch>

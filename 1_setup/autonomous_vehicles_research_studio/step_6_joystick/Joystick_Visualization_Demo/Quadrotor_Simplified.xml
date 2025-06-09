@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Scene xmlns="http://www.quarcservice.com/schemas/visualization_scene_file.xsd"
+       Version="1.3">
+   <SceneParameters>
+      <Mouse>
+         <Forward Button="wheel" Direction="forward" Speed="0.002"/>
+         <Left Button="right" Direction="left" Speed="0.002"/>
+         <Up Button="right" Direction="backward" Speed="0.002"/>
+         <Roll Alt="true" Button="left" Direction="right" Speed="0.002"/>
+         <Pitch Button="left" Direction="forward" Speed="0.002"/>
+         <Yaw Button="left" Direction="left" Speed="0.002"/>
+      </Mouse>
+      <Window DisplayMode="window" FrameRate="30" Height="768" Left="0" Menu="true"
+              StatusBar="true"
+              Top="0"
+              Width="1024"
+              WindowPosition="center"/>
+      <Camera ClipFar="1000" ClipNear="0.1" ViewAngle="45"/>
+      <Light Ambient="0.314 0.314 0.314" Background="0.678 0.922 1"/>
+      <Fog Color="1 1 1" Density="0.5" End="10.0" Mode="none" Start="5.0"/>
+      <Keyboard>
+         <Translation Backward="s" Down="q" Forward="w" PanLeft="a" PanRight="d" Speed="1" Up="e"/>
+         <Rotation PitchDown="k" PitchUp="i" RollLeft="j" RollRight="l" Speed="1.5707963267948966"
+                   YawLeft="u"
+                   YawRight="o"/>
+      </Keyboard>
+   </SceneParameters>
+   <MeshPool>
+      <Mesh Filename="meshes\arrows.x3d" ID="mesh.arrows"/>
+      <Mesh Filename="meshes\cylinder.x3d" ID="mesh.cylinder"/>
+      <Mesh Filename="meshes\box.x3d" ID="mesh.box"/>
+   </MeshPool>
+   <TexturePool/>
+   <ObjectPool>
+      <Object ID="object.arrows" Mesh="mesh.arrows"/>
+      <Object ID="object.cylinder" Mesh="mesh.cylinder"/>
+      <Object ID="object.box" Mesh="mesh.box"/>
+   </ObjectPool>
+   <ActorPool>
+      <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.camera" Object="camera"
+             Orientation="0 0.26179939 0"
+             Position="-5 0 2"
+             Priority="0"
+             Scale="1 1 1"
+             Specular="0 0 0 0.1"/>
+      <Actor Color="1 1 1 1" ID="actor.light" Object="light" Orientation="0 0 0"
+             Position="-30 0 100"
+             Scale="1 1 1"/>
+      <Actor Color="1 1 1 0.3" Emissive="0" Fog="true" ID="actor.arrows.Global"
+             Object="object.arrows"
+             Orientation="0 0 0"
+             Position="0 0 0"
+             Priority="0"
+             Scale="0.5 0.5 0.5"
+             Specular="0 0 0 0.1"/>
+      <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Base"
+             Object="dummy"
+             Orientation="0 0 0"
+             Position="0 0 0"
+             Priority="0"
+             Scale="1 1 1"
+             Specular="0 0 0 0.1">
+         <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Body"
+                Object="dummy"
+                Orientation="0 0 0"
+                Position="0 0 0"
+                Priority="0"
+                Scale="1 1 1"
+                Specular="0 0 0 0.1">
+            <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Rotor.FL"
+                   Object="dummy"
+                   Orientation="0 0 0"
+                   Position="0.09 0.11 0.03"
+                   Priority="0"
+                   Scale="1 1 1"
+                   Specular="0 0 0 0.1">
+               <Actor Color="0 0 0 0.5" Emissive="0" Fog="true" ID="actor.disk.Rotor.FL"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 0"
+                      Priority="0"
+                      Scale="0.15 0.15 0.01"
+                      Specular="0 0 0 0.1"/>
+               <Actor Color="1 0 0 0.7" Emissive="0" Fog="true" ID="actor.cylinder.Motor.FL"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 -0.03"
+                      Priority="0"
+                      Scale="0.02 0.02 0.03"
+                      Specular="0 0 0 0.1"/>
+            </Actor>
+            <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Rotor.FR"
+                   Object="dummy"
+                   Orientation="0 0 0"
+                   Position="0.09 -0.11 0.03"
+                   Priority="0"
+                   Scale="1 1 1"
+                   Specular="0 0 0 0.1">
+               <Actor Color="0 0 0 0.5" Emissive="0" Fog="true" ID="actor.disk.Rotor.FR"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 0"
+                      Priority="0"
+                      Scale="0.15 0.15 0.01"
+                      Specular="0 0 0 0.1"/>
+               <Actor Color="1 0 0 0.7" Emissive="0" Fog="true" ID="actor.cylinder.Motor.FR"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 -0.03"
+                      Priority="0"
+                      Scale="0.02 0.02 0.03"
+                      Specular="0 0 0 0.1"/>
+            </Actor>
+            <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Rotor.BL"
+                   Object="dummy"
+                   Orientation="0 0 0"
+                   Position="-0.09 0.11 0.03"
+                   Priority="0"
+                   Scale="1 1 1"
+                   Specular="0 0 0 0.1">
+               <Actor Color="1 0 0 0.5" Emissive="0" Fog="true" ID="actor.disk.Rotor.BL"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 0"
+                      Priority="0"
+                      Scale="0.15 0.15 0.01"
+                      Specular="0 0 0 0.1"/>
+               <Actor Color="0 0 0 0.7" Emissive="0" Fog="true" ID="actor.cylinder.Motor.BL"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 -0.03"
+                      Priority="0"
+                      Scale="0.02 0.02 0.03"
+                      Specular="0 0 0 0.1"/>
+            </Actor>
+            <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Rotor.BR"
+                   Object="dummy"
+                   Orientation="0 0 0"
+                   Position="-0.09 -0.11 0.03"
+                   Priority="0"
+                   Scale="1 1 1"
+                   Specular="0 0 0 0.1">
+               <Actor Color="1 0 0 0.5" Emissive="0" Fog="true" ID="actor.disk.Rotor.BR"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 0"
+                      Priority="0"
+                      Scale="0.15 0.15 0.01"
+                      Specular="0 0 0 0.1"/>
+               <Actor Color="0 0 0 0.7" Emissive="0" Fog="true" ID="actor.cylinder.Motor.BR"
+                      Object="object.cylinder"
+                      Orientation="0 0 0"
+                      Position="0 0 -0.03"
+                      Priority="0"
+                      Scale="0.02 0.02 0.03"
+                      Specular="0 0 0 0.1"/>
+            </Actor>
+            <Actor Color="0 0 0 0.8" Emissive="0" Fog="true" ID="actor.box.body"
+                   Object="object.box"
+                   Orientation="0 0 0"
+                   Position="0 0 0"
+                   Priority="0"
+                   Scale="0.1 0.05 0.015"
+                   Specular="0 0 0 0.1"/>
+            <Actor Color="0 0 0 0.8" Emissive="0" Fog="true" ID="actor.cylinder.Arm.FL"
+                   Object="object.cylinder"
+                   Orientation="-1.5707963 0 -0.6859144"
+                   Position="0 0 0"
+                   Priority="0"
+                   Scale="0.01 0.01 0.14213"
+                   Specular="0 0 0 0.1"/>
+            <Actor Color="0 0 0 0.8" Emissive="0" Fog="true" ID="actor.cylinder.Arm.FR"
+                   Object="object.cylinder"
+                   Orientation="1.5707963 0 0.6859144"
+                   Position="0 0 0"
+                   Priority="0"
+                   Scale="0.01 0.01 0.14213"
+                   Specular="0 0 0 0.1"/>
+            <Actor Color="0 0 0 0.8" Emissive="0" Fog="true" ID="actor.cylinder.Arm.BL"
+                   Object="object.cylinder"
+                   Orientation="-1.5707963 0 0.6859144"
+                   Position="0 0 0"
+                   Priority="0"
+                   Scale="0.01 0.01 0.14213"
+                   Specular="0 0 0 0.1"/>
+            <Actor Color="0 0 0 0.8" Emissive="0" Fog="true" ID="actor.cylinder.Arm.BR"
+                   Object="object.cylinder"
+                   Orientation="1.5707963 0 -0.6859144"
+                   Position="0 0 0"
+                   Priority="0"
+                   Scale="0.01 0.01 0.14213"
+                   Specular="0 0 0 0.1"/>
+         </Actor>
+      </Actor>
+      <Actor Color="1 1 1 1" Emissive="0" Fog="true" ID="actor.dummy.Frame.Shadow"
+             Object="dummy"
+             Orientation="0 0 0"
+             Position="0 0 0"
+             Priority="0"
+             Scale="1 1 1"
+             Specular="0 0 0 0.1">
+         <Actor Color="1 1 1 0.35" Emissive="0" Fog="true" ID="actor.cylinder.shadow"
+                Object="object.cylinder"
+                Orientation="0 0 0"
+                Position="0 0 0"
+                Priority="0"
+                Scale="0.1 0.1 0.002"
+                Specular="0 0 0 0.1"/>
+      </Actor>
+   </ActorPool>
+</Scene>

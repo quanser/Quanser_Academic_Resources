@@ -1,0 +1,2247 @@
+Model {
+  Name			  "Read_Cameras_"
+  Version		  9.1
+  SavedCharacterEncoding  "windows-1252"
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "8.5"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+    NumProvidedFunctions    0
+    NumRequiredFunctions    0
+    NumResetEvents	    0
+    HasInitializeEvent	    0
+    HasTerminateEvent	    0
+    IsExportFunctionModel   0
+    NumParameterArguments   0
+    NumExternalFileReferences 12
+    ExternalFileReference {
+      Reference		      "quarc_library/Signal Routing/Channel"
+      Path		      "Read_Cameras_/Depth feed/Channel"
+      SID		      "244:14426"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Image Processing/Generic/Image Compress"
+      Path		      "Read_Cameras_/Depth feed/Image Compress"
+      SID		      "244:14427"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Multimedia/Video Display"
+      Path		      "Read_Cameras_/Depth feed/Video Display"
+      SID		      "244:14428"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Logos/Quanser"
+      Path		      "Read_Cameras_/Quanser"
+      SID		      "259"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Signal Routing/Channel"
+      Path		      "Read_Cameras_/RGB feed/Channel"
+      SID		      "245:14426"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Image Processing/Generic/Image Compress"
+      Path		      "Read_Cameras_/RGB feed/Image Compress"
+      SID		      "245:14427"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Multimedia/Video Display"
+      Path		      "Read_Cameras_/RGB feed/Video Display"
+      SID		      "245:14428"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Sources/Time/Time"
+      Path		      "Read_Cameras_/Time"
+      SID		      "257"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Sources/Time/Time"
+      Path		      "Read_Cameras_/Time1"
+      SID		      "258"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Multimedia/Video3D Capture"
+      Path		      "Read_Cameras_/Video3D Capture"
+      SID		      "253"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Multimedia/Video3D Capture"
+      Path		      "Read_Cameras_/Video3D Capture1"
+      SID		      "251"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "quarc_library/Multimedia/Video3D Initialize"
+      Path		      "Read_Cameras_/Video3D Initialize"
+      SID		      "250"
+      Type		      "LIBRARY_BLOCK"
+    }
+    OrderedModelArguments   1
+  }
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  DataTypeOverrideAppliesTo "AllNumericTypes"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  FPTRunName		  "Run 1"
+  MaxMDLFileLineLength	  120
+  UserBdParams		  "CheckForProblematicBlocks"
+  LastSavedArchitecture	  "win64"
+  Object {
+    $PropName		    "BdWindowsInfo"
+    $ObjectID		    1
+    $ClassName		    "Simulink.BDWindowsInfo"
+    Object {
+      $PropName		      "WindowsInfo"
+      $ObjectID		      2
+      $ClassName	      "Simulink.WindowInfo"
+      IsActive		      [1]
+      Location		      [1913.0, -7.0, 1934.0, 1054.0]
+      Object {
+	$PropName		"ModelBrowserInfo"
+	$ObjectID		3
+	$ClassName		"Simulink.ModelBrowserInfo"
+	Visible			[0]
+	DockPosition		"Left"
+	Width			[50]
+	Height			[50]
+	Filter			[9]
+      }
+      Object {
+	$PropName		"ExplorerBarInfo"
+	$ObjectID		4
+	$ClassName		"Simulink.ExplorerBarInfo"
+	Visible			[1]
+      }
+      Object {
+	$PropName		"EditorsInfo"
+	$ObjectID		5
+	$ClassName		"Simulink.EditorInfo"
+	IsActive		[1]
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
+	Extents			[2355.0, 1024.0]
+	ZoomFactor		[1.4391279200321179]
+	Offset			[-1014.6189695346602, -69.672703751617064]
+      }
+      Array {
+	Type			"Simulink.DockComponentInfo"
+	Dimension		1
+	Object {
+	  $ObjectID		  6
+	  Type			  "GLUE2:PropertyInspector"
+	  ID			  "Property Inspector"
+	  Visible		  [0]
+	  CreateCallback	  ""
+	  UserData		  ""
+	  Floating		  [0]
+	  DockPosition		  "Right"
+	  Width			  [512]
+	  Height		  [384]
+	}
+	PropName		"DockComponentsInfo"
+      }
+      WindowState	      "AAAA/wAAAAD9AAAAAwAAAAAAAAC9AAAB+PwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAA"
+      "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
+      "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAAB5AP////sAAABgAFMAaQBtAHUAb"
+      "ABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZ"
+      "QBzAAAAAAD/////AAAApwD///8AAAABAAAAAAAAAAD8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAd"
+      "ABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAAA/////wAAAhYA////AAAAAwAAAAAAAAAA/AEAAAAB+/////8AA"
+      "AAAAP////8AAAGuAP///wAACWAAAARHAAAAAQAAAAIAAAABAAAAAvwAAAABAAAAAgAAAAA="
+    }
+  }
+  HideAutomaticNames	  on
+  CheckForProblematicBlocks "on"
+  Created		  "Fri Nov 21 16:12:52 2014"
+  Creator		  "drmadill"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "user"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Nov 03 16:43:35 2022"
+  RTWModifiedTimeStamp	  589394615
+  ModelVersionFormat	  "1.%<AutoIncrement:0>"
+  SampleTimeColors	  off
+  SampleTimeAnnotations	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  PortDataTypeDisplayFormat "AliasTypeOnly"
+  ShowEditTimeErrors	  on
+  ShowEditTimeWarnings	  on
+  ShowEditTimeAdvisorChecks off
+  ShowPortUnits		  off
+  ShowDesignRanges	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
+  ShowViewerIcons	  on
+  VariantCondition	  off
+  ShowLinearizationAnnotations on
+  ShowVisualizeInsertedRTB on
+  ShowMarkup		  on
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  BlockVariantConditionDataTip off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  FunctionConnectors	  off
+  BrowserLookUnderMasks	  off
+  MultiThreadCoSim	  "on"
+  SimulationMode	  "external"
+  PauseTimes		  "5"
+  NumberOfSteps		  1
+  SnapshotBufferSize	  10
+  SnapshotInterval	  10
+  NumberOfLastSnapshots	  0
+  EnablePacing		  off
+  PacingRate		  1
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  Object {
+    $PropName		    "DataLoggingOverride"
+    $ObjectID		    8
+    $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
+    model_		    "Read_Cameras_"
+    overrideMode_	    [0.0]
+    Array {
+      Type		      "Cell"
+      Dimension		      1
+      Cell		      "Read_Cameras_"
+      PropName		      "logAsSpecifiedByModels_"
+    }
+    Array {
+      Type		      "Cell"
+      Dimension		      1
+      Cell		      []
+      PropName		      "logAsSpecifiedByModelsSSIDs_"
+    }
+  }
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  2
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  OrderedModelArguments	  on
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      9
+      Version		      "1.18.0"
+      DisabledProps	      []
+      Description	      ""
+      Array {
+	Type			"Handle"
+	Dimension		9
+	Simulink.SolverCC {
+	  $ObjectID		  10
+	  Version		  "1.18.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "PositivePriorityOrder"
+	    PropName		    "DisabledProps"
+	  }
+	  Description		  ""
+	  Components		  []
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  AutoScaleAbsTol	  on
+	  FixedStep		  "1/60"
+	  InitialStep		  "auto"
+	  MaxOrder		  5
+	  ZcThreshold		  "auto"
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  EnableMultiTasking	  on
+	  ConcurrentTasks	  off
+	  SolverName		  "FixedStepDiscrete"
+	  SolverJacobianMethodControl "auto"
+	  ShapePreserveControl	  "DisableAll"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Nonadaptive"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverInfoToggleStatus  on
+	  IsAutoAppliedInSIP	  off
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  on
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  InsertRTBMode		  "Whenever possible"
+	  SampleTimeProperty	  []
+	  DecoupledContinuousIntegration off
+	  MinimalZcImpactIntegration off
+	  Solver		  FixedStepDiscrete
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  11
+	  Version		  "1.18.0"
+	  DisabledProps		  []
+	  Description		  ""
+	  Components		  []
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
+	  SaveFormat		  "Array"
+	  SignalLoggingSaveFormat "ModelDataLogs"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SignalLogging		  on
+	  DSMLogging		  on
+	  InspectSignalLogs	  off
+	  VisualizeSimOutput	  on
+	  StreamToWorkspace	  off
+	  StreamVariableName	  "streamout"
+	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
+	  Refine		  "1"
+	  LoggingToFile		  off
+	  DatasetSignalFormat	  "timeseries"
+	  LoggingFileName	  "out.mat"
+	  LoggingIntervals	  "[-inf, inf]"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  12
+	  Version		  "1.18.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    9
+	    Cell		    "BooleansAsBitfields"
+	    Cell		    "PassReuseOutputArgsAs"
+	    Cell		    "PassReuseOutputArgsThreshold"
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    Cell		    "UseSpecifiedMinMax"
+	    Cell		    "EfficientTunableParamExpr"
+	    PropName		    "DisabledProps"
+	  }
+	  Description		  ""
+	  Components		  []
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  DefaultParameterBehavior "Tunable"
+	  UseDivisionForNetSlopeComputation "off"
+	  UseFloatMulNetSlope	  off
+	  DefaultUnderspecifiedDataType	"double"
+	  UseSpecifiedMinMax	  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnhancedBackFolding	  off
+	  CachingGlobalReferences off
+	  GlobalBufferReuse	  on
+	  StrengthReduction	  off
+	  AdvancedOptControl	  ""
+	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
+	  EnableMemcpy		  on
+	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
+	  PassReuseOutputArgsThreshold 12
+	  ExpressionDepthLimit	  2147483647
+	  LocalBlockOutputs	  on
+	  RollThreshold		  5
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  ActiveStateOutputEnumStorageType "Native Integer"
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  off
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  EfficientMapNaN2IntZero on
+	  LifeSpan		  "auto"
+	  MaxStackSize		  "Inherit from target"
+	  BufferReusableBoundary  on
+	  SimCompilerOptimization "off"
+	  AccelVerboseBuild	  off
+	  OptimizeBlockOrder	  "off"
+	  OptimizeDataStoreBuffers on
+	  BusAssignmentInplaceUpdate on
+	  DifferentSizesBufferReuse off
+	  UseRowMajorAlgorithm	  off
+	  OptimizationLevel	  "level2"
+	  OptimizationPriority	  "Balanced"
+	  OptimizationCustomize	  on
+	  LabelGuidedReuse	  off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  13
+	  Version		  "1.18.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "UseOnlyExistingSharedCode"
+	    PropName		    "DisabledProps"
+	  }
+	  Description		  ""
+	  Components		  []
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  StringTruncationChecking "error"
+	  SignalRangeChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  SaveWithDisabledLinksMsg "warning"
+	  SaveWithParameterizedLinksMsg	"warning"
+	  CheckSSInitialOutputMsg on
+	  UnderspecifiedInitializationDetection	"Classic"
+	  MergeDetectMultiDrivingBlocksExec "none"
+	  CheckExecutionContextPreStartOutputMsg off
+	  SignalResolutionControl "UseLocalSettings"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  ExportedTasksRateTransMsg "none"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  FcnCallInpInsideContextMsg "warning"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  UseOnlyExistingSharedCode "error"
+	  SFcnCompatibilityMsg	  "none"
+	  FrameProcessingCompatibilityMsg "error"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  AllowSymbolicDim	  on
+	  RowMajorDimensionSupport off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
+	  ChecksumConsistencyForSSReuse	"none"
+	  InitInArrayFormatMsg	  "warning"
+	  StrictBusMsg		  "ErrorLevel1"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
+	  SymbolicDimMinMaxWarning "warning"
+	  LossOfSymbolicDimsSimulationWarning "warning"
+	  LossOfSymbolicDimsCodeGenerationWarning "error"
+	  SymbolicDimsDataTypeCodeGenerationDiagnostic "error"
+	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	  SFUnreachableExecutionPathDiag "warning"
+	  SFUndirectedBroadcastEventsDiag "warning"
+	  SFTransitionActionBeforeConditionDiag	"warning"
+	  SFOutputUsedAsStateInMooreChartDiag "error"
+	  SFTemporalDelaySmallerThanSampleTimeDiag "warning"
+	  SFSelfTransitionDiag	  "warning"
+	  SFExecutionAtInitializationDiag "none"
+	  SFMachineParentedDataDiag "warning"
+	  IntegerSaturationMsg	  "warning"
+	  AllowedUnitSystems	  "all"
+	  UnitsInconsistencyMsg	  "warning"
+	  AllowAutomaticUnitConversions	on
+	  RCSCRenamedMsg	  "warning"
+	  RCSCObservableMsg	  "warning"
+	  ForceCombineOutputUpdateInSim	off
+	  UnitDatabase		  ""
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  14
+	  Version		  "1.18.0"
+	  DisabledProps		  []
+	  Description		  ""
+	  Components		  []
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdBitPerLongLong	  64
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdBitPerSizeT	  32
+	  ProdBitPerPtrDiffT	  32
+	  ProdLargestAtomicInteger "Long"
+	  ProdLargestAtomicFloat  "Double"
+	  ProdIntDivRoundTo	  "Zero"
+	  ProdEndianess		  "LittleEndian"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdLongLongMode	  off
+	  ProdHWDeviceType	  "ARM Compatible->ARM Cortex"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetBitPerLongLong	  64
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetBitPerSizeT	  32
+	  TargetBitPerPtrDiffT	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
+	  TargetShiftRightIntArith on
+	  TargetLongLongMode	  off
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	  UseEmbeddedCoderFeatures on
+	  UseSimulinkCoderFeatures on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  15
+	  Version		  "1.18.0"
+	  DisabledProps		  []
+	  Description		  ""
+	  Components		  []
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  EnableRefExpFcnMdlSchedulingChecks on
+	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
+	  ModelDependencies	  ""
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  16
+	  Version		  "1.18.0"
+	  DisabledProps		  []
+	  Description		  ""
+	  Components		  []
+	  SimCustomSourceCode	  ""
+	  SimCustomHeaderCode	  ""
+	  SimCustomInitializer	  ""
+	  SimCustomTerminator	  ""
+	  SimReservedNameArray	  []
+	  SimUserSources	  ""
+	  SimUserIncludeDirs	  ""
+	  SimUserLibraries	  ""
+	  SimUserDefines	  ""
+	  SimCustomCompilerFlags  ""
+	  SimCustomLinkerFlags	  ""
+	  SFSimEcho		  on
+	  SimCtrlC		  on
+	  SimIntegrity		  on
+	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
+	  SimGenImportedTypeDefs  off
+	  ModelFunctionsGlobalVisibility "on"
+	  CompileTimeRecursionLimit 50
+	  EnableRuntimeRecursion  on
+	  MATLABDynamicMemAlloc	  on
+	  MATLABDynamicMemAllocThreshold 65536
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  17
+	  Version		  "1.18.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    19
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenerateTraceInfo"
+	    Cell		    "GenerateTraceReport"
+	    Cell		    "GenerateTraceReportSl"
+	    Cell		    "GenerateTraceReportSf"
+	    Cell		    "GenerateTraceReportEml"
+	    Cell		    "PortableWordSizes"
+	    Cell		    "GenerateWebview"
+	    Cell		    "GenerateCodeMetricsReport"
+	    Cell		    "GenerateCodeReplacementReport"
+	    Cell		    "GenerateMissedCodeReplacementReport"
+	    Cell		    "GenerateErtSFunction"
+	    Cell		    "CreateSILPILBlock"
+	    Cell		    "CodeExecutionProfiling"
+	    Cell		    "CodeProfilingSaveOptions"
+	    Cell		    "CodeProfilingInstrumentation"
+	    Cell		    "RTWCompilerOptimization"
+	    Cell		    "MakeCommand"
+	    Cell		    "CodeStackProfiling"
+	    PropName		    "DisabledProps"
+	  }
+	  Description		  "QUARC Linux Raspberry Pi 4 Target (QBot 3) Using Toolchain"
+	  SystemTargetFile	  "quarc_linux_pi_4.tlc"
+	  HardwareBoard		  "None"
+	  TLCOptions		  ""
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  PackageGeneratedCodeAndArtifacts off
+	  PackageName		  ""
+	  TemplateMakefile	  "quarc_default_tmf"
+	  PostCodeGenCommand	  ""
+	  GenerateReport	  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  RTWBuildHooks		  []
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  RTWUseLocalCustomCode	  off
+	  RTWUseSimCustomCode	  off
+	  CustomSourceCode	  ""
+	  CustomHeaderCode	  ""
+	  CustomInclude		  ""
+	  CustomSource		  ""
+	  CustomLibrary		  ""
+	  CustomDefine		  ""
+	  CustomLAPACKCallback	  ""
+	  CustomFFTCallback	  ""
+	  CustomInitializer	  ""
+	  CustomTerminator	  ""
+	  Toolchain		  "QUARC linux_pi_4 | gmake (64-bit Windows)"
+	  BuildConfiguration	  "Faster Runs"
+	  CustomToolchainOptions  []
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  PortableWordSizes	  off
+	  CreateSILPILBlock	  "None"
+	  CodeExecutionProfiling  off
+	  CodeExecutionProfileVariable "executionProfile"
+	  CodeProfilingSaveOptions "SummaryOnly"
+	  CodeProfilingInstrumentation off
+	  SILDebugging		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateWebview	  off
+	  GenerateCodeMetricsReport off
+	  GenerateCodeReplacementReport	off
+	  GenerateMissedCodeReplacementReport off
+	  RTWCompilerOptimization "off"
+	  ObjectivePriorities	  []
+	  RTWCustomCompilerOptimizations ""
+	  CheckMdlBeforeBuild	  "Off"
+	  SharedConstantsCachingThreshold 1024
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      18
+	      Version		      "1.18.0"
+	      Array {
+		Type			"Cell"
+		Dimension		28
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"IgnoreTestpoints"
+		Cell			"BlockCommentType"
+		Cell			"InsertBlockDesc"
+		Cell			"InsertPolySpaceComments"
+		Cell			"SFDataObjDesc"
+		Cell			"MATLABFcnDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InternalIdentifier"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		Cell			"CustomSymbolStrGlobalVar"
+		Cell			"CustomSymbolStrType"
+		Cell			"CustomSymbolStrField"
+		Cell			"CustomSymbolStrFcn"
+		Cell			"CustomSymbolStrModelFcn"
+		Cell			"CustomSymbolStrFcnArg"
+		Cell			"CustomSymbolStrBlkIO"
+		Cell			"CustomSymbolStrTmpVar"
+		Cell			"CustomSymbolStrMacro"
+		Cell			"CustomSymbolStrUtil"
+		Cell			"CustomSymbolStrEmxType"
+		Cell			"CustomSymbolStrEmxFcn"
+		Cell			"CustomUserTokenString"
+		Cell			"ReqsInCode"
+		PropName		"DisabledProps"
+	      }
+	      Description	      ""
+	      Components	      []
+	      Comment		      ""
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      CommentStyle	      "Auto"
+	      IgnoreCustomStorageClasses on
+	      IgnoreTestpoints	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      OperatorAnnotations     off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
+	      MangleLength	      1
+	      SharedChecksumLength    8
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M_T"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrModelFcn "$R$N"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      CustomSymbolStrUtil     "$N$C"
+	      CustomSymbolStrEmxType  "emxArray_$M$N"
+	      CustomSymbolStrEmxFcn   "emx$M$N"
+	      CustomUserTokenString   ""
+	      CustomCommentsFcn	      ""
+	      DefineNamingRule	      "None"
+	      DefineNamingFcn	      ""
+	      ParamNamingRule	      "None"
+	      ParamNamingFcn	      ""
+	      SignalNamingRule	      "None"
+	      SignalNamingFcn	      ""
+	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
+	      SimulinkBlockComments   on
+	      BlockCommentType	      "BlockPathComment"
+	      StateflowObjectComments on
+	      MATLABSourceComments    off
+	      EnableCustomComments    off
+	      InternalIdentifierFile  ""
+	      InternalIdentifier      "Shortened"
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	      UseSimReservedNames     off
+	      ReservedNameArray	      []
+	    }
+	    Simulink.STFCustomTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      19
+	      Version		      "1.18.0"
+	      Array {
+		Type			"Cell"
+		Dimension		20
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"ExistingSharedCode"
+		Cell			"GenerateTestInterfaces"
+		Cell			"ModelStepFunctionPrototypeControlCompliant"
+		Cell			"GenerateAllocFcn"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"RemoveDisableFunc"
+		Cell			"RemoveResetFunc"
+		Cell			"ConcurrentExecutionCompliant"
+		Cell			"PreserveStateflowLocalDataDimensions"
+		Cell			"ParenthesesLevel"
+		Cell			"ERTMultiwordTypeDef"
+		Cell			"MultiwordTypeDef"
+		PropName		"DisabledProps"
+	      }
+	      Description	      ""
+	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "NOT IN USE"
+	      TargetLangStandard      "C89/C90 (ANSI)"
+	      CodeReplacementLibrary  "None"
+	      UtilityFuncGeneration   "Auto"
+	      MultiwordTypeDef	      "System defined"
+	      MultiwordLength	      2048
+	      DynamicStringBufferSize 256
+	      GenerateFullHeader      on
+	      InferredTypesCompatibility off
+	      ExistingSharedCode      ""
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant off
+	      CompOptLevelCompliant   off
+	      ConcurrentExecutionCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      CombineSignalStateStructs	off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      CodeInterfacePackaging  "Nonreusable function"
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      RemoveDisableFunc	      off
+	      RemoveResetFunc	      off
+	      SupportVariableSizeSignals off
+	      ParenthesesLevel	      "Nominal"
+	      CastingMode	      "Nominal"
+	      MATLABClassNameForMDSCustomization "Simulink.SoftwareTarget.GRTCustomization"
+	      ModelStepFunctionPrototypeControlCompliant off
+	      CPPClassGenCompliant    off
+	      AutosarCompliant	      off
+	      MDXCompliant	      off
+	      GRTInterface	      on
+	      GenerateAllocFcn	      off
+	      UseToolchainInfoCompliant	on
+	      GenerateSharedConstants on
+	      CoderGroups	      []
+	      AccessMethods	      []
+	      LookupTableObjectStructAxisOrder "1,2,3,4,..."
+	      LUTObjectStructOrderExplicitValues "Size,Breakpoints,Table"
+	      LUTObjectStructOrderEvenSpacing "Size,Breakpoints,Table"
+	      ArrayLayout	      "Column-major"
+	      ERTHeaderFileRootName   "$R$E"
+	      ERTSourceFileRootName   "$R$E"
+	      ERTDataFileRootName     "$R_data"
+	      SystemTargetFile	      "quarc_linux_pi_4.tlc"
+	      Array {
+		Type			"Handle"
+		Dimension		1
+		Simulink.GRTTargetCC {
+		  $BackupClass		  "Simulink.TargetCC"
+		  $ObjectID		  20
+		  Version		  "21.1.1"
+		  Array {
+		    Type		    "Cell"
+		    Dimension		    20
+		    Cell		    "IncludeMdlTerminateFcn"
+		    Cell		    "SuppressErrorStatus"
+		    Cell		    "ERTCustomFileBanners"
+		    Cell		    "GenerateSampleERTMain"
+		    Cell		    "ExistingSharedCode"
+		    Cell		    "GenerateTestInterfaces"
+		    Cell		    "ModelStepFunctionPrototypeControlCompliant"
+		    Cell		    "GenerateAllocFcn"
+		    Cell		    "PurelyIntegerCode"
+		    Cell		    "SupportComplex"
+		    Cell		    "SupportAbsoluteTime"
+		    Cell		    "SupportContinuousTime"
+		    Cell		    "SupportNonInlinedSFcns"
+		    Cell		    "RemoveDisableFunc"
+		    Cell		    "RemoveResetFunc"
+		    Cell		    "ConcurrentExecutionCompliant"
+		    Cell		    "PreserveStateflowLocalDataDimensions"
+		    Cell		    "ParenthesesLevel"
+		    Cell		    "ERTMultiwordTypeDef"
+		    Cell		    "MultiwordTypeDef"
+		    PropName		    "DisabledProps"
+		  }
+		  Description		  ""
+		  Components		  []
+		  TargetFcnLib		  "ansi_tfl_table_tmw.mat"
+		  TargetLibSuffix	  ""
+		  TargetPreCompLibLocation ""
+		  GenFloatMathFcnCalls	  "NOT IN USE"
+		  TargetLangStandard	  "C89/C90 (ANSI)"
+		  CodeReplacementLibrary  "None"
+		  UtilityFuncGeneration	  "Auto"
+		  MultiwordTypeDef	  "System defined"
+		  MultiwordLength	  2048
+		  DynamicStringBufferSize 256
+		  GenerateFullHeader	  on
+		  InferredTypesCompatibility off
+		  ExistingSharedCode	  ""
+		  GenerateSampleERTMain	  off
+		  GenerateTestInterfaces  off
+		  ModelReferenceCompliant on
+		  ParMdlRefBuildCompliant off
+		  CompOptLevelCompliant	  off
+		  ConcurrentExecutionCompliant on
+		  IncludeMdlTerminateFcn  on
+		  CombineOutputUpdateFcns off
+		  CombineSignalStateStructs off
+		  SuppressErrorStatus	  off
+		  IncludeFileDelimiter	  "Auto"
+		  ERTCustomFileBanners	  off
+		  SupportAbsoluteTime	  on
+		  LogVarNameModifier	  "rt_"
+		  MatFileLogging	  off
+		  CodeInterfacePackaging  "Nonreusable function"
+		  SupportNonFinite	  on
+		  SupportComplex	  on
+		  PurelyIntegerCode	  off
+		  SupportContinuousTime	  on
+		  SupportNonInlinedSFcns  on
+		  RemoveDisableFunc	  off
+		  RemoveResetFunc	  off
+		  SupportVariableSizeSignals off
+		  ParenthesesLevel	  "Nominal"
+		  CastingMode		  "Nominal"
+		  MATLABClassNameForMDSCustomization "Simulink.SoftwareTarget.GRTCustomization"
+		  ModelStepFunctionPrototypeControlCompliant off
+		  CPPClassGenCompliant	  off
+		  AutosarCompliant	  off
+		  MDXCompliant		  off
+		  GRTInterface		  on
+		  GenerateAllocFcn	  off
+		  UseToolchainInfoCompliant on
+		  GenerateSharedConstants on
+		  CoderGroups		  []
+		  AccessMethods		  []
+		  LookupTableObjectStructAxisOrder "1,2,3,4,..."
+		  LUTObjectStructOrderExplicitValues "Size,Breakpoints,Table"
+		  LUTObjectStructOrderEvenSpacing "Size,Breakpoints,Table"
+		  ArrayLayout		  "Column-major"
+		  ERTHeaderFileRootName	  "$R$E"
+		  ERTSourceFileRootName	  "$R$E"
+		  ERTDataFileRootName	  "$R_data"
+		  UseMalloc		  off
+		  ExtMode		  on
+		  ExtModeStaticAlloc	  off
+		  ExtModeTesting	  off
+		  ExtModeStaticAllocSize  1000000
+		  ExtModeTransport	  0
+		  ExtModeMexFile	  "quarc_comm"
+		  ExtModeMexArgs	  "'-w -d /tmp -uri %u','tcpip://192.168.2.20:17001'"
+		  ExtModeIntrfLevel	  "Level1"
+		  RTWCAPISignals	  off
+		  RTWCAPIParams		  off
+		  RTWCAPIStates		  off
+		  RTWCAPIRootIO		  off
+		  GenerateASAP2		  off
+		  MultiInstanceErrorCode  "Error"
+		}
+		PropName		"Components"
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"StopOnOverrun"
+		Value			off
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"HaveStdio"
+		Value			on
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"DynamicReconfiguration"
+		Value			off
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"ShowCompilationTimes"
+		Value			off
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"StripSymbols"
+		Value			off
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"DebugHeap"
+		Value			off
+	      }
+	      CustomProperty {
+		DataType		"RTWOptions_EnumType__quarc_linux_pi_4_1AssertionAction"
+		EnumStrPairs {
+		  Value			  0
+		  String		  "Ignore"
+		  Value			  1
+		  String		  "Stop model with an error"
+		  Value			  2
+		  String		  "Print assertion"
+		}
+		Name			"AssertionAction"
+		Value			"Stop model with an error"
+	      }
+	      CustomProperty {
+		DataType		"int32"
+		Name			"MinimumThreadPriority"
+		Value			20
+	      }
+	      CustomProperty {
+		DataType		"int32"
+		Name			"StackSize"
+		Value			0
+	      }
+	      CustomProperty {
+		DataType		"string"
+		Name			"PermissibleCPUs"
+		Value			[]
+	      }
+	      CustomProperty {
+		DataType		"string"
+		Name			"ConfigurationVariables"
+		Value			""
+	      }
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	SlCovCC.ConfigComp {
+	  $ObjectID		  21
+	  Version		  "1.18.0"
+	  DisabledProps		  []
+	  Description		  "Simulink Coverage Configuration Component"
+	  Components		  []
+	  Name			  "Simulink Coverage"
+	  CovEnable		  off
+	  CovScope		  "EntireSystem"
+	  CovIncludeTopModel	  on
+	  RecordCoverage	  off
+	  CovPath		  "/"
+	  CovSaveName		  "covdata"
+	  CovCompData		  ""
+	  CovMetricSettings	  "dw"
+	  CovFilter		  ""
+	  CovHTMLOptions	  ""
+	  CovNameIncrementing	  off
+	  CovForceBlockReductionOff on
+	  CovEnableCumulative	  on
+	  CovSaveCumulativeToWorkspaceVar on
+	  CovSaveSingleToWorkspaceVar on
+	  CovCumulativeVarName	  "covCumulativeData"
+	  CovCumulativeReport	  off
+	  CovSaveOutputData	  on
+	  CovOutputDir		  "slcov_output/$ModelName$"
+	  CovDataFileName	  "$ModelName$_cvdata"
+	  CovReportOnPause	  on
+	  CovModelRefEnable	  "off"
+	  CovModelRefExcluded	  ""
+	  CovExternalEMLEnable	  off
+	  CovSFcnEnable		  off
+	  CovBoundaryAbsTol	  1e-05
+	  CovBoundaryRelTol	  0.01
+	  CovUseTimeInterval	  off
+	  CovStartTime		  0
+	  CovStopTime		  0
+	  CovMcdcMode		  "Masking"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      CurrentDlgPage	      "Code Generation/Interface"
+      ConfigPrmDlgPosition    [ 212, 71, 1308, 781 ]
+      ExtraOptions	      ""
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    9
+  }
+  Object {
+    $PropName		    "DataTransfer"
+    $ObjectID		    22
+    $ClassName		    "Simulink.GlobalDataTransfer"
+    DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
+    DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
+    DefaultTransitionBetweenContTasks "Ensure deterministic transfer (minimum delay)"
+    DefaultExtrapolationMethodBetweenContTasks "None"
+  }
+  ExplicitPartitioning	  off
+  BlockDefaults {
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+    HideAutomaticName	    on
+    BlockRotation	    0
+    BlockMirror		    off
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    MarkupType		    "model"
+    UseDisplayTextAsClickCallback off
+    AnnotationType	    "note_annotation"
+    FixedHeight		    off
+    FixedWidth		    off
+    Interpreter		    "off"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  MaskDefaults {
+    SelfModifiable	    "off"
+    IconFrame		    "on"
+    IconOpaque		    "opaque"
+    RunInitForIconRedraw    "analyze"
+    IconRotate		    "none"
+    PortRotate		    "default"
+    IconUnits		    "autoscale"
+  }
+  MaskParameterDefaults {
+    Evaluate		    "on"
+    Tunable		    "on"
+    NeverSave		    "off"
+    Internal		    "off"
+    ReadOnly		    "off"
+    Enabled		    "on"
+    Visible		    "on"
+    ToolTip		    "on"
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      DataTypeConversion
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via back propagation"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Display
+      Format		      "short"
+      Decimation	      "10"
+      Floating		      off
+      Lockdown		      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      IconDisplay	      "Port number"
+      OutputFunctionCall      off
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      Unit		      "inherit"
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchInputForFeedbackSignals off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      CollapseMode	      "All dimensions"
+      CollapseDim	      "1"
+      InputSameDT	      off
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      "FromPortIcon"
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      SystemSampleTime	      "-1"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      FunctionInterfaceSpec   "void_void"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
+      MinMaxOverflowLogging   "UseLocalSettings"
+      Opaque		      off
+      MaskHideContents	      off
+      SFBlockType	      "NONE"
+      Variant		      off
+      GeneratePreprocessorConditionals off
+      AllowZeroVariantControls off
+      PropagateVariantConditions off
+      TreatAsGroupedWhenPropagatingVariantConditions on
+      ContentPreviewEnabled   off
+      IsWebBlock	      off
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  System {
+    Name		    "Read_Cameras_"
+    Location		    [1913, -7, 3847, 1047]
+    Open		    off
+    PortBlocksUseCompactNotation off
+    SetDomainSpec	    off
+    DomainSpecType	    "Deduce"
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "144"
+    ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "259"
+    Block {
+      BlockType		      Display
+      Name		      " Frame Rate "
+      SID		      "93"
+      Ports		      [1]
+      Position		      [-70, 385, -5, 405]
+      ZOrder		      -12
+      Decimation	      "20"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion"
+      SID		      "255"
+      Position		      [-295, 140, -255, 160]
+      ZOrder		      1235
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion1"
+      SID		      "256"
+      Position		      [-295, 345, -255, 365]
+      ZOrder		      1236
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Depth feed"
+      SID		      "244"
+      Ports		      [1]
+      Position		      [-90, 81, 10, 139]
+      ZOrder		      1228
+      CopyFcn		      "set_param(gcbh, 'UserData', gcb);\nset_param(gcbh, 'LinkStatus', 'none');"
+      UndoDeleteFcn	      "set_param(gcbh, 'UserData', gcb);"
+      LoadFcn		      "set_param(gcbh, 'UserData', gcb);"
+      StartFcn		      "video_display_show([gcb, '/Video Display'], 'add', gcb);"
+      NameChangeFcn	      "video_display_show([get_param(gcbh, 'UserData'), '/Video Display'], 'rename', [gcb, '/Video"
+      " Display']);\nvideo_display_show([gcb, '/Video Display'], 'add', gcb);\nset_param(gcbh, 'UserData', gcb);\n"
+      OpenFcn		      "video_display_show([gcb, '/Video Display'], 'show', gcb);"
+      PreDeleteFcn	      "video_display_show([gcb, '/Video Display'], 'delete');"
+      RequestExecContextInheritance off
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		23
+	$ClassName		"Simulink.Mask"
+	Type			"Video Compressed Display"
+	Description		"Displays a video stream on the host, using compression to minimize bandwidth."
+	Help			"web(qc_get_block_help_path(gcb));"
+	Initialization		"qc_set_display('Video\\nCompressed\\nDisplay');"
+	SelfModifiable		"on"
+	Display			"patch([0.98591 0.98591 0.62618 0.59072 0.56147   0.536   0.536  0.5441 0.56912 0.59207 0.60881 0.62276 0.6"
+	"3527 0.64364  0.6485  0.6485 0.64706 0.64499 0.63662 0.62411 0.61232 0.59837 0.58307 0.56147   0.536   0.536  0.5441 "
+	" 0.5747 0.60953 0.63662 0.67001  0.7034 0.72851 0.75425 0.77927 0.80294 0.82454 0.84119 0.85865 0.87395 0.88574 0.893"
+	"39  0.8969 0.89969 0.89969 0.89267  0.8816 0.87044 0.85649  0.8384 0.81824 0.80294 0.78764 0.77513 0.76676 0.75776 0."
+	"76397 0.77513 0.79178 0.80987 0.82796 0.84326 0.86207 0.98528],[0.18689 0.05522 0.05522 0.05171 0.05171    0.05 0.183"
+	"38 0.18338 0.19148 0.20435 0.22298 0.24863 0.28589 0.33125 0.38138 0.55139 0.59801 0.63761 0.68189 0.72149 0.74939 0."
+	"76694 0.77855 0.79367 0.79952 0.92768 0.92768 0.92768 0.92417 0.92066 0.91364  0.9032 0.89384 0.88106 0.86594 0.85073"
+	" 0.82634 0.80537 0.77855 0.74363 0.70403 0.65858 0.61079 0.59099 0.41513 0.37202 0.31847 0.29048 0.25556 0.23342  0.2"
+	"102 0.19382 0.18221 0.17285 0.16943 0.16124  0.1589 0.16241 0.16709 0.17168  0.1787 0.18221 0.18689 0.18689],[0.9,0.9"
+	"0,0.91])\npatch([0.536 0.52601 0.46823 0.44528 0.41603 0.39101 0.35555 0.33116 0.31451 0.29291  0.2804 0.26717 0.2532"
+	"2 0.23999 0.22406 0.20732 0.19337 0.17528 0.15935 0.14396 0.13217 0.11759 0.10922 0.10085 0.09671 0.09392 0.09041 0.0"
+	"8906 0.08906 0.09464  0.0995 0.10778 0.11894 0.13145 0.14675 0.16349 0.17672 0.19409 0.20732 0.22406 0.23999 0.26159 "
+	"0.27833 0.29849 0.31793 0.33602 0.35411 0.37085 0.39245 0.41603   0.536   0.536 0.53159 0.46409   0.446 0.42026 0.395"
+	"87 0.37571 0.36113 0.34925 0.34088 0.33809 0.33809 0.34088 0.34583 0.35627 0.36392 0.38129 0.39587 0.41117 0.42719 0."
+	"44672  0.4676 0.48353 0.48353 0.52394   0.536],[0.05 0.04829 0.04712 0.04712 0.04829 0.05063 0.05405 0.05873 0.06107 "
+	"0.06692 0.07043 0.07619 0.08087 0.08672 0.09482 0.10652 0.11696 0.13325  0.1508 0.17168 0.19499 0.22415 0.25439 0.284"
+	"72 0.31379 0.35456 0.38489 0.41513 0.58055 0.63878 0.68774 0.72149 0.75641 0.78089 0.80537 0.82859 0.84029 0.85658 0."
+	"86594 0.87404  0.8834 0.89267 0.90086 0.90788 0.91247 0.91832 0.92066   0.923 0.92651 0.92768 0.92768 0.79952 0.79952"
+	" 0.79952 0.79718 0.78899 0.77153 0.75056 0.72149 0.68072 0.62249  0.5549 0.41396 0.37085 0.33242 0.28121 0.25205 0.22"
+	"181 0.20552 0.19499 0.18572 0.18221 0.17753 0.17636 0.17753  0.1787  0.1787],[0.9,0.90,0.91])\ndisp('Video\\nCompress"
+	"ed\\nDisplay');\n"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  4
+	  Object {
+	    $ObjectID		    24
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Image Compress/algorithm"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "algorithm"
+	    Prompt		    "Compression algorithm:"
+	    Value		    "JPEG"
+	    Tunable		    "off"
+	  }
+	  Object {
+	    $ObjectID		    25
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Image Compress/quality"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "quality"
+	    Prompt		    "Compression quality (0-100):"
+	    Value		    "50"
+	    Tunable		    "off"
+	  }
+	  Object {
+	    $ObjectID		    26
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Video Display/sample_time"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "sample_time"
+	    Prompt		    "Sample time (seconds):"
+	    Value		    "-1"
+	    Tunable		    "off"
+	  }
+	  Object {
+	    $ObjectID		    27
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Video Display/use_hardware"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "use_hardware"
+	    Prompt		    "Use hardware acceleration for video display"
+	    Value		    "on"
+	    Tunable		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
+      System {
+	Name			"Depth feed"
+	Location		[-1, 6, 1388, 435]
+	Open			off
+	PortBlocksUseCompactNotation off
+	SetDomainSpec		off
+	DomainSpecType		"Deduce"
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"14460"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  SID			  "244:14425"
+	  Position		  [20, 58, 50, 72]
+	  ZOrder		  244
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Channel"
+	  SID			  "244:14426"
+	  Ports			  [1, 1]
+	  Position		  [245, 57, 285, 73]
+	  ZOrder		  243
+	  LibraryVersion	  "1.2198"
+	  SourceBlock		  "quarc_library/Signal Routing/Channel"
+	  SourceType		  "Channel"
+	  SourceProductName	  "QUARC Targets"
+	  MultiThreadCoSim	  "auto"
+	  channel		  "0"
+	  buffer_size		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Image Compress"
+	  SID			  "244:14427"
+	  Ports			  [1, 1]
+	  Position		  [100, 24, 200, 106]
+	  ZOrder		  219
+	  AttributesFormatString  "(%<algorithm>)"
+	  LibraryVersion	  "1.2198"
+	  SourceBlock		  "quarc_library/Image Processing/Generic/Image Compress"
+	  SourceType		  "Image Compress"
+	  SourceProductName	  "QUARC Targets"
+	  MultiThreadCoSim	  "auto"
+	  algorithm		  "JPEG"
+	  source		  "Internal dialog parameter"
+	  quality		  "quality"
+	  output_dim		  "-1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Video Display"
+	  SID			  "244:14428"
+	  Tag			  "Read_Cameras_/Depth feed/Video Display"
+	  Ports			  [1]
+	  Position		  [330, 24, 430, 106]
+	  ZOrder		  2
+	  LibraryVersion	  "1.2198"
+	  UserDataPersistent	  on
+	  UserData		  "DataTag0"
+	  SourceBlock		  "quarc_library/Multimedia/Video Display"
+	  SourceType		  "Video Display"
+	  SourceProductName	  "QUARC Targets"
+	  MultiThreadCoSim	  "auto"
+	  sample_time		  "sample_time"
+	  use_hardware		  on
+	}
+	Line {
+	  ZOrder		  1
+	  SrcBlock		  "Image Compress"
+	  SrcPort		  1
+	  DstBlock		  "Channel"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  2
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Image Compress"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  3
+	  SrcBlock		  "Channel"
+	  SrcPort		  1
+	  DstBlock		  "Video Display"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Product
+      Name		      "Divide"
+      SID		      "77"
+      Ports		      [2, 1]
+      Position		      [-150, 172, -120, 203]
+      ZOrder		      -8
+      ShowName		      off
+      Inputs		      "*/"
+    }
+    Block {
+      BlockType		      Product
+      Name		      "Divide1"
+      SID		      "92"
+      Ports		      [2, 1]
+      Position		      [-150, 377, -120, 408]
+      ZOrder		      -8
+      ShowName		      off
+      Inputs		      "*/"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Frame Rate"
+      SID		      "78"
+      Ports		      [1]
+      Position		      [-70, 180, -5, 200]
+      ZOrder		      -10
+      Decimation	      "20"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Frame Rate2"
+      SID		      "72"
+      Ports		      [1]
+      Position		      [-575, 110, -505, 130]
+      ZOrder		      -11
+      ShowName		      off
+      Decimation	      "20"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Quanser"
+      SID		      "259"
+      Ports		      []
+      Position		      [5, -40, 28, -15]
+      ZOrder		      1239
+      ShowName		      off
+      LibraryVersion	      "1.2198"
+      SourceBlock	      "quarc_library/Logos/Quanser"
+      SourceType	      "Powered by Quanser"
+      SourceProductName	      "QUARC Targets"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      ContentPreviewEnabled   off
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "RGB feed"
+      SID		      "245"
+      Ports		      [1]
+      Position		      [-90, 286, 10, 344]
+      ZOrder		      1229
+      CopyFcn		      "set_param(gcbh, 'UserData', gcb);\nset_param(gcbh, 'LinkStatus', 'none');"
+      UndoDeleteFcn	      "set_param(gcbh, 'UserData', gcb);"
+      LoadFcn		      "set_param(gcbh, 'UserData', gcb);"
+      StartFcn		      "video_display_show([gcb, '/Video Display'], 'add', gcb);"
+      NameChangeFcn	      "video_display_show([get_param(gcbh, 'UserData'), '/Video Display'], 'rename', [gcb, '/Video"
+      " Display']);\nvideo_display_show([gcb, '/Video Display'], 'add', gcb);\nset_param(gcbh, 'UserData', gcb);\n"
+      OpenFcn		      "video_display_show([gcb, '/Video Display'], 'show', gcb);"
+      PreDeleteFcn	      "video_display_show([gcb, '/Video Display'], 'delete');"
+      RequestExecContextInheritance off
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		28
+	$ClassName		"Simulink.Mask"
+	Type			"Video Compressed Display"
+	Description		"Displays a video stream on the host, using compression to minimize bandwidth."
+	Help			"web(qc_get_block_help_path(gcb));"
+	Initialization		"qc_set_display('Video\\nCompressed\\nDisplay');"
+	SelfModifiable		"on"
+	Display			"patch([0.98591 0.98591 0.62618 0.59072 0.56147   0.536   0.536  0.5441 0.56912 0.59207 0.60881 0.62276 0.6"
+	"3527 0.64364  0.6485  0.6485 0.64706 0.64499 0.63662 0.62411 0.61232 0.59837 0.58307 0.56147   0.536   0.536  0.5441 "
+	" 0.5747 0.60953 0.63662 0.67001  0.7034 0.72851 0.75425 0.77927 0.80294 0.82454 0.84119 0.85865 0.87395 0.88574 0.893"
+	"39  0.8969 0.89969 0.89969 0.89267  0.8816 0.87044 0.85649  0.8384 0.81824 0.80294 0.78764 0.77513 0.76676 0.75776 0."
+	"76397 0.77513 0.79178 0.80987 0.82796 0.84326 0.86207 0.98528],[0.18689 0.05522 0.05522 0.05171 0.05171    0.05 0.183"
+	"38 0.18338 0.19148 0.20435 0.22298 0.24863 0.28589 0.33125 0.38138 0.55139 0.59801 0.63761 0.68189 0.72149 0.74939 0."
+	"76694 0.77855 0.79367 0.79952 0.92768 0.92768 0.92768 0.92417 0.92066 0.91364  0.9032 0.89384 0.88106 0.86594 0.85073"
+	" 0.82634 0.80537 0.77855 0.74363 0.70403 0.65858 0.61079 0.59099 0.41513 0.37202 0.31847 0.29048 0.25556 0.23342  0.2"
+	"102 0.19382 0.18221 0.17285 0.16943 0.16124  0.1589 0.16241 0.16709 0.17168  0.1787 0.18221 0.18689 0.18689],[0.9,0.9"
+	"0,0.91])\npatch([0.536 0.52601 0.46823 0.44528 0.41603 0.39101 0.35555 0.33116 0.31451 0.29291  0.2804 0.26717 0.2532"
+	"2 0.23999 0.22406 0.20732 0.19337 0.17528 0.15935 0.14396 0.13217 0.11759 0.10922 0.10085 0.09671 0.09392 0.09041 0.0"
+	"8906 0.08906 0.09464  0.0995 0.10778 0.11894 0.13145 0.14675 0.16349 0.17672 0.19409 0.20732 0.22406 0.23999 0.26159 "
+	"0.27833 0.29849 0.31793 0.33602 0.35411 0.37085 0.39245 0.41603   0.536   0.536 0.53159 0.46409   0.446 0.42026 0.395"
+	"87 0.37571 0.36113 0.34925 0.34088 0.33809 0.33809 0.34088 0.34583 0.35627 0.36392 0.38129 0.39587 0.41117 0.42719 0."
+	"44672  0.4676 0.48353 0.48353 0.52394   0.536],[0.05 0.04829 0.04712 0.04712 0.04829 0.05063 0.05405 0.05873 0.06107 "
+	"0.06692 0.07043 0.07619 0.08087 0.08672 0.09482 0.10652 0.11696 0.13325  0.1508 0.17168 0.19499 0.22415 0.25439 0.284"
+	"72 0.31379 0.35456 0.38489 0.41513 0.58055 0.63878 0.68774 0.72149 0.75641 0.78089 0.80537 0.82859 0.84029 0.85658 0."
+	"86594 0.87404  0.8834 0.89267 0.90086 0.90788 0.91247 0.91832 0.92066   0.923 0.92651 0.92768 0.92768 0.79952 0.79952"
+	" 0.79952 0.79718 0.78899 0.77153 0.75056 0.72149 0.68072 0.62249  0.5549 0.41396 0.37085 0.33242 0.28121 0.25205 0.22"
+	"181 0.20552 0.19499 0.18572 0.18221 0.17753 0.17636 0.17753  0.1787  0.1787],[0.9,0.90,0.91])\ndisp('Video\\nCompress"
+	"ed\\nDisplay');\n"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  4
+	  Object {
+	    $ObjectID		    29
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Image Compress/algorithm"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "algorithm"
+	    Prompt		    "Compression algorithm:"
+	    Value		    "JPEG"
+	    Tunable		    "off"
+	  }
+	  Object {
+	    $ObjectID		    30
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Image Compress/quality"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "quality"
+	    Prompt		    "Compression quality (0-100):"
+	    Value		    "50"
+	    Tunable		    "off"
+	  }
+	  Object {
+	    $ObjectID		    31
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Video Display/sample_time"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "sample_time"
+	    Prompt		    "Sample time (seconds):"
+	    Value		    "-1"
+	    Tunable		    "off"
+	  }
+	  Object {
+	    $ObjectID		    32
+	    Type		    "promote"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      1
+	      Cell		      "Video Display/use_hardware"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "use_hardware"
+	    Prompt		    "Use hardware acceleration for video display"
+	    Value		    "on"
+	    Tunable		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
+      System {
+	Name			"RGB feed"
+	Location		[-1, 6, 1388, 435]
+	Open			off
+	PortBlocksUseCompactNotation off
+	SetDomainSpec		off
+	DomainSpecType		"Deduce"
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"14460"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  SID			  "245:14425"
+	  Position		  [20, 58, 50, 72]
+	  ZOrder		  244
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Channel"
+	  SID			  "245:14426"
+	  Ports			  [1, 1]
+	  Position		  [245, 57, 285, 73]
+	  ZOrder		  243
+	  LibraryVersion	  "1.2198"
+	  SourceBlock		  "quarc_library/Signal Routing/Channel"
+	  SourceType		  "Channel"
+	  SourceProductName	  "QUARC Targets"
+	  MultiThreadCoSim	  "auto"
+	  channel		  "1"
+	  buffer_size		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Image Compress"
+	  SID			  "245:14427"
+	  Ports			  [1, 1]
+	  Position		  [100, 24, 200, 106]
+	  ZOrder		  219
+	  AttributesFormatString  "(%<algorithm>)"
+	  LibraryVersion	  "1.2198"
+	  SourceBlock		  "quarc_library/Image Processing/Generic/Image Compress"
+	  SourceType		  "Image Compress"
+	  SourceProductName	  "QUARC Targets"
+	  MultiThreadCoSim	  "auto"
+	  algorithm		  "JPEG"
+	  source		  "Internal dialog parameter"
+	  quality		  "quality"
+	  output_dim		  "-1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Video Display"
+	  SID			  "245:14428"
+	  Tag			  "Read_Cameras_/RGB feed/Video Display"
+	  Ports			  [1]
+	  Position		  [330, 24, 430, 106]
+	  ZOrder		  2
+	  LibraryVersion	  "1.2198"
+	  UserDataPersistent	  on
+	  UserData		  "DataTag1"
+	  SourceBlock		  "quarc_library/Multimedia/Video Display"
+	  SourceType		  "Video Display"
+	  SourceProductName	  "QUARC Targets"
+	  MultiThreadCoSim	  "auto"
+	  sample_time		  "sample_time"
+	  use_hardware		  on
+	}
+	Line {
+	  ZOrder		  1
+	  SrcBlock		  "Channel"
+	  SrcPort		  1
+	  DstBlock		  "Video Display"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  2
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Image Compress"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  3
+	  SrcBlock		  "Image Compress"
+	  SrcPort		  1
+	  DstBlock		  "Channel"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      SID		      "87"
+      Position		      [-335, 185, -325, 195]
+      ZOrder		      1
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator1"
+      SID		      "252"
+      Position		      [-335, 225, -325, 235]
+      ZOrder		      1232
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator2"
+      SID		      "254"
+      Position		      [-335, 390, -325, 400]
+      ZOrder		      1234
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator7"
+      SID		      "98"
+      Position		      [-335, 430, -325, 440]
+      ZOrder		      1
+      ShowName		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Time"
+      SID		      "257"
+      Ports		      [0, 1]
+      Position		      [-280, 179, -230, 211]
+      ZOrder		      1237
+      LibraryVersion	      "1.2198"
+      SourceBlock	      "quarc_library/Sources/Time/Time"
+      SourceType	      "Time"
+      SourceProductName	      "QUARC Targets"
+      MultiThreadCoSim	      "auto"
+      time_source	      "Wall clock"
+      sample_time	      "qc_get_step_size"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Time1"
+      SID		      "258"
+      Ports		      [0, 1]
+      Position		      [-280, 384, -230, 416]
+      ZOrder		      1238
+      LibraryVersion	      "1.2198"
+      SourceBlock	      "quarc_library/Sources/Time/Time"
+      SourceType	      "Time"
+      SourceProductName	      "QUARC Targets"
+      MultiThreadCoSim	      "auto"
+      time_source	      "Wall clock"
+      sample_time	      "qc_get_step_size*2"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Video3D Capture"
+      SID		      "253"
+      Ports		      [0, 4]
+      Position		      [-480, 293, -375, 457]
+      ZOrder		      1233
+      LibraryVersion	      "1.2198"
+      UserDataPersistent      on
+      UserData		      "DataTag2"
+      SourceBlock	      "quarc_library/Multimedia/Video3D Capture"
+      SourceType	      "Video3D Capture"
+      SourceProductName	      "QUARC Targets"
+      MultiThreadCoSim	      "auto"
+      object_name	      "Video3D-1"
+      stream_type	      "RGB"
+      stream_index	      "0"
+      resolution	      "640 x 480"
+      width		      "640"
+      height		      "480"
+      output_format	      "MATLAB RGB (HxWx3)"
+      data_type		      "uint8"
+      sample_time	      "qc_get_step_size * ceil(1/30 / qc_get_step_size)"
+      camera_intrinsics	      off
+      depth_scale	      off
+      brightness_override     off
+      brightness	      "50.0"
+      contrast_override	      off
+      contrast		      "50.0"
+      hue_override	      off
+      hue		      "50.0"
+      saturation_override     off
+      saturation	      "50.0"
+      sharpness_override      off
+      sharpness		      "50.0"
+      gamma_override	      off
+      gamma		      "50.0"
+      gain_override	      off
+      gain		      "50.0"
+      backlightcompensation_override off
+      backlightcompensation   "50.0"
+      whitebalance_override   "Automatic white balance"
+      whitebalance	      "50.0"
+      exposure_override	      "Automatic exposure"
+      exposure		      "30.0"
+      emitter		      "Enable laser emitter"
+      preset		      "Do not set camera presets"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Video3D Capture1"
+      SID		      "251"
+      Ports		      [0, 4]
+      Position		      [-480, 88, -375, 252]
+      ZOrder		      1231
+      LibraryVersion	      "1.2198"
+      UserDataPersistent      on
+      UserData		      "DataTag3"
+      SourceBlock	      "quarc_library/Multimedia/Video3D Capture"
+      SourceType	      "Video3D Capture"
+      SourceProductName	      "QUARC Targets"
+      MultiThreadCoSim	      "auto"
+      object_name	      "Video3D-1"
+      stream_type	      "Depth"
+      stream_index	      "0"
+      resolution	      "640 x 480"
+      width		      "640"
+      height		      "480"
+      output_format	      "Distance in meters (HxW)"
+      data_type		      "single"
+      sample_time	      "qc_get_step_size * ceil(1/60 / qc_get_step_size)"
+      camera_intrinsics	      off
+      depth_scale	      off
+      brightness_override     off
+      brightness	      "50.0"
+      contrast_override	      off
+      contrast		      "50.0"
+      hue_override	      off
+      hue		      "50.0"
+      saturation_override     off
+      saturation	      "50.0"
+      sharpness_override      off
+      sharpness		      "50.0"
+      gamma_override	      off
+      gamma		      "50.0"
+      gain_override	      off
+      gain		      "50.0"
+      backlightcompensation_override off
+      backlightcompensation   "50.0"
+      whitebalance_override   "Automatic white balance"
+      whitebalance	      "50.0"
+      exposure_override	      "Automatic exposure"
+      exposure		      "30.0"
+      emitter		      "Enable laser emitter"
+      preset		      "Do not set camera presets"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Video3D Initialize"
+      SID		      "250"
+      Ports		      [0, 1]
+      Position		      [-720, 77, -620, 163]
+      ZOrder		      1230
+      LibraryVersion	      "1.2198"
+      SourceBlock	      "quarc_library/Multimedia/Video3D Initialize"
+      SourceType	      "Video3D Initialize"
+      SourceProductName	      "QUARC Targets"
+      MultiThreadCoSim	      "auto"
+      object_name	      "Video3D-1"
+      source		      "Device"
+      identifier	      "0"
+      file		      "sample.bag"
+      sample_time	      "qc_get_step_size * ceil(1/60 / qc_get_step_size)"
+      active		      on
+    }
+    Line {
+      ZOrder		      53
+      SrcBlock		      "Video3D Initialize"
+      SrcPort		      1
+      DstBlock		      "Frame Rate2"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      76
+      SrcBlock		      "Time"
+      SrcPort		      1
+      DstBlock		      "Divide"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      5
+      SrcBlock		      "Divide"
+      SrcPort		      1
+      DstBlock		      "Frame Rate"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      62
+      SrcBlock		      "Video3D Capture1"
+      SrcPort		      2
+      DstBlock		      "Data Type Conversion"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      56
+      SrcBlock		      "Video3D Capture1"
+      SrcPort		      3
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      59
+      SrcBlock		      "Video3D Capture"
+      SrcPort		      4
+      DstBlock		      "Terminator7"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      61
+      SrcBlock		      "Video3D Capture"
+      SrcPort		      2
+      DstBlock		      "Data Type Conversion1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      77
+      SrcBlock		      "Time1"
+      SrcPort		      1
+      DstBlock		      "Divide1"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      14
+      SrcBlock		      "Divide1"
+      SrcPort		      1
+      DstBlock		      " Frame Rate "
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      58
+      SrcBlock		      "Video3D Capture"
+      SrcPort		      1
+      DstBlock		      "RGB feed"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      75
+      SrcBlock		      "Video3D Capture1"
+      SrcPort		      1
+      DstBlock		      "Depth feed"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      57
+      SrcBlock		      "Video3D Capture1"
+      SrcPort		      4
+      DstBlock		      "Terminator1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      63
+      SrcBlock		      "Video3D Capture"
+      SrcPort		      3
+      DstBlock		      "Terminator2"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      73
+      SrcBlock		      "Data Type Conversion"
+      SrcPort		      1
+      Points		      [63, 0; 0, 30; 37, 0]
+      DstBlock		      "Divide"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      74
+      SrcBlock		      "Data Type Conversion1"
+      SrcPort		      1
+      Points		      [63, 0; 0, 30]
+      DstBlock		      "Divide1"
+      DstPort		      1
+    }
+    Annotation {
+      SID		      "248"
+      Name		      "60 Hz"
+      Position		      [-361, 111, -333, 125]
+      InternalMargins	      [0, 0, 0, 0]
+      HorizontalAlignment     "left"
+      VerticalAlignment	      "top"
+      ZOrder		      -1
+    }
+    Annotation {
+      SID		      "246"
+      Name		      "Read from the Intel Realsense camera on the QBot 3"
+      Position		      [-747, 14, 28, 484]
+      InternalMargins	      [0, 0, 0, 0]
+      FixedHeight	      on
+      FixedWidth	      on
+      HorizontalAlignment     "left"
+      VerticalAlignment	      "top"
+      ForegroundColor	      "[0.952941, 0.952941, 0.952941]"
+      BackgroundColor	      "[0.952941, 0.952941, 0.952941]"
+      DropShadow	      on
+      AnnotationType	      "area_annotation"
+      ZOrder		      83
+      FontSize		      12
+    }
+    Annotation {
+      SID		      "243"
+      Name		      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+      "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }"
+      "\n</style></head><body align=\"left\" style=\" font-family:'Helvetica'; font-size:10px; font-weight:400; font-st"
+      "yle:normal;\">\n<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px"
+      "; -qt-block-indent:0; text-indent:0px; line-height:100%;\"><span style=\" font-family:'Arial'; font-size:20px; f"
+      "ont-weight:600;\">Quanser Autonomous Vehicles Research Studio<br /></span><span style=\" font-family:'Arial'; fo"
+      "nt-size:20px; font-weight:600; color:#c00000;\">QBot 3 Basic IO - Read from Cameras</span></p></body></html>"
+      Position		      [-480, -53, -20, -2]
+      InternalMargins	      [0, 0, 0, 0]
+      FixedHeight	      on
+      FixedWidth	      on
+      HorizontalAlignment     "left"
+      VerticalAlignment	      "top"
+      Interpreter	      "rich"
+      ZOrder		      -2
+    }
+    Annotation {
+      SID		      "247"
+      Name		      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+      "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }"
+      "\n</style></head><body align=\"left\" style=\" font-family:'Helvetica'; font-size:10px; font-weight:400; font-st"
+      "yle:normal;\">\n<p align=\"left\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;"
+      " -qt-block-indent:0; text-indent:0px; line-height:100%;\"><span style=\" font-size:10px;\">For reading data from"
+      " the Intel Realsense camera, use a Video3D Initialize block with the Device Identifier set to 0. Add the Video3D"
+      " Capture blocks as required, for either depth and/or RGB. </span></p>\n<p align=\"left\" style=\"-qt-paragraph-t"
+      "ype:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent"
+      ":0px; line-height:100%;\"><br /></p>\n<p align=\"left\" style=\" margin-top:0px; margin-bottom:0px; margin-left:"
+      "0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:100%;\"><span style=\" font-size:10px;\""
+      ">Use a Video Compressed Display block to view the feed.</span></p></body></html>"
+      Position		      [-720, 194, -595, 339]
+      InternalMargins	      [0, 0, 0, 0]
+      FixedHeight	      on
+      FixedWidth	      on
+      HorizontalAlignment     "left"
+      VerticalAlignment	      "top"
+      Interpreter	      "rich"
+      ZOrder		      -3
+    }
+    Annotation {
+      SID		      "249"
+      Name		      "60 Hz"
+      Position		      [-361, 319, -333, 333]
+      InternalMargins	      [0, 0, 0, 0]
+      HorizontalAlignment     "left"
+      VerticalAlignment	      "top"
+      ZOrder		      -1
+    }
+  }
+}
+MatData {
+  NumRecords		  4
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    2 $   8    (     @         %    \"     $    !     0         %  0  P    $    ,    >   >0"
+    "  8W@ 8WD       X    X    !@    @    &          4    (     0    $    !          D    (          !LGT .    .     8 "
+    "   (    !@         %    \"     $    !     0         )    \"           8&! #@   #@    &    \"     8         !0    @"
+    "    !     0    $         \"0    @          /![0 X    X    !@    @    &          4    (     0    $    !          D "
+    "   (          !0>$ "
+  }
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    2 $   8    (     @         %    \"     $    !     0         %  0  P    $    ,    >   >0"
+    "  8W@ 8WD       X    X    !@    @    &          4    (     0    $    !          D    (           @GL .    .     8 "
+    "   (    !@         %    \"     $    !     0         )    \"            !3 #@   #@    &    \"     8         !0    @"
+    "    !     0    $         \"0    @          $\">0 X    X    !@    @    &          4    (     0    $    !          D"
+    "    (          \" D$ "
+  }
+  DataRecord {
+    Tag			    DataTag2
+    Data		    "  %)30     .    N $   8    (     @         %    \"     $    !     0         %  0 #     $    ,    ;V)J96"
+    "-T7VYA;64       X   !H 0  !@    @    \"          4    (     0    $    !          4 !  -     0   #0   !O;&1?;F%M90 "
+    "     :7-?9&5L971E9    &ES7VQO861E9     !O8FIE8W1?8FQO8VL       X   !     !@    @    $          4    (     0    D  "
+    "  !         !     )    5FED96\\S1\"TQ          X    P    !@    @    ) @        4    (     0    $    !          (  "
+    "0      #@   #     &    \"     D\"        !0    @    !     0    $          @ !  $    .    .     8    (    !@       "
+    "  %    \"     $    !     0         )    \"          \"0&E "
+  }
+  DataRecord {
+    Tag			    DataTag3
+    Data		    "  %)30     .    N $   8    (     @         %    \"     $    !     0         %  0 #     $    ,    ;V)J96"
+    "-T7VYA;64       X   !H 0  !@    @    \"          4    (     0    $    !          4 !  -     0   #0   !O;&1?;F%M90 "
+    "     :7-?9&5L971E9    &ES7VQO861E9     !O8FIE8W1?8FQO8VL       X   !     !@    @    $          4    (     0    D  "
+    "  !         !     )    5FED96\\S1\"TQ          X    P    !@    @    ) @        4    (     0    $    !          (  "
+    "0      #@   #     &    \"     D\"        !0    @    !     0    $          @ !  $    .    .     8    (    !@       "
+    "  %    \"     $    !     0         )    \"          \"0&E "
+  }
+}
+#Finite State Machines
+#
+#   Stateflow 80000046
+#
+#
+Stateflow {
+  machine {
+    id			    1
+    name		    "Read_Cameras_"
+    created		    "21-Nov-2014 16:12:52"
+    isLibrary		    0
+    sfVersion		    80000014
+    firstTarget		    2
+  }
+  target {
+    id			    2
+    machine		    1
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    linkNode		    [1 0 3]
+  }
+  target {
+    id			    3
+    machine		    1
+    name		    "rtw"
+    linkNode		    [1 2 0]
+  }
+}

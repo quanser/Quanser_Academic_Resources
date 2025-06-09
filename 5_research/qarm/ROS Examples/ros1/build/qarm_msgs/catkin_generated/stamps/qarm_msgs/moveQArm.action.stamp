@@ -1,0 +1,8 @@
+# goal
+qarm_msgs/QArmActionGoal qarm_action_goal
+---
+# result
+qarm_msgs/QArmActionResult qarm_action_result
+---
+# feedback
+qarm_msgs/QArmActionFeedback qarm_action_feedback

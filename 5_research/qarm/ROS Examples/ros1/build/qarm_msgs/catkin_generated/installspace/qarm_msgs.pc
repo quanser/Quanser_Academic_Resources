@@ -1,0 +1,8 @@
+prefix=/home/thomas/ros1/install
+
+Name: qarm_msgs
+Description: Description of qarm_msgs
+Version: 1.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: actionlib_msgs geometry_msgs message_generation moveit_msgs rospy sensor_msgs std_msgs message_runtime

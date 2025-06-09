@@ -1,0 +1,566 @@
+<?xml version="1.0"?>
+
+<!-- em_3905.urdf.xacro
+
+This file defines a model of a Traxxas(R) E-Maxx(R) #3905 RC (Radio Controlled)
+truck.
+
+Lengths are measured in meters, angles are measured in radians, and masses are
+measured in kilograms. All of these values are approximations.
+
+To work with Gazebo, each link must have an inertial element, even if
+the link only serves to connect two joints. To be visible in Gazebo, a link
+must have a collision element. Furthermore, the link must have a Gazebo
+material.
+
+Traxxas(R), E-Maxx(R), and Titan(R) are registered trademarks of Traxxas
+Management, LLC. em_3905.urdf.xacro was independently created by Wunderkammer
+Laboratory, and neither em_3905.urdf.xacro nor Wunderkammer Laboratory is
+affiliated with, sponsored by, approved by, or endorsed by Traxxas Management,
+LLC. Mabuchi Motor(R) is a registered trademark of Mabuchi Motor Co., Ltd.
+Corporation Japan. All other trademarks and service marks are the property of
+their respective owners.
+
+Copyright (c) 2011-2013 Wunderkammer Laboratory
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!-- <robot xmlns:xacro="http://www.ros.org/wiki/xacro"> -->
+<robot name="QCar" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="QCar" params="parent prefix *origin">
+    <!-- includes -->
+    <xacro:include filename="$(find qcar_gazebo)/urdf/qcar.gazebo.xacro" />
+    <xacro:include filename="$(find qcar_gazebo)/urdf/qcar.materials.xacro" />
+
+    <!-- Degree-to-radian conversions -->
+    <xacro:property name="degrees_30" value="0.523599"/>
+    <xacro:property name="degrees_45" value="0.785398163"/>
+    <xacro:property name="degrees_90" value="1.57079633"/>
+
+    <!-- chassis_length is measured along the x axis, chassis_width
+         along the y axis, and chassis_height along the z axis. -->
+    <xacro:property name="chassis_length" value="0.425"/>
+    <xacro:property name="chassis_width" value="0.192"/>
+    <xacro:property name="chassis_height" value="0.182"/>
+    <xacro:property name="chassis_mass" value="2.552"/>
+
+  <!-- __________we didn't include battery for now_____________ -->
+
+    <!-- battery_dist is the distance between the inner edges of the
+         batteries. battery_comp_depth is the battery compartment depth.
+         battery_length is measured along the x axis, battery_width
+         along the y axis, and battery_height along the z axis. -->
+    <!-- <xacro:property name="battery_x_offset" value="0.055"/>
+    <xacro:property name="battery_dist" value="0.065"/>
+    <xacro:property name="battery_comp_depth" value="0.02"/>
+    <xacro:property name="battery_comp_angle" value="0.34906585"/>
+    <xacro:property name="battery_length" value="0.16"/>
+    <xacro:property name="battery_width" value="0.047"/>
+    <xacro:property name="battery_height" value="0.024"/>
+    <xacro:property name="battery_mass" value="0.5025"/> -->
+  <!-- ________________________________________________________________________ -->
+
+    <!-- hub_dia and tire_dia are the diameters of the hub and tire,
+         respectively. hex_hub_depth is the distance that the hex hub is
+         inset from the outer edge of the tire. It is set so that each wheel
+         is a "zero offset" wheel. hex_hub_depth = tire_width / 2 -
+         axle_length. -->
+    <xacro:property name="hub_dia" value="0.015"/>
+    <xacro:property name="tire_dia" value="0.053"/>
+    <xacro:property name="tire_width" value="0.025"/>
+    <xacro:property name="hex_hub_depth" value="0.018"/>
+    <xacro:property name="wheel_mass" value="0.035"/>
+  <!-- ________________________________________________________________________ -->
+
+    <!-- hex_hub_dist is the distance between left and right hex hubs when
+         the shock absorbers are fully extended. axle_length is the distance
+         from a U joint to the corresponding hex hub. wheel_travel is the
+         vertical wheel travel. -->
+    <!-- __________________I don't think we are using these parameters but they are uncommented for some reason_____________________ -->
+    <xacro:property name="wheelbase" value="0.265"/>
+    <xacro:property name="hex_hub_dist" value="0.285"/>
+    <xacro:property name="axle_length" value="0.025"/>
+    <xacro:property name="axle_eff_limit" value="5.12766"/>
+    <xacro:property name="axle_vel_limit" value="244.8696"/>
+    <!-- These constants are used to simulate a Traxxas 2056 servo operated at
+         6 V. servo_stall_torque is measured in N m. servo_no_load_speed is
+         measured in rad/s. -->
+    <!-- ______________I don't think we have a customed servo so I just used the values on the Traxxas Truck___________________________ -->
+    <xacro:property name="servo_stall_torque" value="0.5649"/>
+    <xacro:property name="servo_no_load_speed" value="4.553"/>
+
+    <!-- ctrl_period is gazebo_ros_control's control period. Unit: hertz. -->
+    <xacro:property name="ctrl_period" value="0.01"/>
+
+
+    <!-- Null inertial element. This is needed to make the model work with
+         Gazebo. -->
+    <xacro:macro name="null_inertial">
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+    </xacro:macro>
+
+    <!-- Inertia of a solid cuboid. Width is measured along the x axis, depth
+         along the y axis, and height along the z axis. -->
+    <xacro:macro name="solid_cuboid_inertial" params="width depth height mass *origin">
+      <inertial>
+        <xacro:insert_block name="origin"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${mass * (depth * depth + height * height) / 12}"
+           ixy="0" ixz="0"
+           iyy="${mass * (width * width + height * height) / 12}"
+           iyz="0"
+           izz="${mass * (width * width + depth * depth) / 12}"/>
+      </inertial>
+    </xacro:macro>
+
+    <!-- Inertia of a thick-walled cylindrical tube with open ends. Height is
+         measured along the z axis, which is the tube's axis. inner_rad and
+         outer_rad are the tube's inner and outer radii, respectively. -->
+    <xacro:macro name="thick_walled_tube_inertial" params="inner_rad outer_rad height mass">
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia ixx="${(1 / 12) * mass * (3 * (inner_rad * inner_rad +
+                outer_rad * outer_rad) + height * height)}"
+           ixy="0" ixz="0"
+           iyy="${(1 / 12) * mass * (3 * (inner_rad * inner_rad +
+                outer_rad * outer_rad) + height * height)}"
+           iyz="0"
+           izz="${mass * (inner_rad * inner_rad +
+                outer_rad * outer_rad) / 2}"/>
+      </inertial>
+    </xacro:macro>
+
+    <!-- base_link must have geometry so that its axes can be displayed in
+         rviz. -->
+    
+    <joint name="$base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${prefix}base_link" />
+    </joint>
+
+   <link name="base_link" />
+
+    <!-- Chassis -->
+    <link name="base">
+      <visual>
+        <!-- <origin xyz="0 0 ${-chassis_height / 2}"/> -->
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <!-- <box size="${chassis_length} ${chassis_width} ${chassis_height}"/> -->
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <!-- <material name="chassis_mat"/> -->
+      </visual>
+
+      <collision>
+        <!-- <origin xyz="0 0 ${-chassis_height / 2}"/> -->
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <!-- <box size="${chassis_length} ${chassis_width} ${chassis_height}"/> -->
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+
+      <xacro:solid_cuboid_inertial
+    width="${chassis_length}" depth="${chassis_width}"
+    height="${chassis_height}" mass="${chassis_mass}">
+        <origin xyz="0 0 0"/>
+      </xacro:solid_cuboid_inertial>
+      <!-- <inertial>
+        <xacro:insert_block name="origin"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${mass * (depth * depth + height * height) / 12}"
+           ixy="0" ixz="0"
+           iyy="${mass * (width * width + height * height) / 12}"
+           iyz="0"
+           izz="${mass * (width * width + depth * depth) / 12}"/>
+      </inertial> -->
+
+    </link>
+
+  <!-- ________below is all about lidar positions and camera positions______________ -->
+    <joint name="base_link_to_chasis" type="fixed">
+      <parent link="base_link"/>
+      <child link="base"/>
+    </joint>
+
+    <joint name="body_lidar_joint" type="fixed">
+    <parent link="base"/>
+    <child link="lidar"/>
+    <origin rpy="0 0 0" xyz="-0.01227 -0.00045 0.16152"/>
+    <axis xyz="0 0 1"/>
+    <!--<dynamics damping="0.1" friction="0.1"/>-->
+    </joint>
+    <link name="lidar">
+        <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+          <mesh filename="file://$(find qcar_gazebo)/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="blue"/>
+        </visual>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+          <mesh filename="file://$(find qcar_gazebo)/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+        </collision>
+        <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+    </link>
+
+    <joint name="camera_rgb_joint" type="fixed">
+      <!-- <axis xyz="0 1 0" /> -->
+      <!-- <origin xyz=".2 0 0" rpy="0 0 0"/> -->
+        <origin rpy="0 0 0" xyz="0.081686 0.031547 0.15445"/>
+        <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
+      <parent link="base"/>
+      <child link="camera_rgb"/>
+    </joint>
+    <link name="camera_rgb"/>
+
+    <joint name="camera_csi_front_joint" type="fixed">
+        <!-- <axis xyz="0 1 0" /> -->
+        <!-- <origin xyz=".2 0 0" rpy="0 0 0"/> -->
+        <origin rpy="0 0 0" xyz="0.19236 -0.000475 0.093029"/>
+        <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
+        <parent link="base"/>
+        <child link="camera_csi_front"/>
+    </joint>
+    <link name="camera_csi_front"/>
+
+    <joint name="camera_csi_right_joint" type="fixed">
+        <!-- <axis xyz="0 1 0" /> -->
+        <!-- <origin xyz=".2 0 0" rpy="0 0 0"/> -->
+        <!-- ___________________xyz is wrong, need to update_______________________________ -->
+        <origin rpy="0 0 -1.5708" xyz="0.12887 -0.06755 0.093029"/>
+        <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
+        <parent link="base"/>
+        <child link="camera_csi_right"/>
+    </joint>
+    <link name="camera_csi_right"/>
+
+    <joint name="camera_csi_back_joint" type="fixed">
+        <!-- <axis xyz="0 1 0" /> -->
+        <!-- <origin xyz=".2 0 0" rpy="0 0 0"/> -->
+        <origin rpy="0 0 -3.1416" xyz="-0.16669 -0.000578 0.093029"/>
+        <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
+        <parent link="base"/>
+        <child link="camera_csi_back"/>
+    </joint>
+    <link name="camera_csi_back"/>
+
+    <joint name="camera_csi_left_joint" type="fixed">
+        <!-- <axis xyz="0 1 0" /> -->
+        <!-- <origin xyz=".2 0 0" rpy="0 0 0"/> -->
+        <!-- ___________________xyz is wrong, need to update_______________________________ -->
+        <origin rpy="0 0 1.5708" xyz="0.12784 0.052497 0.093029"/>
+        <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
+        <parent link="base"/>
+        <child link="camera_csi_left"/>
+    </joint>
+    <link name="camera_csi_left"/>
+
+    <!-- <transmission name="body_lidar_tran">
+        <type>>transmission_interface/SimpleTransmission</type>
+        <joint name="body_lidar_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="body_lidar_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission> -->
+    
+    <!-- ___base_link - > left_front_position_joint (fixed) -> left_steering_link -> left_steering_joint(revolote) -> left_front_axle_carrier -> left_front_axle(joint) (continuous) -> left_front_wheel_______________ -->
+    <!-- The "wheel" macro defines an axle carrier, axle, and wheel. -->
+    
+    <joint name="left_front_position_joint" type="fixed">
+      <parent link="base"/>
+      <child link="left_steering_link"/>
+      <origin rpy="0 0 0" xyz="0.12960 0.05590 0.03338"/>
+      <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="left_steering_link">
+      <xacro:null_inertial/>
+      <visual>
+        <origin rpy="0 0 0" xyz=" 0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="orange"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name="left_steering_joint" type="revolute">
+      <parent link="left_steering_link"/>
+      <child link="left_front_axle_carrier"/>
+      <axis xyz = "0 0 1"/>
+      <limit lower="-0.523599" upper="0.523599" effort="0.5649" velocity="4.553"/>
+    </joint>
+    
+    <link name="left_front_axle_carrier">
+      <xacro:null_inertial/>
+    </link>
+    
+    <joint name="left_front_axle" type="fixed">
+      <parent link="left_front_axle_carrier"/>
+      <child link="left_front_wheel"/>
+      <axis xyz="0 0 1"/>
+      <origin rpy="0 0 3.14159"/>
+      <limit effort="5.12766" velocity="244.8696"/>
+      <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+    
+    <!-- <transmission name="left_front_axle_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="left_front_axle">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="left_front_axle_act">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> -->
+    <link name="left_front_wheel">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <xacro:thick_walled_tube_inertial
+      inner_rad="${hub_dia / 2}" outer_rad="${tire_dia / 2}"
+      height="${tire_width}" mass="${wheel_mass}"/>
+    </link>
+
+    <!-- <transmission name="left_steering_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="left_steering_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="left_steering_act">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> -->
+
+  <!-- ___base_link - > right_front_position_joint (fixed) -> right_steering_link -> right_steering_joint(revolote) -> right_front_axle_carrier -> right_front_axle(joint) (continuous) -> right_front_wheel_______________ -->
+
+    <link name="right_front_axle_carrier">
+      <xacro:null_inertial/>
+    </link>
+    <joint name="right_front_axle" type="continuous">
+      <parent link="right_front_axle_carrier"/>
+      <child link="right_front_wheel"/>
+      <axis xyz="0 1 0"/>
+      <!--<limit effort="${axle_eff_limit}" velocity="${axle_vel_limit}"/>-->
+      <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+    <!-- <transmission name="right_front_axle_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="right_front_axle">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="right_front_axle_act">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> -->
+    <link name="right_front_wheel">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <xacro:thick_walled_tube_inertial
+      inner_rad="${hub_dia / 2}" outer_rad="${tire_dia / 2}"
+      height="${tire_width}" mass="${wheel_mass}"/>
+    </link>
+
+    <joint name="right_front_position_joint" type="fixed">
+      <parent link="base"/>
+      <child link="right_steering_link"/>
+      <origin rpy="0 0 0" xyz="0.12960 -0.05590 0.03338"/>
+    </joint>
+
+    <link name="right_steering_link">
+      <xacro:null_inertial/>
+      <visual>
+        <origin rpy="0 0 3.14" xyz=" 0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="orange"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="right_steering_joint" type="fixed">
+      <parent link="right_steering_link"/>
+      <child link="right_front_axle_carrier"/>
+      <axis xyz = "0 0 1"/>
+      <limit lower="0.523599" upper="0.523599" effort="0.5649" velocity="4.553"/>
+    </joint>
+    <!-- <transmission name="right_steering_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="right_steering_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="right_steering_act">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> -->
+
+    <!-- The upper portion is for the front -->
+    <!-- Now is for the rear which only has axles -->
+  <!-- ____base_link -> left_rear_position_joint(fixed) -> left_rear_axle_carrier -> left_rear_axle (joint)(continuous) -> left_rear_wheel_____ -->
+    <link name="left_rear_axle_carrier">
+      <xacro:null_inertial/>
+    </link>
+    <joint name="left_rear_axle" type="continuous">
+      <parent link="left_rear_axle_carrier"/>
+      <child link="left_rear_wheel"/>
+      <axis xyz="0 -1 0"/>
+      <origin rpy="0 0 3.14159"/>
+      <!--<limit effort="${axle_eff_limit}" velocity="${axle_vel_limit}"/>-->
+      <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+    <!-- <transmission name="left_rear_axle_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="left_rear_axle">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="left_rear_axle_act">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> -->
+    <link name="left_rear_wheel">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <xacro:thick_walled_tube_inertial
+      inner_rad="${hub_dia / 2}" outer_rad="${tire_dia / 2}"
+      height="${tire_width}" mass="${wheel_mass}"/>
+    </link>
+
+    <joint name="left_rear_position_joint" type="fixed">
+      <parent link="base"/>
+      <child link="left_rear_axle_carrier"/>
+      <origin rpy="0 0 0" xyz="-0.12765 0.05610 0.03338"/>
+    </joint>
+
+  <!-- ____base_link -> right_rear_position_joint(fixed) -> right_rear_axle_carrier -> right_rear_axle (joint)(continuous) -> right_rear_wheel_____ -->
+
+    <link name="right_rear_axle_carrier">
+      <xacro:null_inertial/>
+    </link>
+    <joint name="right_rear_axle" type="continuous">
+      <parent link="right_rear_axle_carrier"/>
+      <child link="right_rear_wheel"/>
+      <axis xyz="0 1 0"/>
+      <!--<limit effort="${axle_eff_limit}" velocity="${axle_vel_limit}"/>-->
+      <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+    <!-- <transmission name="right_rear_axle_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="right_rear_axle">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="right_rear_axle_act">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> -->
+    <link name="right_rear_wheel">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+    <mesh filename="file://$(find qcar_gazebo)/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <xacro:thick_walled_tube_inertial
+      inner_rad="${hub_dia / 2}" outer_rad="${tire_dia / 2}"
+      height="${tire_width}" mass="${wheel_mass}"/>
+    </link>
+
+    <joint name="right_rear_position_joint" type="fixed">
+      <parent link="base"/>
+      <child link="right_rear_axle_carrier"/>
+      <origin rpy="0 0 0" xyz="-0.12765 -0.05610 0.03338"/>
+    </joint>
+
+    <!-- The above is for the wheels and turning etc -->
+
+    
+    <!--<gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
+      <plugin name="gazebo_ros_p3d"     filename="libgazebo_ros_p3d.so">
+        <frameName>map</frameName>
+        <bodyName>base_link</bodyName>
+        <topicName>odom_truth</topicName>
+        <updateRate>30.0</updateRate>
+      </plugin>
+    </gazebo>-->
+  
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,3 @@
+For comprehensive instructions on running and configuring the QCar or QCar 2 with the necessary libraries, please consult the Python and Simulink Software user manuals located in the Quanser/user_manuals/qcar or Quanser/user_manuals/qcar2 directory. 
+
+The python and Simulink user manuals provide detailed instructions for configuring and operating the system in both programming languages. 

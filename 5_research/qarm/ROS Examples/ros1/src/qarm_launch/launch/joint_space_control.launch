@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="qarm_node" pkg="qarm" type="qarm_node.py" output="screen" />
+    <node name="joint_space_command_node" pkg="qarm_commander" type="joint_space_command.py" output="screen" />
+
+</launch>

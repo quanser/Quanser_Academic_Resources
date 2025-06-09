@@ -1,0 +1,8 @@
+prefix=/home/thomas/ros1/install
+
+Name: qarm_commander
+Description: Description of qarm_commander
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

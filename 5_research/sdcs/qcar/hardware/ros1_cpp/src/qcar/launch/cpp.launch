@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="qcar" pkg="qcar" type='qcar'/>
+    <node name="lidar" pkg="qcar" type='lidar'/>
+    <node name="csi" pkg="qcar" type='csi'/>
+    <node name="rgbd" pkg="qcar" type='rgbd'/>
+    <node name="command" pkg="qcar" type='command'/>
+    <!-- <node name="command_node" pkg="qcar"	
+	  type="commandnode.py" output="screen"/> -->
+</launch>

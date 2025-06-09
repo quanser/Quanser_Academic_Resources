@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="ActionServer" pkg="qarm_action" type="qarm_action_server.py" output="screen" />
+    <node name="ActionClient" pkg="qarm_action" type="qarm_action_client.py" output="screen" />
+
+</launch>

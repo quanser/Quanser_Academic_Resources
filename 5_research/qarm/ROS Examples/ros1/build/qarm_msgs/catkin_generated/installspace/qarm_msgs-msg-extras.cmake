@@ -1,0 +1,2 @@
+set(qarm_msgs_MESSAGE_FILES "msg/AllJointState.msg;msg/GripperCommand.msg;msg/JointCommand.msg;msg/LEDCommand.msg;msg/AllCommands.msg;msg/QArmAction.msg;msg/QArmActionFeedback.msg;msg/QArmActionGoal.msg;msg/QArmActionResult.msg;msg/moveQArmAction.msg;msg/moveQArmActionGoal.msg;msg/moveQArmActionResult.msg;msg/moveQArmActionFeedback.msg;msg/moveQArmGoal.msg;msg/moveQArmResult.msg;msg/moveQArmFeedback.msg")
+set(qarm_msgs_SERVICE_FILES "")

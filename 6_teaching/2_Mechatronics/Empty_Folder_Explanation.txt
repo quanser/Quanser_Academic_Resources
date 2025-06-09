@@ -1,0 +1,3 @@
+If this directory is empty, it is because the specific resources have not been downloaded to your PC.
+This directory remains to preserve the folder structure and numbering.
+If you need the resources that should be in this folder, please rerun the installer and select the appropriate devices or resource types (teaching/research).

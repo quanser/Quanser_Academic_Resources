@@ -1,0 +1,103 @@
+==========================================================================================================
+Change Log for releases after 2025:
+==========================================================================================================
+
+Release (2025-03-06):
+- Initial folder structure change. Folders are now numbered and guides exist for following the file structure
+- Documents description updated to use new folder structure. 
+- Added support for virtual QDrone 2. 
+- Added Aero 2 and QArm content into the documents. 
+- New Qube Servo 3 labs for virtual. 
+- Added lane keeping skills activity for QCar.
+- Added Multiagent class for virtual robots in QVL and added examples under 5_research. 
+- Added QCar 2 research content in virtual.
+
+
+
+==========================================================================================================
+Change Log for releases before 2025:
+==========================================================================================================
+
+~.~.~.~.~.~.~.~.~.~.~.~.~.~ Mobile Robotics Instructor & Student ~.~.~.~.~.~.~.~.~.~.~.~.~.~
+
+Mobile_Robotics_Instructor_v1.2 (2024-07-31):
+---------------------------------------------
+- New Matlab QVL libraries for Quanser Interactive Labs. 
+	(Files are updated to use these ones. Files from previous releases will stop working)
+	These new libraries will make sure the python and matlab functions for QLabs are consistent. 
+- Added ROS examples for QBot Platform
+- Added QDrone 2 and QBot Platform swarm example. (Requires motion capture system)
+- Updated Labs fixing small issues and adding improved instructions.
+
+Mobile_Robotics_Instructor_v1.0 (2024-03-19):
+---------------------------------------------
+- First release adding lab content for the Play and Task Automation skills progression.
+
+
+Mobile_Robotics_Student_v1.2 (2024-07-31):
+---------------------------------------------
+- New Matlab QVL libraries for Quanser Interactive Labs. 
+	(Files are updated to use these ones. Files from previous releases will stop working)
+	These new libraries will make sure the python and matlab functions for QLabs are consistent. 
+- Updated Labs fixing small issues and adding improved instructions.
+
+Mobile_Robotics_Student_v1.0 (2024-03-19):
+------------------------------------------
+- First release adding lab content for the Play and Task Automation skills progression.
+
+
+~.~.~.~.~.~.~.~.~.~.~.~.~.~ Qube Servo 3 Instructor & Student ~.~.~.~.~.~.~.~.~.~.~.~.~.~
+
+Qube_Servo_3_v1.0 (2024-11-25):
+---------------------------------------------
+- First release adding lab content. 
+  Includes the Following Skills Progressions and Labs:
+	USING DISC:
+	- Skills Progression 0 - Instrumentation:
+		- Interfacing
+		- Filtering
+	-Skills Progression 1 - Modeling:
+		- Frequency Response
+		- Step Response
+		- Parameter Estimation
+		- Block Diagram
+		- State Space
+	- Skills Progression 2 - Analysis:
+		- Stability Analysis
+		- Routh Hurwitz 
+	- Skills Progression 3 - Fundamental Control:
+		- Proportional Control
+		- PD Control
+		- Steady State Error
+		- Lead Compensator
+	USING PENDULUM:
+	- Skills Progression 5 - Pendulum Modeling:
+		- Pendulum Interfacing and Inertia
+		- State Space Modeling
+	- Skills Progression 6 - Pendulum Control:
+		- Balance Control
+		- LQR Control
+		- Swing-Up Control
+
+~.~.~.~.~.~.~.~.~.~.~.~.~.~ SDCS Instructor & Student ~.~.~.~.~.~.~.~.~.~.~.~.~.~
+
+SDCS_Instructor_v2.0 (2024-10-01):
+---------------------------------------------
+- Added support for QCar 2.
+- Updated Traffic light libraries, examples and user manuals.
+
+SDCS_Instructor_v1.0 (2024-07-31):
+---------------------------------------------
+- First release of standalone SDCS skills activities and content. 
+
+SDCS_Student_v2.0 (2024-10-01):
+---------------------------------------------
+- Added support for QCar 2.
+- Updated Traffic light libraries, examples and user manuals.
+
+SDCS_Student_v1.0 (2024-07-31):
+---------------------------------------------
+- First release of standalone SDCS skills activities and content. 
+
+
+

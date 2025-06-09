@@ -1,0 +1,8 @@
+prefix=/home/thomas/ros1/install
+
+Name: quanser_core
+Description: Description of quanser_core
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

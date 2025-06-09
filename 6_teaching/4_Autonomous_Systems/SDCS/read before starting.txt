@@ -1,0 +1,4 @@
+For comprehensive instructions on configuring the QCar with the necessary libraries, running the labs, and preparing the studio environment, please consult the setup guides located in the Quanser\setup\self_driving_car_studio directory. 
+
+These resources provide detailed instructions for all aspects of system setup and operation.
+
