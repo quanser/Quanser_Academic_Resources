@@ -26,7 +26,7 @@ The Autonomous Vehicle Research Studio (AVRS) is a research only lab that mainly
 2. Go through the user manual of the device you are using, located under `3_user_manuals`, for more detailed information on using the device. 
 3. Find available examples under `5_research/autonomous_vehicles` for the device you are using. 
 
-Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
+**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 
@@ -44,7 +44,7 @@ The Mobile Robotics Lab (MRL) is a teaching and research lab for mobile robots. 
 
     <img src="images/mrl_teaching.png" width="650">
 
-Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
+**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 
@@ -61,7 +61,7 @@ The Self Driving Car Studio (SDCS) is a teaching and research lab for self drivi
 
     <img src="images/sdcs_content.png" width="500">
 
-Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
+**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 

@@ -45,7 +45,7 @@ Follow these steps to get started with your Qube:
 
     <img src="images/qube_teaching.png" width="650">
 
-Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
+**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 
@@ -62,11 +62,12 @@ Follow these steps to get started with your Aero:
 
 3. Teaching content is located under `6_teaching\1_Controls\Aero_2`. The content for the Aero 2 is shown below.  
 
-    <img src="images/aero_teaching.png" width="650">
-
 4. For more advanced examples as well as Python examples, refer to the product folder under `5_research`. 
 
-Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
+<img src="images/aero_teaching.png" width="650">
+
+
+**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 
@@ -83,11 +84,12 @@ Follow these steps to get started with your QArm:
 
 3. Teaching content is located under `6_teaching\3_Robotics`. The content for the QArm is shown below.  
 
-    <img src="images/qarm_teaching.png" width="650">
-
 4. For more advanced examples as well as Python examples, refer to the product folder under `5_research`. 
 
-Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
+<img src="images/qarm_teaching.png" width="650">
+
+
+**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 
