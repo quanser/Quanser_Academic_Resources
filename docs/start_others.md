@@ -32,16 +32,13 @@ These products have full teaching curriculum. Each of their labs consists of the
 
 The Qube-Servo 3 curriculum is written in MATLAB/Simulink and is broken down into a list of 7 pipelines in total with more than 16 labs.
 
-For more information, refer to the curriculum pipeline document under the `6_teaching\1_Controls\Qube_Servo_3` directory. 
-
-
 Follow these steps to get started with your Qube:
 
 1. Run through the quick start guide of your Qube-Servo 3 to make sure your hardware is functioning as expected. These files are located under `2_quick_start_guides\qube_servo3` and are separated by programming language (MATLAB/Python). Note that also individual IO tests and python examples are located in the product folder under `5_research`. 
 
 2. Go through the user manual located under `3_user_manuals/qube_servo3`, for more detailed information on the device. 
 
-3. Teaching content is located under `6_teaching\1_Controls\Qube_Servo_3`. The content for the Qube-Servo 3 is shown below.  
+3. Teaching content is located under `6_teaching\1_Controls\Qube_Servo_3`. The content for the Qube-Servo 3 is shown below. For more detailed information on these skills progressions, refer to the curriculum pipeline document under the `6_teaching\1_Controls\Qube_Servo_3` directory.  
 
     <img src="images/qube_teaching.png" width="650">
 
