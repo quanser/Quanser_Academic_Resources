@@ -5,36 +5,16 @@
 
 This guide walks you through getting started with the following labs/products: 
 
-    - Autonomous Vehicles Research Studio (AVRS): 
-        - QDrone, QDrone 2, QBot 2, QBot 2e
-    - Mobile Robotics Lab (MRL):
-        - QBot Platform, QArm Mini
-    - Self Driving Car Studio (SDCS):
-        - QCar, QCar 2
-
-If  your product is not listed above, use the [Getting Started - Others](http://github.com/quanser/Quanser_Academic_Resources/blob/main/docs/start_others.md) guide. 
-
-Quanser content is subdivided into a series of directories to help you get started quickly. 
-
-<img src="images/quanser_content.png" width="450">
-
-- **0_libraries**: Source location for custom Python/Simulink libraries, as well as other useful files used in the libraries. Please review libraries_guide inside the libraries folder for more information.
-
-- **1_setup**: Setup for different lab products. 
-- **2_quick_start_guides**: Standalone Quick Start Guides for various products. 
-- **3_user_manuals**: PDF files of user manuals for different Quanser products.
-- **4_concept_reviews**: Consists of .docx/.pdf files for background concepts utilized in Quanser Curriculum.
-- **5_research**: Research and IO examples and in either Simulink/Python/ROS for different solutions provided by Quanser. (previously "examples" folder) Includes research_content_guide for more information.
-- **6_teaching**: Curriculum/lab content for various Quanser products for hardware or digital twins. Includes teaching_content_guide for more information.
-
-### For more detailed information, see the information on starting with each of the labs:
-
 - [Autonomous Vehicles Research Studio (AVRS)](#avrs): 
     - QDrone, QDrone 2, QBot 2, QBot 2e
 - [Mobile Robotics Lab (MRL)](#mrl):
     - QBot Platform, QArm Mini
 - [Self Driving Car Studio (SDCS)](#sdcs):
     - QCar, QCar 2
+
+If  your product is not listed above, use the [Getting Started - Others](http://github.com/quanser/Quanser_Academic_Resources/blob/main/docs/start_others.md) guide. 
+
+### For a more detailed description of the provided file directory, go to the [Directory Structure](#directory-structure) section.
 
 
 ## AVRS
@@ -64,6 +44,7 @@ The Mobile Robotics Lab (MRL) is a teaching and research lab for mobile robots. 
 
     <img src="images/mrl_teaching.png" width="650">
 
+Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
 
@@ -80,6 +61,24 @@ The Self Driving Car Studio (SDCS) is a teaching and research lab for self drivi
 
     <img src="images/sdcs_content.png" width="500">
 
+Note: If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
+[Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
+
+
+## Directory Structure
+
+Quanser content is subdivided into a series of directories to help you get started quickly. 
+
+<img src="images/quanser_content.png" width="450">
+
+- **0_libraries**: Source location for custom Python/Simulink libraries, as well as other useful files used in the libraries. Please review `libraries_guide` inside the libraries folder for more information.
+
+- **1_setup**: Setup for different lab products. 
+- **2_quick_start_guides**: Standalone Quick Start Guides for various products. 
+- **3_user_manuals**: PDF files of user manuals for different Quanser products.
+- **4_concept_reviews**: Consists of .docx/.pdf files for background concepts utilized in Quanser Curriculum.
+- **5_research**: Research and IO examples and in either Simulink/Python/ROS for different solutions provided by Quanser. (previously "examples" folder) 
+- **6_teaching**: Curriculum/lab content for various Quanser products for hardware or digital twins. 
 
 [Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)

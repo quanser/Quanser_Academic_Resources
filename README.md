@@ -14,7 +14,7 @@ This repository includes content for the following products: `Qube-Servo 3, Aero
 ## Downloading Resources
 
 Before getting started with these resources, the first step is to download them into your computer. There is two ways to do this, using Git, or downloading the files simply as a .zip file. We recommend having our resources in a C:/Users/user/Documents/Quanser folder. 
-
+ 
 ### With Git
 
 <details open>
@@ -22,7 +22,11 @@ Before getting started with these resources, the first step is to download them 
 
 1. Install [Git](https://git-scm.com/downloads) in your system.
 2. Open your Documents folder and open a windows terminal in that folder. 
-3. Run the following command `git clone https://github.com/quanser/Quanser_Academic_Resources.git Quanser` this will create the Quanser directory and copy the contents of this repo in there. 
+3. Run the following command to create the Quanser directory and copy the contents of this repo in there. 
+    ```
+    git clone https://github.com/quanser/Quanser_Academic_Resources.git Quanser
+    ```
+
 </details>
 
 ### Without Git
