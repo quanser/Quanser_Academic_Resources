@@ -1,3 +1,4 @@
+<img src="images/quanser-resources-header.jpg" width="100%">
 <p align="right"><a href="../README.md#setting-up-your-computer"><sup>Back To Guide</sup></a>
 <br/>
 
@@ -14,10 +15,17 @@ The following steps are how to set up your computer so you are ready to start us
 - Download QUARC. It will install Quanser Interactive Labs, which is used when using virtual products. To download QUARC, go to [QUARC's Product Page](https://www.quanser.com/products/quarc-real-time-control-software/#panel1v) and click on the 4th tab `QUARC ___ Installer & Documentation`. Note that you will need the provided license file you got when receiving the system.
 
 ### If using virtual devices only
-This step is only necessary if you are not using hardware, and using virtual devices only. 
+These steps are only necessary if you are not using hardware, and using virtual devices only. 
 
- - Download [Quanser Interactive Labs](https://qlabs.quanserdocs.com/en/latest/Get%20Started.html) using the instructions in the website. 
- 
+- Download Quanser Interactive Labs through the MATLAB Add On Explorer
+
+    <img src="images/addOnExplorer.png" width="300">
+
+    ```
+    Quanser Interactive Labs for MATLAB
+    ```
+
+    <img src="images/qlabsAddOn.png" width="400">
 
 ## If you are using Python
 -  Make sure you have not downloaded Python through the Microsoft store, if you have, we recommend uninstalling it first. 
@@ -25,8 +33,9 @@ This step is only necessary if you are not using hardware, and using virtual dev
 - Download Python 3.11 or 3.12 through the Python foundation website (https://www.python.org/downloads/windows/).   
 **Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
 
+- If you do not have QUARC installed (due to virtual devices only or Python only setup), download [Quanser SDK](https://github.com/quanser/quanser_sdk), this GitHub repository links to both Windows and Linux versions.
+
 ### If you are ONLY using Python (No MATLAB/Simulink)
-- Download [Quanser SDK](https://github.com/quanser/quanser_sdk), this GitHub repository links to both Windows and Linux versions.
 
 - If you are going to use Quanser's virtual devices, download [Quanser Interactive Labs](https://qlabs.quanserdocs.com/en/latest/Get%20Started.html).
 

@@ -1,3 +1,4 @@
+<img src="images/quanser-resources-header.jpg" width="100%">
 <p align="right"><a href="../README.md#getting-started-with-content"><sup>Back To Guide</sup></a>
 <br/></p>
 

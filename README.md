@@ -1,7 +1,10 @@
+<img src="docs/images/quanser-resources-header.jpg" width="100%">
+
+
 # Quanser_Academic_Resources
 The Quanser Academic Resources includes the research and teaching content for using Quanser products, including libraries, research examples, teaching content, user manuals, guides and more.
 
-This repository includes content for the following products: `Qube-Servo 3, Aero 2, QArm, QArm Mini, QBot Platform and older QBots, QDrone, QDrone 2, QCar and QCar2.` If you are looking for resources to other products, skip these instructions and refer to the section: [Resources For Older Products](#resources-for-older-products).
+This repository includes content for the following products: `Qube-Servo 3, Aero 2, QArm, QArm Mini, QBot Platform and older QBots, QDrone, QDrone 2, QCar and QCar 2.` If you are looking for resources to other products, skip these instructions and refer to the section: [Resources For Older Products](#resources-for-older-products).
 
 ### Table of Contents
 - [Downloading Resources](#downloading-resources)
@@ -67,7 +70,7 @@ For setup for any other device listed below, please refer to the [Getting Starte
     - QArm
     - Qube-Servo 3
 
-For content in all other products, the resources are still hosted somewhere else. You can download them here:
+For content for all other products, see the next section.
 
 # Resources For Older Products
 
