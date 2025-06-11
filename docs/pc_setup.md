@@ -1,4 +1,4 @@
-<img src="images/quanser-resources-header.jpg" width="100%">
+<img src="images/quanser-resources-header.png" width="100%">
 <p align="right"><a href="../README.md#setting-up-your-computer"><sup>Back To Guide</sup></a>
 <br/>
 

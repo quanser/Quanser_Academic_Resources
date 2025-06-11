@@ -1,4 +1,4 @@
-<img src="docs/images/quanser-resources-header.jpg" width="100%">
+<img src="docs/images/quanser-resources-header.png" width="100%">
 
 
 # Quanser_Academic_Resources
