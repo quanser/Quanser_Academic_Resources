@@ -98,7 +98,7 @@ For older products, the resources are hosted externally, you can download the re
 
     - Shake Table II and 2xAMD01 (two story, two cart): [Resources](https://quanserinc.box.com/s/tg6galgzkzzrj2ovdgxc8s4np9mlatxf)
 
-### _For any other product not listed above, please visit the Quanser Website for [resources](https://www.quanser.com/resources/)._
+ **_For any other product not listed above, please visit the Quanser Website for [resources](https://www.quanser.com/resources/)._**
 
 # Resources For Older Products (Quanser Website)
 
@@ -119,4 +119,4 @@ For older products, the resources are hosted externally, you can download the re
 
 - Shake Table II: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5821), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5821)
 
-### _For any other product not listed above, please visit the Quanser Website for [available resources](https://www.quanser.com/resources/)._
+ **_For any other product not listed above, please visit the Quanser Website for [resources](https://www.quanser.com/resources/)._**
