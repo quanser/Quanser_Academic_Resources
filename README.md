@@ -24,21 +24,22 @@ Before getting started with these resources, the first step is to download them,
 
 1. Click the green Code button at the top of this GitHub page, click _Download ZIP_ at the bottom of the menu that pops up. 
 2. Unzip the folder in your system. 
-3. Go into _Quanser_Academic_Resources-dev-qcar_ (you see the folders 0_libraries, 1_setup ...).  
+3. Go into _Quanser_Academic_Resources-dev-qcar_ (you see the folders 0_libraries, 1_setup ...). 
+4. Make sure you can ping your QCar using the IP it shows on its display. 
 4. Download or open [WinSCP](https://winscp.net/eng/download.php)
-5. Make sure you can ping your QCar and connect and move files to the QCar as follows:
+5. Connect and move files using WinSCP to the QCar as follows:
     
-    <img src="images/winSCPLogin.png" width="650">
+    <img src="docs/images/winSCPLogin.png" width="500">
 
     Where the host name is the IP of the QCar, username and password are `nvidia`.
 
     Double click the address bar on the left of window to open the directory where your downloaded resources are. 
 
-    <img src="images/winSCPstep2.png" width="650">
+    <img src="docs/images/winSCPstep2.png" width="500">
 
     On the right side (the QCar directory side), go to `home/nvidia/Documents` and create a folder called `Quanser`. Copy the files from _Quanser_Academic_Resources-dev-qcar_ into this new folder by dragging and dropping from the left to the right window. 
 
-    <img src="images/winSCPstep3.png" width="650">
+    <img src="docs/images/winSCPstep3.png" width="650">
 
     You can now close WinSCP.
 
