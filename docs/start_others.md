@@ -8,7 +8,7 @@
 This guide walks you through getting started with the following products: 
 
 - [Qube-Servo 3](#qube-servo-3)
-- [Aero 2](#aero2)
+- [Aero 2](#aero-2)
 - [QArm](#qarm)
 
 
