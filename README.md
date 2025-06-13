@@ -11,7 +11,7 @@ This repository includes content for the following products: `Qube-Servo 3, Aero
 - [Setting Up Your Computer](#setting-up-your-computer)
 - [Getting Started With Content](#getting-started-with-content)
 - [Resources For Older Products](#resources-for-older-products)
-- [Changelog](http://github.com/quanser/Quanser_Academic_Resources/blob/main/changelog.txt)
+- [Changelog](changelog.txt)
 
 
 ## Downloading Resources
@@ -47,7 +47,7 @@ Before getting started with these resources, the first step is to download them 
 
 To begin using these resources, you will need to install the necessary software to your computer based on your intended method of interfacing with Quanser devices. This may involve working with either virtual and/or hardware systems, and utilizing Python and/or MATLAB/Simulink.
 
-- Follow the setup guide: [Computer Setup](http://github.com/quanser/Quanser_Academic_Resources/blob/main/docs/pc_setup.md).
+- Follow the setup guide: [Computer Setup](docs/pc_setup.md).
 
 - Note that if a router was provided as part of your system: please DO NOT connect an internet cable to the router, this may cause unexpected behavior due to automatic router firmware updates.
 
@@ -55,7 +55,7 @@ To begin using these resources, you will need to install the necessary software 
 
 For a comprehensive guide to getting started with these resources and using your Quanser product there are two guides to get started depending on your product. 
 
-For setup for a product that is part of the labs listed below, please refer to the [Getting Started - Labs](http://github.com/quanser/Quanser_Academic_Resources/blob/main/docs/start_labs.md) guide.
+For setup for a product that is part of the labs listed below, please refer to the [Getting Started - Labs](docs/start_labs.md) guide.
     
     - Autonomous Vehicles Research Studio (AVRS): 
         - QDrone, QDrone 2, QBot 2, QBot 2e
@@ -64,7 +64,7 @@ For setup for a product that is part of the labs listed below, please refer to t
     - Self Driving Car Studio (SDCS):
         - QCar, QCar 2
 
-For setup for any other device listed below, please refer to the [Getting Started - Others](http://github.com/quanser/Quanser_Academic_Resources/blob/main/docs/start_others.md) guide. 
+For setup for any other device listed below, please refer to the [Getting Started - Others](docs/start_others.md) guide. 
 
     - Aero 2
     - QArm

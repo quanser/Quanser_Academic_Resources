@@ -1,2 +1,2 @@
-To get started, follow the guide in http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md
+To get started, follow the guide in http://github.com/quanser/Quanser_Academic_Resources/blob/dev-windows/README.md
 

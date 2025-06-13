@@ -15,7 +15,7 @@ This guide walks you through getting started with the following labs/products:
 
 - [Quanser's Directory Structure](#directory-structure)
 
-If  your product is not listed above, use the [Getting Started - Others](http://github.com/quanser/Quanser_Academic_Resources/blob/main/docs/start_others.md) guide. 
+If  your product is not listed above, use the [Getting Started - Others](start_others.md) guide. 
 
 
 ## AVRS
@@ -31,7 +31,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
+[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 ## MRL
@@ -51,7 +51,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
+[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 ## SDCS
 
@@ -70,7 +70,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
+[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 ## Directory Structure
@@ -88,4 +88,4 @@ Quanser content is subdivided into a series of directories to help you get start
 - **5_research**: Research and IO examples and in either Simulink/Python/ROS for different solutions provided by Quanser. (previously "examples" folder) 
 - **6_teaching**: Curriculum/lab content for various Quanser products for hardware or digital twins. 
 
-[Back to Top](#)   |   [Back to Guide](http://github.com/quanser/Quanser_Academic_Resources/blob/main/README.md#getting-started-with-content)
+[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
