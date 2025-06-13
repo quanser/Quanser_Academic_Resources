@@ -1,57 +1,12 @@
-<img src="images/quanser-resources-header.png" width="100%">
+<img src="images/BannerQCar.png" width="100%">
 <p align="right"><a href="../README.md#getting-started-with-content"><sup>Back To Guide</sup></a>
 <br/></p>
 
 # Getting Started With Quanser Lab Products
 
-This guide walks you through getting started with the following labs/products: 
+This guide walks you through getting started with the [Self Driving Car Studio (SDCS)](#sdcs), which includes QCar, QCar 2
 
-- [Autonomous Vehicles Research Studio (AVRS)](#avrs): 
-    - QDrone, QDrone 2, QBot 2, QBot 2e
-- [Mobile Robotics Lab (MRL)](#mrl):
-    - QBot Platform, QArm Mini
-- [Self Driving Car Studio (SDCS)](#sdcs):
-    - QCar, QCar 2
-
-- [Quanser's Directory Structure](#directory-structure)
-
-If  your product is not listed above, use the [Getting Started - Others](start_others.md) guide. 
-
-
-## AVRS
-
-The Autonomous Vehicle Research Studio (AVRS) is a research only lab that mainly uses MATLAB/Simulink as the development environment. The steps to get started after having set up your computer are as follows:
-
-1. Go through the setup steps located in `1_setup/autonomous_vehicles_research_studio`.
-
-2. Go through the user manual of the device you are using, located under `3_user_manuals`, for more detailed information on using the device. 
-3. Find available examples under `5_research/autonomous_vehicles` for the device you are using. 
-
-For a more detailed description of the provided file directory, go to the [Directory Structure](#directory-structure) section.
-
-**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
-
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
-
-
-## MRL
-
-The Mobile Robotics Lab (MRL) is a teaching and research lab for mobile robots. The steps to get started after having set up your computer are as follows:
-
-1. Go through the welcome guide located in `1_setup/mobile_robotics`.
-
-2. Run through the quick start guides of the products you have to make sure your hardware is functioning as expected. These files are located under `2_quick_start_guides/qbot_platform` and `2_quick_start_guides/qarm_mini` and are separated by hardware and virtual devices as well as by programming language (MATLAB/Python). Note that also individual IO tests are located in the product folder under `5_research`.
-3. Review the User Manuals under `3_user_manuals/`, these will guide you through how to use your system, including interfacing of hardware and software. 
-4. If you are using the systems for research, content is located under `5_research` under individual product folders. This content includes MATLAB, Python and ROS examples. 
-5. If you are using the systems for teaching, content is located under `6_teaching/3_Robotics`. The content for each of the products is shown below as well as their corresponding skills progressions. 
-
-    <img src="images/mrl_teaching.png" width="650">
-
-For a more detailed description of the provided file directory, go to the [Directory Structure](#directory-structure) section.
-
-**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
-
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+- For more information on the folders, see [Quanser's Directory Structure](#directory-structure).
 
 ## SDCS
 
@@ -68,7 +23,6 @@ The Self Driving Car Studio (SDCS) is a teaching and research lab for self drivi
 
 For a more detailed description of the provided file directory, go to the [Directory Structure](#directory-structure) section.
 
-**Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
 [Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
 
