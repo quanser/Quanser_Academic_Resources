@@ -22,7 +22,7 @@ def generate_launch_description():
     # Include the qbot_platform cartographer launch files
     qcar2_cartographer_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('qcar2_nodes'), 'launch', 'qcar2_cartographer_launch_virtual.py')]
+            get_package_share_directory('qcar2_nodes'), 'launch', 'qcar2_cartographer_virtual_launch.py')]
         )
     )
 
@@ -129,15 +129,30 @@ def generate_launch_description():
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
     ])
-    
+
     qcar2_nav2_converter = Node(
     package='qcar2_nodes',
     executable='nav2_qcar2_converter',
     name='nav2_qcar2_converter',
     )
 
+
+    # Include nav2_amcl
+    amcl_node = Node(
+        package='nav2_amcl',
+        executable='amcl',
+        name='amcl',
+        parameters=[
+            {'initial_pose': {'x': 0.0, 'y': 0.0, 'theta': 0.0}},
+            {'map_topic': '/map'},
+            {'scan_topic': '/scan'},
+            {'odom_topic': '/odom'}
+        ]
+    )
+
     # Create the launch description and populate
-    ld = LaunchDescription([qcar2_nav2_converter])
+    ld = LaunchDescription([qcar2_nav2_converter,
+                            amcl_node])
 
     # Load the QBot Platform Cartographer launch file
     ld.add_action(qcar2_cartographer_launch)

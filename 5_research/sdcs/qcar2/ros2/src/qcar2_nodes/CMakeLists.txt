@@ -7,22 +7,25 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(image_transport REQUIRED)
 find_package(OpenCV REQUIRED COMPONENTS highgui imgcodecs imgproc videoio)
 find_package(rclcpp REQUIRED)
-
+find_package(rclpy REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(action_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(control_msgs REQUIRED)
 find_package(qcar2_interfaces REQUIRED)
-
 find_package(tf2_ros REQUIRED)
 
 # Need to define _NVIDIA macro since the Quanser SDK has different
 # functionalities depending on which platform it's being used.
 add_compile_definitions(_NVIDIA)
+
 
 # The header 'cv_bridge/cv_bridge.hpp' was added in version 3.3.0. For older
 # cv_bridge versions, we have to use the header 'cv_bridge/cv_bridge.h'.
@@ -40,9 +43,8 @@ target_link_libraries(command -lquanser_devices -lquanser_communications -lquans
 ament_target_dependencies(command rclcpp geometry_msgs qcar2_interfaces)
 
 
-
 add_executable(qcar2_hardware src/qcar2_hardware.cpp)
-target_link_libraries(qcar2_hardware -lhil -lquanser_runtime -lquanser_common)
+target_link_libraries(qcar2_hardware -lhil -lquanser_devices -lquanser_runtime -lquanser_common)
 ament_target_dependencies(qcar2_hardware rclcpp std_msgs geometry_msgs sensor_msgs control_msgs qcar2_interfaces)
 
 add_executable(rgbd src/rgbd.cpp)
@@ -70,13 +72,24 @@ ament_target_dependencies(csi rclcpp cv_bridge image_transport OpenCV std_msgs s
 add_executable(fixed_lidar_frame src/fixed_lidar_frame.cpp)
 ament_target_dependencies(fixed_lidar_frame geometry_msgs rclcpp tf2_ros)
 
+add_executable(fixed_lidar_frame_virtual src/fixed_lidar_frame_virtual.cpp)
+ament_target_dependencies(fixed_lidar_frame_virtual geometry_msgs rclcpp tf2_ros)
+
 
 # nav2
 # nav2 -> qcar2
 add_executable(nav2_qcar2_converter src/nav2_qcar_command_convert.cpp)
 ament_target_dependencies(nav2_qcar2_converter rclcpp geometry_msgs qcar2_interfaces)
 
+# # Install Python modules
+# ament_python_install_package(${PROJECT_NAME})
 
+# # Install Python executables
+# install(PROGRAMS
+#   src/nav_to_pose.py
+#   src/robot_navigator.py
+#   DESTINATION lib/${PROJECT_NAME}
+# )
 
 
 # Install nodes
@@ -103,6 +116,9 @@ install(TARGETS nav2_qcar2_converter
 
 # Install TF
 install(TARGETS fixed_lidar_frame
+  DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS fixed_lidar_frame_virtual
   DESTINATION lib/${PROJECT_NAME})
 
 # Install launch files

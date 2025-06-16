@@ -39,7 +39,7 @@ def generate_launch_description():
                         {"frame_width":410},
                         {"frame_height":205},
                         {"frame_rate":15.0},
-                        {"camera_num":0}]
+                        {"camera_num":1}]
         )
     
     qcar2_hardware = Node(

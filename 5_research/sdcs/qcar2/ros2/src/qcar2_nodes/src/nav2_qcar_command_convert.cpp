@@ -26,14 +26,14 @@ class Nav2QCarConverter : public rclcpp::Node
     : Node("nav2_qcar2_command_converter")
     {
     // configuring command publisher
-    command_publisher_  = this->create_publisher<qcar2_interfaces::msg::MotorCommands>("qcar2_motor_speed_cmd", 10);
+    command_publisher_  = this->create_publisher<qcar2_interfaces::msg::MotorCommands>("qcar2_motor_speed_cmd", 1);
     // led_publisher_      = this->create_publisher<qcar2_interfaces::msg::BooleanLeds>("qcar2_led_cmd",10);
 
     //configure nav2 subscriber
-    nav2_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel_nav",10,std::bind(&Nav2QCarConverter::nav2_command_callback, this, std::placeholders::_1));
+    nav2_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel_nav",1,std::bind(&Nav2QCarConverter::nav2_command_callback, this, std::placeholders::_1));
     
     //publishing timer for converted command
-    timer_ = this->create_wall_timer(33ms, std::bind(&Nav2QCarConverter::command_plublish, this));
+    timer_ = this->create_wall_timer(1ms, std::bind(&Nav2QCarConverter::command_plublish, this));
 
     //publishing timer for converted command
     timer2_ = this->create_wall_timer(33ms, std::bind(&Nav2QCarConverter::led_publish, this));
@@ -46,8 +46,6 @@ class Nav2QCarConverter : public rclcpp::Node
         void nav2_command_callback(const geometry_msgs::msg::Twist &nav2_commands){
             nav2_speed = nav2_commands.linear.x;
             nav2_steering = nav2_commands.angular.z;
-            // nav2_speed = 0;
-            // nav2_steering =0;
 
         }
 

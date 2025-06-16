@@ -28,13 +28,13 @@ def generate_launch_description():
 
     qcar2_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('qcar2_nodes'), 'launch', 'qcar2_manual_drive.py')]
+            get_package_share_directory('qcar2_nodes'), 'launch', 'qcar2_virtual_launch.py')]
         )
     )
 
     qcar2_to_lidar_tf_node = Node(
             package='qcar2_nodes',
-            executable='fixed_lidar_frame',
+            executable='fixed_lidar_frame_virtual',
             name='fixed_lidar_frame')
 
     configuration_basename_la = DeclareLaunchArgument(
@@ -72,8 +72,14 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim}],
             arguments=['-resolution', resolution, '-publish_period_sec', publish_period_sec])
 
+    qcar2_nav2_converter = Node(
+    package='qcar2_nodes',
+    executable='nav2_qcar2_converter',
+    name='nav2_qcar2_converter',
+    )
     return LaunchDescription([
         qcar2_launch,
+        qcar2_nav2_converter,
         configuration_basename_la,
         use_sim_la,
         resolution_la,

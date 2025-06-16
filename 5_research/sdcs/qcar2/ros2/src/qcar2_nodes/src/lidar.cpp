@@ -253,7 +253,7 @@ would not be sent on the /scan message.";
     }
     else if (device_type.compare("virtual")==0)
     {
-        uri = "0@tcpip://localhost:18966";
+        uri = "tcpip://localhost:18966";
 
     }
     else if (device_type.compare("custom")==0)
@@ -357,6 +357,7 @@ would not be sent on the /scan message.";
                         msg_get_error_messageA(NULL, result, error_message, ARRAY_LENGTH(error_message));
                         RCLCPP_ERROR(node->get_logger(), "Error reading lidar data: %d -> %s", result, error_message);
                     }
+                    
                 }
                 else
                 {
