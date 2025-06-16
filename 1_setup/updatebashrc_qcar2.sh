@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the lines you want to add
-line1="export PYTHONPATH=$PYTHONPATH:/home/nvidia/Documents/Quanser/libraries/python"
+line1="export PYTHONPATH=$PYTHONPATH:/home/nvidia/Documents/Quanser/0_libraries/python"
 line2="export QAL_DIR=/home/nvidia/Documents/Quanser"
 
 # Use sed to insert the lines at lines 6 and 7 of .bashrc
