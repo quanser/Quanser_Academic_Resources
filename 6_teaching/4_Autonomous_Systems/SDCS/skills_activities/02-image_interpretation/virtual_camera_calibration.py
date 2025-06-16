@@ -7,6 +7,7 @@ setup_chessboard_move_camera.py
 High-level summary of the python file with a description of which PDFs 
 accompany the python example.      
 '''
+import sys
 import numpy as np
 from qvl.qlabs import QuanserInteractiveLabs
 from qvl.basic_shape import QLabsBasicShape
@@ -24,12 +25,13 @@ import qlabs_setup
 qlabs = QuanserInteractiveLabs()
 print("Connecting to QLabs...")
 
-try:
-    qlabs.open("localhost")
-    print("Connected to QLabs")
-except:
-    print("Unable to connect to QLabs")
-    quit()
+print("Connecting to QLabs...")
+if (not qlabs.open("localhost")):
+    print("Unable to connect to QLabs") 
+    sys.exit() 
+     
+
+print("Connected")
 
 clearEnv = input("Do you want to reset the virtual environment?(y/n): ")
 

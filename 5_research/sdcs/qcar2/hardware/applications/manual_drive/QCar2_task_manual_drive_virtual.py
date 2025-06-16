@@ -3,6 +3,7 @@
 # commands to the QCar depending on 2 driving styles.
 # Use the hardware_test_basic_io.py to troubleshoot uses trying to drive the QCar.
 
+import sys
 from pal.products.qcar import QCar
 from pal.utilities.gamepad import LogitechF710
 from pal.utilities.math import *
@@ -23,8 +24,9 @@ qlabs = QuanserInteractiveLabs()
 
 print("Connecting to QLabs...")
 if (not qlabs.open("localhost")):
-    print("Unable to connect to QLabs")
-  
+    print("Unable to connect to QLabs") 
+    sys.exit()  
+
 print("Connected")
 
 QLabsRealTime().terminate_all_real_time_models()

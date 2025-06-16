@@ -1,5 +1,6 @@
 # region: package imports
 import os
+import sys
 import numpy as np
 
 from qvl.qlabs import QuanserInteractiveLabs
@@ -27,13 +28,13 @@ def setup(
     # Try to connect to Qlabs
     os.system('cls')
     qlabs = QuanserInteractiveLabs()
+    # Ensure that QLabs is running on your local machine
     print("Connecting to QLabs...")
-    try:
-        qlabs.open("localhost")
-        print("Connected to QLabs")
-    except:
+    if (not qlabs.open("localhost")):
         print("Unable to connect to QLabs")
-        quit()
+        sys.exit()
+        return
+    print("Connected to QLabs")
 
     # Delete any previous QCar instances and stop any running spawn models
     qlabs.destroy_all_spawned_actors()
