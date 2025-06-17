@@ -104,7 +104,7 @@ For older products, the resources are hosted externally, you can download the re
 
 For older products, the resources are hosted externally, you can download the resources through the following links.
 
-- QUBE-Servo 2:  [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=1588), [Virtual Resources](https://www.quanser.com/resource-type/virtual-resources/?_products=5882), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5671)
+- QUBE-Servo 2:  [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5671), [Virtual Resources](https://www.quanser.com/resource-type/virtual-resources/?_products=5882), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5671)
 
 - Rotary Servo: 
     - Base Unit: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5813), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5813)
