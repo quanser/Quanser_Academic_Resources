@@ -55,7 +55,7 @@ add_scope_signals(multscope=scope, ax=6, signals=["pitch_rate", "yaw_rate"])
 
 
 # Initialize Aero2
-myAero2 = Aero2(id=0, hardware=0, readMode=1, frequency=500, oneDOF=0)
+myAero2 = Aero2(id=0, hardware=0, readMode=1, frequency=500)
 
 
 def control_loop():

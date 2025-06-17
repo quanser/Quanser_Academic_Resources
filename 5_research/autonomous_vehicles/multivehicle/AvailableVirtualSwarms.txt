@@ -1,0 +1,5 @@
+Currently available virtual swarms:
+
+leadQBP_flwQD2 -> leader follower with QBot Platform and QDrone 2
+
+swarm_QD2/2x -> QDrone2 swarm with 2 drones.

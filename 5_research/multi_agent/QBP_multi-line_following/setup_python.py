@@ -9,6 +9,7 @@
     """
 
 
+import sys
 import time
 import numpy as np
 from qvl.multi_agent import MultiAgent, readRobots
@@ -25,8 +26,10 @@ from qvl.system import QLabsSystem
 qlabs = QuanserInteractiveLabs()
     
 print("Connecting to QLabs...")
+print("Connecting to QLabs...")
 if (not qlabs.open("localhost")):
-    print("Unable to connect to QLabs")   
+    print("Unable to connect to QLabs") 
+    sys.exit()  
 
 print("Connected")  
 

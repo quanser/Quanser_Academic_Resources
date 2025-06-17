@@ -11,8 +11,11 @@ import numpy as np
 
 
 class __QubeServo():
-    """A class to configure Qubes, parent class to QubeServo2 and 3 class.
+    """
+    A class to configure Qubes, parent class to QubeServo2 and QubeServo3.
 
+    This class provides methods to initialize, configure, and interact with
+    the Qube Servo hardware or virtual platform.
     """
 
     def __init__(
@@ -26,20 +29,32 @@ class __QubeServo():
             boardSpecificOptions='pwm_en=0'
         ):
 
-        """Initializes and configures the Qube Servo.
+        """
+        Initializes and configures the Qube Servo.
 
-        Args:
-            version(int): Qube-Servo version. Use 2 or 3 for
-                Qube-Servo 2 and Qube-Servo 3 respectively.
-            id (str, optional): Board identifier id number. Defaults to '0'.
-            hardware (int, optional): Indicates whether to use hardware or virtual
-                Qube. (0 for virtual, 1 for hardware). Defaults to 1.
-            frequency (int, optional): Sampling frequency
-                (used when readMode is set to 1). Defaults to 500.
-            pendulum (int, optional): ONLY IF USING VIRTUAL QUBE SERVO.
-                (0 if using Qube DC motor, 1 if using Qube Pendulum). Defaults to 0.
-            readMode (int, optional): Indicates the read mode.
-                (0 for immediate I/O, 1 for task-based I/O). Defaults to 1.
+        Parameters
+        ----------
+        version : int
+            Qube-Servo version. Use 2 or 3 for Qube-Servo 2 and Qube-Servo 3, respectively.
+        id : str, optional
+            Board identifier ID number. Defaults to '0'.
+        hardware : int, optional
+            Indicates whether to use hardware or virtual Qube 
+            (0 for virtual, 1 for hardware). Defaults to 1.
+        frequency : int, optional
+            Sampling frequency (used when `readMode` is set to 1). Defaults to 500.
+        pendulum : int, optional
+            Only applicable if using a virtual Qube Servo. 
+            Set to 0 for Qube DC motor or 1 for Qube Pendulum. Defaults to 0.
+        readMode : int, optional
+            Indicates the read mode (0 for immediate I/O, 1 for task-based I/O). Defaults to 1.
+        boardSpecificOptions : str, optional
+            Board-specific configuration options. Defaults to 'pwm_en=0'.
+
+        Raises
+        ------
+        ValueError
+            If the `version` is not 2 or 3.
         """
 
         # Define read/write channels and buffers
@@ -183,12 +198,15 @@ class __QubeServo():
             print(h.get_error_message())
 
     def write_voltage(self, voltage):
-        """Writes voltage commands to the QUBE.
-
-        Args:
-            voltage (float): Voltage command in Volts
-                (saturated to be between +15 & -15 Volts).
         """
+        Writes voltage commands to the Qube-Servo.
+
+        Parameters
+        ----------
+        voltage : float
+            Voltage command in Volts. The value is saturated to be between +15 and -15 Volts.
+        """
+    
         try:
 
             self.card.write_analog(
@@ -201,13 +219,16 @@ class __QubeServo():
             print(h.get_error_message())
 
     def write_led(self, baseLED=np.array([1, 0, 0], dtype=np.float64)):
-        """Writes LED values to the QUBE.
-
-        Args:
-            baseLED (np.ndarray, optional): 3x1 numpy array of RGB colors.
-                0 to 1 intensity for each color.
-                Defaults to red (np.array([1, 0, 0], dtype=np.float64)).
         """
+        Writes LED values to the Qube-Servo.
+
+        Parameters
+        ----------
+        baseLED : numpy.ndarray, optional
+            A 3x1 numpy array of RGB colors with intensity values between 0 and 1.
+            Defaults to red (`np.array([1, 0, 0], dtype=np.float64)`).
+        """
+
         try:
             self.card.write_other(
                 self.WRITE_OTHER_CHANNELS,
@@ -219,26 +240,30 @@ class __QubeServo():
             print(h.get_error_message())
 
     def read_outputs(self):
-        """Reads all outputs for the Qube.
+        """Reads all outputs for the Qube-Servo.
 
-        Reads the outputs and stores them in their respective member variables.
-        These are the read variables:
-        - motorCurrent (Amps)
-        - motorCountsPerSecond
-        - motorSpeed (rad/s)
-        - pendulumCountsPerSecond (Only for Qube-Servo 3)
-        - pendulumSpeed (rad/s) (Only for Qube-Servo 3)
-        - motorEncoderCounts
-        - motorPosition (rad)
-        - pendulumEncoderCounts
-        - pendulumPosition (rad)
-        - amplifierFault: If the amplifer is enabled and this fault occurs,
+        Notes
+        -----
+        The method reads data from the Qube Servo hardware or virtual platform
+        and updates the corresponding member variables.
+
+        Updates the following member variables:
+        - `motorCurrent` (Amps)
+        - `motorCountsPerSecond`
+        - `motorSpeed` (rad/s)
+        - `pendulumCountsPerSecond` (Only for Qube-Servo 3)
+        - `pendulumSpeed` (rad/s) (Only for Qube-Servo 3)
+        - `motorEncoderCounts`
+        - `motorPosition` (rad)
+        - `pendulumEncoderCounts`
+        - `pendulumPosition` (rad)
+        - `amplifierFault` : If the amplifer is enabled and this fault occurs,
             the amplifier may be experiencing excessive temperatures and shut
             down to protect itself.
-        - motorStallDetected: Occurs when the motor is stalled or excessively
+        - `motorStallDetected` : Occurs when the motor is stalled or excessively
             slowed and the applied voltage (including deadband compensation)
             is greater than 5V.
-        - motorStallError: When a stall warning has been asserted continuously
+        - `motorStallError`: When a stall warning has been asserted continuously
             for approximately 3s.
 
         """
@@ -287,10 +312,13 @@ class __QubeServo():
             self.motorStallError = self._readDigitalBuffer[2]
 
     def terminate(self):
-        """Cleanly shutdown and terminate connection with the QUBE
+        """
+        Cleanly shuts down and terminates the connection with the Qube-Servo.
 
-        Terminates the QUBE card after setting final values for voltage and
-        LEDs. Also terminates the task reader.
+        Notes
+        -----
+        This method sets final values for voltage and LEDs, stops the task reader,
+        and closes the connection to the Qube Servo card.
         """
         try:
             self.write_voltage(0)
@@ -310,16 +338,63 @@ class __QubeServo():
             print(h.get_error_message())
 
     def __enter__(self):
-        """Used for with statement."""
+        """
+        Enter the runtime context related to this object.
+
+        Returns
+        -------
+        __QubeServo
+            The instance of the Qube Servo object.
+        """
         return self
 
     def __exit__(self, type, value, traceback):
-        """Used for with statement. Terminates the connection with the QUBE."""
+        """
+        Exit the runtime context related to this object.
+
+        Parameters
+        ----------
+        type : Exception type
+            The exception type, if any.
+        value : Exception value
+            The exception value, if any.
+        traceback : traceback
+            The traceback object, if any.
+
+        Notes
+        -----
+        This method ensures the Qube Servo connection is terminated when exiting
+        the context.
+        """
         self.terminate()
 
 class QubeServo2(__QubeServo):
-    """Class to set up Qube Servo 2.
-    Sets available reading and writing channels
+    """
+    Class to set up Qube Servo 2.
+
+    This class configures the Qube Servo 2 hardware or virtual platform
+    and sets the available reading and writing channels.
+
+    Parameters
+    ----------
+    id : int, optional
+        Board identifier ID number. Defaults to 0.
+    hardware : int, optional
+        Indicates whether to use hardware or virtual Qube 
+        (0 for virtual, 1 for hardware). Defaults to 1.
+    frequency : int, optional
+        Sampling frequency (used when `readMode` is set to 1). Defaults to 500.
+    pendulum : int, optional
+        Only applicable if using a virtual Qube Servo. 
+        Set to 0 for Qube DC motor or 1 for Qube Pendulum. Defaults to 0.
+    readMode : int, optional
+        Indicates the read mode (0 for immediate I/O, 1 for task-based I/O). 
+        Defaults to 1.
+
+    Notes
+    -----
+    This class inherits from `__QubeServo` and sets the `READ_OTHER_CHANNELS`
+    specific to Qube Servo 2.
     """
 
     def __init__(self, id=0, hardware=1, frequency=500,pendulum=0, readMode=1):
@@ -329,9 +404,37 @@ class QubeServo2(__QubeServo):
         super().__init__(2, id, hardware, frequency, pendulum, readMode)
 
 class QubeServo3(__QubeServo):
-    """Class to set up Qube Servo 3.
-    Sets available reading and writing channels.
-    Has access to a pendulum tachometer not available in the QubeServo 2 class.
+    """
+    Class to set up Qube Servo 3.
+
+    This class configures the Qube Servo 3 hardware or virtual platform,
+    sets the available reading and writing channels, and provides access
+    to a pendulum tachometer not available in the QubeServo2 class.
+
+    Parameters
+    ----------
+    id : int, optional
+        Board identifier ID number. Defaults to 0.
+    hardware : int, optional
+        Indicates whether to use hardware or virtual Qube 
+        (0 for virtual, 1 for hardware). Defaults to 1.
+    frequency : int, optional
+        Sampling frequency (used when `readMode` is set to 1). Defaults to 500.
+    pendulum : int, optional
+        Only applicable if using a virtual Qube Servo. 
+        Set to 0 for Qube DC motor or 1 for Qube Pendulum. Defaults to 0.
+    readMode : int, optional
+        Indicates the read mode (0 for immediate I/O, 1 for task-based I/O). 
+        Defaults to 1.
+    boardSpecificOptions : str, optional
+        Board-specific configuration options. Defaults to 
+        `'deadband_compensation=0.3;pwm_en=0;enc0_velocity=3.0;enc1_velocity=3.0;min_diode_compensation=0.3;max_diode_compensation=1.5'`.
+
+    Notes
+    -----
+    This class inherits from `__QubeServo` and sets the `READ_OTHER_CHANNELS`
+    specific to Qube Servo 3. It also provides additional attributes for
+    pendulum tachometer readings.
     """
 
     def __init__(
@@ -364,6 +467,19 @@ class QubeServo3(__QubeServo):
         )
 
     def read_outputs(self):
+        """
+        Reads all outputs for the Qube Servo 3.
+
+        Notes
+        -----
+        This method extends the `read_outputs` method from `__QubeServo` to
+        include pendulum tachometer readings when applicable.
+
+        Updates the following additional member variables:
+        - `pendulumCountsPerSecond` (counts/s)
+        - `pendulumSpeed` (rad/s)
+        """
+        
         super().read_outputs()
         if self._hardware == 0 and self._pendulum == 0:
            self.pendulumCountsPerSecond = 0

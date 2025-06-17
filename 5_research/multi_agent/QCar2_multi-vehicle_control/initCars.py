@@ -9,6 +9,7 @@ run initCars.py first to spawn the cars in the space.
 Then using two different terminals run vehicle_control.py and vehicle_control2.py to control the vehicles.
 Both will ask what type of car you are using, for both, write 2 and click enter. (it is a QCar 2). 
  """
+import sys
 import time
 import numpy as np
 from qvl.multi_agent import MultiAgent, readRobots
@@ -20,7 +21,8 @@ qlabs = QuanserInteractiveLabs()
     
 print("Connecting to QLabs...")
 if (not qlabs.open("localhost")):
-    print("Unable to connect to QLabs")   
+    print("Unable to connect to QLabs") 
+    sys.exit()  
 
 print("Connected")  
 

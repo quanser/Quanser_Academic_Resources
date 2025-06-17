@@ -5,8 +5,16 @@ from pal.utilities.vision import Camera3D
 
 
 class QArm():
+    """
+    QArm class for initialization, I/O, and termination.
 
-    '''QArm class for initialization, I/O and termination'''
+    Notes
+    -----
+    - The QArm can operate in Position mode (0) or PWM mode (1).
+    - Use the `read_write_std` method for standard I/O operations.
+    - Use the `terminate` method to cleanly shut down the QArm.
+    """
+
     #region: Channel and Buffer definitions
 
     # Channels
@@ -25,14 +33,33 @@ class QArm():
     measJointSpeed          = np.zeros(5, dtype=np.float64)
     measJointPWM            = np.zeros(5, dtype=np.float64)
     measJointTemperature    = np.zeros(5, dtype=np.float64)
-
-  
+    
     #endregion
 
-    def __init__(self, hardware=1, readMode=0, frequency=500, deviceId = 0, hilPort = 18900):
-        ''' This function configures the QArm in Position (0) or PWM (1) mode
-        based on the input, and returns a handle to the card. Use the handle
-        for other read/write methods. .'''
+    def __init__(self, hardware=1, readMode=1, frequency=500, deviceId = 0, hilPort = 18900):
+        """
+        Initializes and configures the QArm in Position Mode. 
+        (PWM mode not supported)
+
+        Parameters
+        ----------
+        hardware : int, optional
+            Indicates whether the QArm is hardware-based (1) or virtual (0). Defaults to 1.
+        readMode : int, optional
+            Mode for reading data. 0 for immediate I/O, 1 for task-based I/O. Defaults to 1.
+        frequency : int, optional
+            Sampling frequency (used when `readMode` is set to 1). Defaults to 500.
+        deviceId : int, optional
+            Identifier for the QArm device. Defaults to 0.
+        hilPort : int, optional
+            Port number for the HIL connection when using virtual QArm. Defaults to 18900.
+
+        Raises
+        ------
+        HILError
+            If there is an error during initialization.
+        """
+
         self.readMode = readMode
         self.hardware = hardware
         self.status = False
@@ -95,15 +122,33 @@ class QArm():
     def read_write_std(self, phiCMD=np.zeros(4, dtype=np.float64),
                         gprCMD=np.zeros(1, dtype=np.float64),
                         baseLED=np.array([1, 0, 0], dtype=np.float64)):
-        '''Use this to write motor and LED commands, and read the battery voltage, motor current and encoder counts \n
+        """
+        Writes motor and LED commands, 
+        and reads battery voltage, motor current, and encoder counts.
 
-        INPUTS:
-        phiCMD - angular position of joints 1 to 4 as a 4x1 numpy array (active in Position mode only)
-        grpCMD - gripper position 1x1 numpy array
-        baseLED - base RGB LED state as a 3x1 numpy array
+        Parameters
+        ----------
+        phiCMD : numpy.ndarray, optional
+            Angular position of joints 1 to 4 as a 4x1 numpy array. Defaults to zeros.
+            Active in Position mode only.
+        gprCMD : numpy.ndarray, optional
+            Gripper position as a 1x1 numpy array. Defaults to zeros.
+        baseLED : numpy.ndarray, optional
+            Base RGB LED state as a 3x1 numpy array. Defaults to red: [1, 0, 0].
 
-        OUTPUTS:
-        None, use the self variables - measJointCurrent, measJointPosition, measJointSpeed, measJointPWM and measJointTemperature'''
+        Notes
+        -----
+        The method reads data from the QArm 
+        and updates the corresponding member variables.
+
+        Updates the following member variables:
+        - `measJointCurrent` (Amps)
+        - `measJointPosition`
+        - `measJointSpeed` (rad/s)
+        - `measJointPWM` (0-1)
+        - `measJointTemperature` 
+        """
+
         self.writeOtherBuffer[4] = np.clip(gprCMD,0.1,0.9) # Saturate gripper between 0.1 (open) and 0.9 (close)
         self.writeOtherBuffer[5:] = baseLED
         for motorIndex in range(4):
@@ -133,10 +178,21 @@ class QArm():
             print(h.get_error_message())
         
     def read_std(self):
-        '''Use this to read the battery voltage, motor current and encoder counts \n
+        """
+        Reads battery voltage, motor current, and encoder counts.
 
-        OUTPUTS:
-        Use the class variables - measJointCurrent, measJointPosition, measJointSpeed, measJointPWM and measJointTemperature'''
+        Notes
+        -----
+        The method reads data from the QArm 
+        and updates the corresponding member variables.
+
+        Updates the following member variables:
+        - `measJointCurrent` (Amps)
+        - `measJointPosition`
+        - `measJointSpeed` (rad/s)
+        - `measJointPWM` (0-1)
+        - `measJointTemperature` 
+        """
 
         # IO   
         try:
@@ -173,14 +229,19 @@ class QArm():
 
     def write_position(self, phiCMD=np.zeros(4, dtype=np.float64),
                         gprCMD=np.zeros(1, dtype=np.float64) ):
-        '''Use this to write motor commands \n
+        
+        """
+        Writes motor commands.
 
-        INPUTS:
-        phiCMD - angular position of joints 1 to 4 as a 4x1 numpy array (active in Position mode only)
-        gprCMD - gripper position 1x1 numpy array
+        Parameters
+        ----------
+        phiCMD : numpy.ndarray, optional
+            Angular position of joints 1 to 4 as a 4x1 numpy array. Defaults to zeros.
+            Active in Position mode only.
+        gprCMD : numpy.ndarray, optional
+            Gripper position as a 1x1 numpy array. Defaults to zeros.
+        """
 
-        OUTPUTS:
-        None'''
         self.writeOtherBuffer[4] = np.clip(gprCMD,0.1,0.9) # Saturate gripper between 0.1 (open) and 0.9 (close)
         
         new = False
@@ -211,10 +272,15 @@ class QArm():
             new = False
 
     def write_led(self, baseLED=np.array([1, 0, 0], dtype=np.float64)):
-        '''Use this to write LED commands (eg. to verify functionality HIL Card access) \n
+        """
+        Writes LED commands.
 
-        INPUTS:
-        baseLED - base RGB LED state as a 3x1 numpy array '''
+        Parameters
+        ----------
+        baseLED : numpy.ndarray, optional
+            Base RGB LED state as a 3x1 numpy array. Defaults to [1, 0, 0].
+        """
+
         self.writeOtherBuffer[5:] = baseLED
 
         # IO
@@ -234,9 +300,16 @@ class QArm():
             print(h.get_error_message())
  
     def terminate(self):
-        ''' This function terminates the QArm card after setting final values for home position and 0 pwm.'''
+        """
+        Terminates the QArm card.
 
+        Notes
+        -----
+        - Stops and deletes the reading task if `readMode` is 1.
+        - Closes the connection to the QArm.
+        """
         try:
+
             if self.readMode == 1:
                 self.card.task_stop(self.readTask)
                 self.card.task_delete(self.readTask)
@@ -248,52 +321,42 @@ class QArm():
             print(h.get_error_message())     
 
     def __enter__(self):
-        """Used for with statement."""
+        """
+        Used for the `with` statement.
+
+        Returns
+        -------
+        QArm
+            The current instance of the class.
+        """
         return self
 
     def __exit__(self, type, value, traceback):
-        """Used for with statement. Terminates the connection with the QArm."""
+        """
+        Used for the `with` statement. Terminates the connection with the QArm.
+
+        Parameters
+        ----------
+        type : Exception type
+            The exception type, if any.
+        value : Exception value
+            The exception value, if any.
+        traceback : Traceback
+            The traceback object, if any.
+        """
         self.terminate()  
 
 class QArmRealSense(Camera3D):
     """
-    A class for accessing 3D camera data from the RealSense camera on the QBot
-    Platform.
+    A class for accessing 3D camera data from the RealSense camera on the QArm.
 
-    Inherits from Camera3D class in pal.utilities.vision
+    Inherits from `Camera3D` in `pal.utilities.vision`.
 
-    Args:
-        mode (str): Mode to use for capturing data. Default is 'RGB&DEPTH'.
-        frameWidthRGB (int): Width of the RGB frame. Default is 640.
-        frameHeightRGB (int): Height of the RGB frame. Default is 400.
-        frameRateRGB (int): Frame rate of the RGB camera. Default is 30.
-        frameWidthDepth (int): Width of the depth frame. Default is 640.
-        frameHeightDepth (int): Height of the depth frame. Default is 400.
-        frameRateDepth (int): Frame rate of the depth camera. Default is 15.
-        frameWidthIR (int): Width of the infrared (IR) frame. Default is 640.
-        frameHeightIR (int): The height of the IR frame. Default is 400.
-        frameRateIR (int): Frame rate of the IR camera. Default is 15.
-        readMode (int): Mode to use for reading data from the camera.
-            Default is 1.
-        focalLengthRGB (numpy.ndarray): RGB camera focal length in pixels.
-            Default is np.array([[None], [None]], dtype=np.float64).
-        principlePointRGB (numpy.ndarray): Principle point of the RGB camera
-            in pixels. Default is np.array([[None], [None]], dtype=np.float64).
-        skewRGB (float): Skew factor for the RGB camera. Default is None.
-        positionRGB (numpy.ndarray): An array of shape (3, 1) that holds the
-            position of the RGB camera in the QBot's frame of reference.
-        orientationRGB (numpy.ndarray): An array of shape (3, 3) that holds the
-            orientation of the RGB camera in the QBot's frame of reference.
-        focalLengthDepth (numpy.ndarray): An array of shape (2, 1) that holds
-            the focal length of the depth camera.
-        principlePointDepth (numpy.ndarray): An array of shape (2, 1) that
-            holds the principle point of the depth camera.
-        skewDepth (float, optional): Skew of the depth camera
-        positionDepth (numpy.ndarray, optional): An array of shape (3, 1) that
-            holds the position of the depth camera
-        orientationDepth (numpy.ndarray): An array of shape (3, 3) that holds
-            the orientation of the Depth camera in the QBot's reference frame.
+    Notes
+    -----
+    - This class provides an interface for accessing RGB, depth, and IR data from the RealSense camera.
     """
+    
     def __init__(
             self,
             hardware = 1,
@@ -323,11 +386,78 @@ class QArmRealSense(Camera3D):
             orientationDepth=np.array([[None, None, None], [None, None, None],
                                        [None, None, None]], dtype=np.float64)
         ):
+        """"
+        Initialize the 3D camera in the QArm for RGB and Depth.
+
+        Parameters
+        ----------
+        hardware : int, optional
+            Indicates whether the camera is hardware-based (1) or virtual (0). Defaults to 1.
+        videoPort : int, optional
+            Port number for virtual QArm. Defaults to 18901.
+        mode : str, optional
+            Mode to use for capturing data. Defaults to 'RGB&DEPTH'.
+        deviceID : int, optional
+            Identifier for the camera device. Defaults to 0.
+        readMode : int, optional
+            Mode for reading data from the camera. Defaults to 1.
+        frameWidthRGB : int, optional
+            Width of the RGB frame in pixels. Defaults to 640.
+        frameHeightRGB : int, optional
+            Height of the RGB frame in pixels. Defaults to 400.
+        frameRateRGB : int, optional
+            Frame rate of the RGB camera in frames per second. Defaults to 30.
+        frameWidthDepth : int, optional
+            Width of the depth frame in pixels. Defaults to 640.
+        frameHeightDepth : int, optional
+            Height of the depth frame in pixels. Defaults to 400.
+        frameRateDepth : int, optional
+            Frame rate of the depth camera in frames per second. Defaults to 15.
+        frameWidthIR : int, optional
+            Width of the infrared (IR) frame in pixels. Defaults to 640.
+        frameHeightIR : int, optional
+            Height of the IR frame in pixels. Defaults to 400.
+        frameRateIR : int, optional
+            Frame rate of the IR camera in frames per second. Defaults to 15.
+        focalLengthRGB : numpy.ndarray, optional
+            RGB Camera focal length in pixels. 
+            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
+        principlePointRGB : numpy.ndarray, optional
+            Principal point of the RGB camera in pixels. 
+            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
+        skewRGB : float, optional
+            Skew factor for the RGB camera. Defaults to None.
+        positionRGB : numpy.ndarray, optional
+            Position of the camera in the device's frame of reference. Should be a 3x1 array.
+            Defaults to `np.array([[None], [None], [None]], dtype=np.float64)`.
+        orientationRGB : numpy.ndarray, optional
+            Orientation of the camera in the device's frame of reference. Should be a 3x3 array.
+            Defaults to `np.array([[None, None, None], [None, None, None], [None, None, None]], dtype=np.float64)`.
+
+        focalLengthDepth : numpy.ndarray, optional
+            Depth Camera focal length in pixels. 
+            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
+        principlePointDepth : numpy.ndarray, optional
+            Principal point of the Depth camera in pixels. 
+            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
+        skewDepth : float, optional
+            Skew factor for the Depth camera. Defaults to None.
+        positionDepth : numpy.ndarray, optional
+            Position of the camera in the device's frame of reference. Should be a 3x1 array.
+            Defaults to `np.array([[None], [None], [None]], dtype=np.float64)`.
+        orientationDepth : numpy.ndarray, optional
+            Orientation of the camera in the device's frame of reference. Should be a 3x3 array.
+            Defaults to `np.array([[None, None, None], [None, None, None], [None, None, None]], dtype=np.float64)`.
+
+        Notes
+        -----
+        - Inherits functionality from `Camera3D`.
+        """
 
         if hardware:
             deviceId = str(deviceID)
         else:
-            deviceId = "0@tcpip://localhost:" + str(videoPortNumber)
+            deviceId = "0@tcpip://localhost:" + str(videoPort)
             frameWidthRGB = 640
             frameHeightRGB = 480
             frameRateRGB = 30
@@ -362,3 +492,18 @@ class QArmRealSense(Camera3D):
             positionDepth,
             orientationDepth
         )
+
+
+        """
+        Used for the `with` statement. Terminates the connection with the RealSense camera.
+
+        Parameters
+        ----------
+        type : Exception type
+            The exception type, if any.
+        value : Exception value
+            The exception value, if any.
+        traceback : Traceback
+            The traceback object, if any.
+        """
+        self.terminate()

@@ -3,6 +3,11 @@ from quanser.hardware.enumerations import BufferOverflowMode
 import numpy as np
 
 class Aero2():
+    """
+    Aero2 class for initialization, I/O, and termination.
+
+    This class provides an interface to configure and control the Aero2 platform.
+    """
 
     # write channels
     WRITE_ANALOG_CHANNELS = np.array([0, 1], dtype=np.uint32)
@@ -33,32 +38,37 @@ class Aero2():
     motorSpeed = np.zeros(2, dtype=np.float64)
     pitchRate, yawRate = np.zeros(2, dtype=np.float64)
 
-    def __init__(self, id=0, hardware=0, readMode=1, frequency=500, oneDOF=1):
-        """ This function configures and inititalizes the Aero 2.\n
+    def __init__(self, id=0, hardware=0, readMode=1, frequency=500):
+        """
+        Initializes and configures the Aero2 platform.
 
         Parameters
         ----------
-        id : int
-            The board identifier id number
-        hardware : 0 or 1
-            0 - uses the virtual Aero2. Ensure you have Quanser Interactive Labs launched
-            1 - uses the hardware Aero2
-        readMode : 0 or 1
-            0 - immediate I/O
-            1 - task-based I/O
-        frequency : int
-            Sampling frequency (used when readMode is set to 1 for task-based I/O)
-        oneDOF : 0 or 1
-            1 - 1-dof (pitch-only) mode of the Aero2. In this mode, you can only write voltages to motor 0
-            0 - 2-dof (pitch and yaw) mode of the Aero2. In this mode you can write volages to both
-                motor 0 and motor 1. Can be used for half-quad and 2dof-heli applications.
+        id : int, optional
+            The board identifier id number. Defaults to 0.
+        hardware : int, optional
+            0 for virtual Aero2 (requires Quanser Interactive Labs), 1 for hardware Aero2. Defaults to 0.
+        readMode : int, optional
+            0 for immediate I/O, 1 for task-based I/O. Defaults to 1.
+        frequency : int, optional
+            Sampling frequency (used when `readMode` is set to 1). Defaults to 500.
+
+        Raises
+        ------
+        HILError
+            If there is an error during initialization.
+
+        Notes
+        -----
+        - Aero can be used as 1 DOF, where yaw is fixed, pitch is freely moving.
+        - In 2-DOF mode, both pitch and yaw are free to move.
         """
+
         self.card = HIL()
         self._id = str(id)
         self.hardware = hardware
         self.readMode = readMode
         self.frequency = frequency
-        self.oneDOF = oneDOF
         self.samples = HIL.INFINITE
         self.samples_to_read = 1
 
@@ -159,7 +169,6 @@ class Aero2():
             self.pitchRate = 2*np.pi*self.readOtherBufer[8]/2880
             self.yawRate = 2*np.pi*self.readOtherBufer[9]/4096
 
-
     def write_led(self, color=np.array([1, 0, 0], dtype=np.float64)):
         """Use this to write LED values to the Aero2. \n
 
@@ -177,32 +186,35 @@ class Aero2():
         except HILError as h:
             print(h.get_error_message())
 
-
     def write_voltage(self, voltage0=0, voltage1=0):
-        """Use this to write voltage commands to the motors on the Aero2. \n
+        """
+        Writes voltage commands to the motors on the Aero2.
 
         Parameters
         ----------
         voltage0 : float
-            Voltage command sent to rotor 0
+            Voltage command sent to rotor 0. Must be between -15 and 15.
         voltage1 : float
-            voltage command sent to rotor 1
-
+            Voltage command sent to rotor 1. Must be between -15 and 15.
         """
         try:
-            if self.oneDOF: # for Aero2 in 1-DOF configuration
-                self.writeAnalogBuffer = np.array([np.clip(voltage0, -15, 15), 0], dtype=np.float64)
-            else: # for Aero2 in 2-DOF configuration
-                self.writeAnalogBuffer = np.array([np.clip(voltage0, -15, 15), np.clip(voltage1, -15, 15)], dtype=np.float64)
+            self.writeAnalogBuffer = np.array([np.clip(voltage0, -15, 15), np.clip(voltage1, -15, 15)], dtype=np.float64)
 
             self.card.write_analog(self.WRITE_ANALOG_CHANNELS, len(self.WRITE_ANALOG_CHANNELS), self.writeAnalogBuffer)
 
         except HILError as h:
             print(h.get_error_message())
 
-
     def terminate(self):
-        """Use this to terminate the Aero2 card. It terminates the task reader, sets final voltage values and LED color."""
+        """
+        Terminates the Aero2 card.
+
+        Notes
+        -----
+        - Stops the task reader if `readMode` is 1.
+        - Sets final voltage values and LED color.
+        """
+
         try:
             self.write_voltage(0, 0)
             self.write_led(np.array([1, 0, 0], dtype=np.float64))
@@ -218,3 +230,29 @@ class Aero2():
 
         except HILError as h:
             print(h.get_error_message())
+
+    def __enter__(self):
+        """
+        Used for the `with` statement.
+
+        Returns
+        -------
+        Aero2
+            The current instance of the class.
+        """
+        return self
+
+    def __exit__(self, type, value, traceback):
+        """
+        Used for the `with` statement. Terminates the connection with the Aero2.
+
+        Parameters
+        ----------
+        type : Exception type
+            The exception type, if any.
+        value : Exception value
+            The exception value, if any.
+        traceback : Traceback
+            The traceback object, if any.
+        """
+        self.terminate()

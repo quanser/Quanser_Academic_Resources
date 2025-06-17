@@ -21,7 +21,7 @@ PORTS = {"host": "18002",
 # Note that if using VRPN, you would need to ensure the VRPN Client block in
 # the MissionServerVRPN.slx has the IP pointing to the GroundPC IP address,
 # and then recompile the model to an RT model file.
-IPs = {"GroundPC": "192.168.2.88",
+IPs = {"GroundPC": "192.168.2.56",
         "QDrone2": "192.168.2.12"}
 
 # Set to 1 if you intend to use VRPN to fly the physical drone

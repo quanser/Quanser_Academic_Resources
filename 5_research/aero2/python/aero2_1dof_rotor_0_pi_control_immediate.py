@@ -53,7 +53,7 @@ scope1 = Scope(name="Commanded voltage", timeWindow=5, xLabel="Time(s)", yLabel=
 scope1.attachSignal(name="motor_0_input_voltage")
 
 # Initialize Aero2
-myAero2 = Aero2(id=0, hardware=0, readMode=0, frequency=500, oneDOF=1)
+myAero2 = Aero2(id=0, hardware=0, readMode=0, frequency=500)
 
 # timing - for immediate I/O define this after creating the Aero2 object
 startTime = time.time()

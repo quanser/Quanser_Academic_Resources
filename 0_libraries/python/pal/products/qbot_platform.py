@@ -51,7 +51,7 @@ class QBotPlatformDriver():
     COUNTS_PER_REV  = ENCODER_COUNTS*ENCODER_MODE
     LIDAR_POS_X = 8.75*0.0254
     LIDAR_POS_Y = 0
-    
+
     def __init__(self, mode=1, ip='192.168.2.15', driverPort=18888) -> None:
 
         # QBot reads
@@ -163,8 +163,8 @@ class QBotPlatformDriver():
 
 class Keyboard():
     def __init__(self,ip='localhost'):
-        self.wheelCmd  = np.zeros((2), dtype = np.float64) 
-        self.bodyCmd   = np.zeros((2), dtype = np.float64) 
+        self.wheelCmd  = np.zeros((2), dtype = np.float64)
+        self.bodyCmd   = np.zeros((2), dtype = np.float64)
         self.k_7       = np.zeros((1), dtype = np.float64) # "A" button
         self.k_u       = np.zeros((1), dtype = np.float64) # Right button
         self.k_space   = np.zeros((1), dtype = np.float64) # Left button
@@ -179,7 +179,7 @@ class Keyboard():
                                     recvBufferSize=1460,
                                     nonBlocking=True)
         self.status_check('', iterations=20)
-    
+
     def status_check(self, message, iterations=10):
         # blocking method to establish connection to the server stream.
         self._timeout = Timeout(seconds=0, nanoseconds=1000) #1000000
@@ -304,7 +304,7 @@ class QBotPlatformRealSense(Camera3D):
             frameHeightIR=480,
             frameRateIR=30.0,
             readMode=0,
-            video3dPort = 18965,
+            video3dPort = 18917,
             focalLengthRGB=np.array([[None], [None]], dtype=np.float64),
             principlePointRGB=np.array([[None], [None]], dtype=np.float64),
             skewRGB=None,
@@ -316,7 +316,7 @@ class QBotPlatformRealSense(Camera3D):
             skewDepth=None,
             positionDepth=np.array([[None], [None], [None]], dtype=np.float64),
             orientationDepth=np.array([[None, None, None], [None, None, None],
-                                       [None, None, None]], dtype=np.float64)            
+                                       [None, None, None]], dtype=np.float64)
         ):
 
         if IS_PHYSICAL_QBOTPLATFORM:

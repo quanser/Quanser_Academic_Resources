@@ -39,15 +39,15 @@ class RGBD: public rclcpp::Node
             return;
         }
 
-        // Configure ROS2 paramters 
+        // Configure ROS2 paramters
         this->parameterSetup();
 
-        // Read Parameters once node has started 
+        // Read Parameters once node has started
         this->getParameters();
 
         //Use device_type to automatically configure for virtual or physical, leave blank to use custom values
         if(device_type.compare("physical")==0){
-            camera_identifier = "0"; 
+            camera_identifier = "0";
         }
         else if (device_type.compare("virtual")==0)
         {
@@ -64,7 +64,7 @@ class RGBD: public rclcpp::Node
 
         // Logger info for user to be aware of how the camera was configured
         RCLCPP_INFO(this->get_logger(),"Camera identifier is: %s ",camera_identifier.c_str());
-        
+
 
         //Open the video3D device using the passed parameters
 		result = video3d_open(camera_identifier.c_str(), &capture);
@@ -75,31 +75,33 @@ class RGBD: public rclcpp::Node
             return;
         }
         else if (result>=0)
-        {   
-            // Open video3d stream  
+        {
+            // Open video3d stream
             result_rgb = video3d_stream_open(capture, VIDEO3D_STREAM_COLOR, 0, frame_rate_param, frame_width_rgb, frame_height_rgb, IMAGE_FORMAT_ROW_MAJOR_INTERLEAVED_BGR, IMAGE_DATA_TYPE_UINT8, &rgb_stream);
             result_depth = video3d_stream_open(capture, VIDEO3D_STREAM_DEPTH, 0, frame_rate_param, frame_width_depth, frame_height_depth, IMAGE_FORMAT_ROW_MAJOR_GRAYSCALE, IMAGE_DATA_TYPE_UINT16, &depth_stream);
             // RCLCPP_INFO(this->get_logger(),"Result_rgb, Result_depth: %i,%i ",result_rgb,result_depth);
-            
+
             if ((result_rgb >= 0) && (result_depth >= 0))
                 {
                     // Start streaming images from camera
                     result = video3d_start_streaming(capture);
                 }
-            else 
-            {   
-                msg_get_error_messageA(NULL, result, error_message, sizeof(error_message));
-                RCLCPP_ERROR(this->get_logger(), "streaming Error: %s", error_message);
+            else
+            {
+                msg_get_error_messageA(NULL, result_rgb, error_message, sizeof(error_message));
+                RCLCPP_ERROR(this->get_logger(), "streaming rgb Error: %s", error_message);
+                msg_get_error_messageA(NULL, result_depth, error_message, sizeof(error_message));
+                RCLCPP_ERROR(this->get_logger(), "streaming depth Error: %s", error_message);
                 return;
             }
         }
 
 
-        
+
         frame_rate_milliseconds = int((1/frame_rate_param)*1000.0);
         // Timer to publish images periodically
         timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(frame_rate_milliseconds), 
+            std::chrono::milliseconds(frame_rate_milliseconds),
             std::bind(&RGBD::publishImages, this)
         );
 
@@ -151,11 +153,11 @@ class RGBD: public rclcpp::Node
 
         rclcpp::Parameter camera_num_param  = this->get_parameter("camera_num");
         camera_num = camera_num_param.as_string();
-        
+
         rclcpp::Parameter device_num_param  = this->get_parameter("device_num");
         device_num = device_num_param.as_string();
 
-        frame_width_rgb = this->get_parameter("frame_width_rgb").as_int();        
+        frame_width_rgb = this->get_parameter("frame_width_rgb").as_int();
         frame_height_rgb = this->get_parameter("frame_height_rgb").as_int();
 
         frame_width_depth = this->get_parameter("frame_width_depth").as_int();
@@ -165,7 +167,7 @@ class RGBD: public rclcpp::Node
         frame_rate_param = this->get_parameter("frame_rate").as_double();
 
     }
-  
+
     void ImageTransportSetup(){
 
         // Now that we are sure the node is a shared_ptr, we can use shared_from_this()
@@ -175,16 +177,16 @@ class RGBD: public rclcpp::Node
         rgb_pub_ = it.advertise("camera/color_image", 1);
         depth_pub_ = it.advertise("camera/depth_image", 1);
     }
-    
-    
+
+
     ~RGBD()
-    {   
+    {
         int result;
 
         result = video3d_close(capture);
         if (result <0)
             RCLCPP_ERROR(this->get_logger(),"Closing the RGBD camera with error: %d", result);
-        
+
         node_running = false;
         RCLCPP_INFO(this->get_logger(),"rgbd exit");
 
@@ -200,9 +202,9 @@ class RGBD: public rclcpp::Node
 
 
         if ((buffer_rgb != NULL) && (buffer_depth != NULL))
-	    {   
+	    {
 
-            // if the image buffers area not NULL then let's generate RGB and depth info based on video3d get frame  
+            // if the image buffers area not NULL then let's generate RGB and depth info based on video3d get frame
             t_video3d_frame rgb_frame;
             t_video3d_frame depth_frame;
 
@@ -227,7 +229,7 @@ class RGBD: public rclcpp::Node
                         msg->header.stamp = this->get_clock()->now();
                         msg->header.frame_id = "color_image";
                         rgb_pub_.publish(*msg);
-                    }    
+                    }
                 }
                 else
                 {
@@ -258,7 +260,7 @@ class RGBD: public rclcpp::Node
                 if (result >= 0)
                 {
                     depth_matrix = cv::Mat(frame_height_depth, frame_width_depth, CV_16UC1, buffer_depth);
-                    
+
                     // Check if grabbed frame is actually full with some content
                     if (!depth_matrix.empty())
                     {
@@ -266,14 +268,14 @@ class RGBD: public rclcpp::Node
                         msg->header.stamp = this->get_clock()->now();
                         msg->header.frame_id = "depth_image";
                         depth_pub_.publish(*msg);
-                    }    
+                    }
                 }
                 else
                 {
                     msg_get_error_messageA(NULL, result, error_message, ARRAY_LENGTH(error_message));
                     RCLCPP_ERROR(this->get_logger(), "Error getting data from depth frame: %d -> %s", result, error_message);
                 }
-                
+
                 video3d_frame_release(depth_frame);
             }
             else
@@ -299,7 +301,7 @@ class RGBD: public rclcpp::Node
     rcl_interfaces::msg::SetParametersResult set_parameters_callback(const std::vector<rclcpp::Parameter> & parameters)
     {
         rcl_interfaces::msg::SetParametersResult result;
-        
+
         result.successful = true;
 
         // Loop through the parameters....can happen if set_parameters_atomically() is called
@@ -362,11 +364,11 @@ class RGBD: public rclcpp::Node
                 }
             }
         }
-        
+
         return result;
     }
 
-        // check for node running 
+        // check for node running
         bool node_running = false;
 
         // parameters change callback
@@ -378,8 +380,8 @@ class RGBD: public rclcpp::Node
 
         // Used for identifying quarc error message
         char error_message[1024];
-        
-        
+
+
         // parameters that cannot be changed once node is running
         std::string camera_num_identifier = "0";
         std::string device_num_identifier = "";
@@ -390,13 +392,13 @@ class RGBD: public rclcpp::Node
         std::string device_num;
 
 
-        std::string camera_identifier = " ";    
+        std::string camera_identifier = " ";
         t_uint32 frame_width_rgb = 1280;
         t_uint32 frame_height_rgb = 720;
         t_uint32 frame_width_depth = 1280;
         t_uint32 frame_height_depth = 720;
         t_double frame_rate_param = 30.0;
-        
+
         t_uint8  *buffer_rgb;
         t_uint16 *buffer_depth;
 
@@ -405,11 +407,11 @@ class RGBD: public rclcpp::Node
         t_video3d_stream rgb_stream;
         t_video3d_stream depth_stream;
 
-        
+
         // Image publishers
         image_transport::Publisher rgb_pub_;
         image_transport::Publisher depth_pub_;
-        
+
         // Timer for periodic publishing
         rclcpp::TimerBase::SharedPtr timer_;
 

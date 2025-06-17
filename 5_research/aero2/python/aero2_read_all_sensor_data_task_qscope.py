@@ -44,7 +44,7 @@ add_scope_signals(qscope, ["pitch_angle", "yaw_angle"], 5)
 add_scope_signals(qscope, ["pitch_rate", "yaw_rate"], 6)
 
 # Initialize Aero2
-myAero2 = Aero2(id='0', hardware=0, readMode=1, frequency=500, oneDOF=0)
+myAero2 = Aero2(id='0', hardware=0, readMode=1, frequency=500)
 
 try:
     while timestamp < runTime:

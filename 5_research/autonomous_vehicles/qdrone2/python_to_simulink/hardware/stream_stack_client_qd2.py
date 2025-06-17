@@ -1,10 +1,9 @@
 from pal.products.qdrone2 import QDrone2StreamStack
-from pal.utilities.keyboard import KeyBoardDriver
-import os
+from q_setup import IPs
 import time
 
-ipServer = 'localhost'
-# ipServer = '192.168.2.13'
+# ipServer = 'localhost'
+ipServer = IPs["GroundPC"]
 
 qd2DataClient = QDrone2StreamStack(ip=ipServer)
 
@@ -17,7 +16,6 @@ try:
         new = qd2DataClient.read(timestamp= time.time() - startTime)
 
         if new:
-            os.system('cls')
             print('IMU_0 Accelerometer & Gyroscope: ', qd2DataClient.imu_0_raw)
             # print('IMU_1 Accelerometer & Gyroscope: ', qd2DataClient.imu_1_raw)
             # print('IMU_0 derived state vec (rad, rad/s, rad/s/s)', qd2DataClient.state_vec_0)

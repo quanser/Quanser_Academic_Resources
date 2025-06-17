@@ -34,7 +34,7 @@ private:
     t.transform.translation.z = 0.0;
 
     tf2::Quaternion q;
-    q.setRPY(0.0, 0.0, 3.14);
+    q.setRPY(0.0, 0.0, -3.14159265359);
 
     t.transform.rotation.x = q.x();
     t.transform.rotation.y = q.y();

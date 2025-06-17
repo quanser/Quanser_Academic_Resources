@@ -21,7 +21,7 @@ def main():
     uri = "tcpip://localhost:{}".format(q_setup.PORTS["joystick"])
     myqdrone = JoystickCommands(uri=uri)
 
-    # # start mission server
+    # start mission server
     if q_setup.USE_VRPN:
         os.system("quarc_run -D -r -t tcpip://{}:17000 rtmodels/MissionServerVRPN.rt-win64 \
             -uri tcpip://{}:17001 -URI_Host tcpip://{}:{}".format(IPs["GroundPC"], IPs["GroundPC"], IPs["GroundPC"], q_setup.PORTS["host"]))

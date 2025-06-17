@@ -16,7 +16,7 @@ clc;
 % --------------------------------------------------------------
 % Setting MATLAB Path for the libraries
 % Always keep at the start, it will make sure it finds the correct references
-newPathEntry = fullfile(getenv('QAL_DIR'), 'libraries', 'matlab', 'qvl');
+newPathEntry = fullfile(getenv('QAL_DIR'), '0_libraries', 'matlab', 'qvl');
 pathCell = regexp(path, pathsep, 'split');
 if ispc  % Windows is not case-sensitive
   onPath = any(strcmpi(newPathEntry, pathCell));

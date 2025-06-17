@@ -70,8 +70,7 @@ class QDrone2StreamStack():
             # once you connect, self._handle.connected goes True, and you
             # leave this loop.
 
-    def read(self,
-            timestamp):
+    def read(self, timestamp):
 
         # data received flag
         new = False

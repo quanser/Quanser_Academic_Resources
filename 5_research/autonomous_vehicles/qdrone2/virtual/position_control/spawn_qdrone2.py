@@ -28,11 +28,9 @@ def main():
     qlabs = QuanserInteractiveLabs()
 
     print("Connecting to QLabs...")
-    try:
-        qlabs.open("localhost")
-    except:
+    if (not qlabs.open("localhost")):
         print("Unable to connect to QLabs")
-        return
+        return    
 
     print("Connected")
 

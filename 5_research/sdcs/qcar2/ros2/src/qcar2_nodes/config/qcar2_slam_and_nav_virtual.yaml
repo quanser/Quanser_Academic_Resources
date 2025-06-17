@@ -1,4 +1,4 @@
-
+  
 bt_navigator:
   ros__parameters:
     use_sim_time: True
@@ -60,9 +60,9 @@ bt_navigator:
       - nav2_drive_on_heading_cancel_bt_node
       - nav2_is_battery_charging_condition_bt_node
 
-bt_navigator_navigate_through_poses_rclcpp_node:
-  ros__parameters:
-    use_sim_time: True
+# bt_navigator_navigate_through_poses_rclcpp_node:
+#   ros__parameters:
+#     use_sim_time: True
 
 bt_navigator_navigate_to_pose_rclcpp_node:
   ros__parameters:
@@ -70,7 +70,7 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 
 controller_server:
   ros__parameters:
-    controller_frequency: 100.0
+    controller_frequency: 50.0
     costmap_update_timeout: 0.30
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.1
@@ -95,20 +95,20 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
+      xy_goal_tolerance: 0.3
       yaw_goal_tolerance: 0.25
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 56
-      model_dt: 0.05
+      model_dt: 0.02
       batch_size: 2000
       vx_std: 0.2
       vy_std: 0.2
       wz_std: 0.4
-      vx_max: 0.01
-      vx_min: -0.01
+      vx_max: 0.3
+      vx_min: -0.3
       vy_max: 0.0
-      wz_max: 1.9
+      wz_max: 1.0
       ax_max: 3.0
       ax_min: -3.0
       ay_max: 3.0
@@ -119,13 +119,13 @@ controller_server:
       temperature: 0.3
       gamma: 0.015
       motion_model: "Ackermann"
-      visualize: false
+      visualize: true
       regenerate_noises: true
       TrajectoryVisualizer:
         trajectory_step: 5
         time_step: 3
       AckermannConstraints:
-        min_turning_r: 1.0
+        min_turning_r: 0.1
 
       critics: [
         "ConstraintCritic", "GoalCritic",
@@ -170,8 +170,8 @@ controller_server:
         cost_power: 1
         cost_weight: 2.0
         offset_from_furthest: 4
-        threshold_to_consider: 0.5
-        max_angle_to_furthest: 1.0
+        threshold_to_consider: 3.14
+        max_angle_to_furthest: 1.51
         mode: 0
       # TwirlingCritic:
       #   enabled: true
@@ -326,16 +326,3 @@ waypoint_follower:
       enabled: True
       waypoint_pause_duration: 200
 
-# velocity_smoother:
-#   ros__parameters:
-#     smoothing_frequency: 100.0
-#     scale_velocities: False
-#     feedback: "OPEN_LOOP"
-#     max_velocity: [0.1, 0.0, 1.0]
-#     min_velocity: [-0.1, 0.0, -1.0]
-#     max_accel: [2.5, 0.0, 3.2]
-#     max_decel: [-2.5, 0.0, -3.2]
-#     odom_topic: "odom"
-#     odom_duration: 0.1
-#     deadband_velocity: [0.0, 0.0, 0.0]
-#     velocity_timeout: 1.0
