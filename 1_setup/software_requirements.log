@@ -1,0 +1,25 @@
+Resources 
+================================ 
+Content to Download: Teaching Resources, Research Resources 
+User Product Selection: 1_Controls, 2_Robotics, 3_Autonomous_System 
+ 
+Requirements and System Diagnostics Log 
+================================ 
+Language: Python, Mat/Sim 
+Platform: Hardware, Virtual 
+QUARC: Required 
+QSDK: Not Required 
+QLabs: Required 
+MATLAB/Simulink: Required 
+Python: Required 
+ 
+User System 
+================================ 
+QUARC_user: Installed 
+QSDK_user: Not Installed 
+QLabs_user: Installed 
+MATLAB/Simulink_user: R2024b 
+Python_user: 3.11 
+Visual Studio_user: 2022 
+ 
+STATUS: PASSED  

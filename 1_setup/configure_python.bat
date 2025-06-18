@@ -45,6 +45,8 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
                 echo !requirement!: Required and Installed
             ) else if "!installed_status!"=="3.11" (
                 echo !requirement!: Required and Installed
+            ) else if "!installed_status!"=="3.13" (
+                echo !requirement!: Required and Installed
             ) else (
                 if "!requirement!"=="QUARC" (
                     echo !requirement!: Required and Missing
@@ -83,7 +85,11 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             ) else if "!installed_status!"=="3.11" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
-            ) else (
+            ) else if "!installed_status!"=="3.13" (
+                echo !requirement!: Not Required but Installed
+                set "not_required_installed=!not_required_installed! !requirement!"
+            )
+            else (
                 echo !requirement!: Not Required and Missing
             )
         )
@@ -99,8 +105,10 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
                 echo !requirement!: Optional but is installed
             ) else if "!installed_status!"=="3.11" (
                 echo !requirement!: Optional but is installed
+            ) else if "!installed_status!"=="3.13" (
+                echo !requirement!: Optional but is installed
             ) else (
-                echo !requirement!: Optional and is Missing
+                  echo !requirement!: Optional and is Missing
             )
         )
     )
