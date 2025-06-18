@@ -40,9 +40,14 @@ These steps are only necessary if you are not using hardware, and using virtual 
 - If you are going to use Quanser's virtual devices, download [Quanser Interactive Labs](https://qlabs.quanserdocs.com/en/latest/Get%20Started.html).
 
 # Completing the Setup
-- Once you have the necessary software in your computer, go to your Quanser folder with these resources and open the `1_setup` folder. Run `configure_matlab.bat` and/or `configure_python.bat` depending on the language you will use. 
 
-- This will update environment variables on your system; restart your computer after running these files.
+1. If you had to download any new software, restart your computer before continuing to make sure changes are recognized by the system. 
+
+2. Once you have the necessary software in your computer, go to your Quanser folder with these resources and open the `1_setup` folder. Run `step_1_check_requirements`, this will make sure your computer has all the necessary files for the language/configuration you will use. This will generate a log file. 
+
+3. Afterwards, run `configure_matlab.bat` and/or `configure_python.bat` depending on the language you will use. 
+
+4. This will update environment variables on your system; restart your computer after running these files.
 
 
 <p align="left"><a href="../README.md#setting-up-your-computer"><sup>Back To Guide</sup></a>
