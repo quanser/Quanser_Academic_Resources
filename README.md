@@ -70,53 +70,7 @@ For setup for any other device listed below, please refer to the [Getting Starte
     - QArm
     - Qube-Servo 3
 
-For content for all other products, see the next section.
 
 # Resources For Older Products
-
-For older products, the resources are hosted externally, you can download the resources through the following links.
-
-- QUBE-Servo 2:  [Courseware Resources](https://quanserinc.box.com/shared/static/08vjgurb59omat6s1xd9u42m1xhko199.zip), [Technical Resources](https://quanserinc.box.com/shared/static/jewhkc82kbgng0la81mx74dilriv4dw0.zip)
-
-- Rotary Servo: 
-    - Base Unit: [Courseware Resources](https://quanserinc.box.com/shared/static/r5glf8227zrew7zz12ja1zoo2ykzpuez.zip), [Technical Resources](https://quanserinc.box.com/shared/static/cxv0li2yc41y8fvvx50d4srybf8f7b0c.zip)
-
-    - Rotary Inverted Pendulum Module: [Courseware Resources](https://quanserinc.box.com/shared/static/9dj8y8uvh7mzpwcc0yykyd11mbweb90l.zip), [Technical Resources](https://quanserinc.box.com/shared/static/w3jp1ji98ls4xotp5npvf2sgu0gcayvq.zip)
-
-    - Ball And Beam Module: [Courseware Resources](https://quanserinc.box.com/shared/static/jrkdx93rx0xwlhfjicv3ivwjc07dtwwl.zip), [Technical Resources](https://quanserinc.box.com/shared/static/t0a9eico3jjwvdftwatqhx871hn2vqx1.zip)
-
-    - Rotary Flexible Link Module: [Courseware Resources](https://quanserinc.box.com/shared/static/voo9kvjtds61ua3m36g1tkr4hy24pllb.zip), [Technical Resources](https://quanserinc.box.com/shared/static/5y8ly762srhpbp4lah8bq1i573ovyznu.zip)
-
-- Coupled Tanks: [Courseware Resources](https://quanserinc.box.com/shared/static/lrvhuk8s3wtiyuw2q78v44ospshebfen.zip), [Technical Resources](https://quanserinc.box.com/shared/static/4gbeztln1rh6ar9nggjy9fmqjulfs94k.zip)
-
-- Shake Table II: [Courseware Resources](https://quanserinc.box.com/shared/static/sy1a72xpdw63e2cknmflbd2m18ptxje2.zip), [Technical Resources](https://quanserinc.box.com/shared/static/kt5spcgfl24nwid4rvtjj12h8rsm9s3o.zip)
-
-- Shake Table II with Active Mass Damper:
-    - Shake Table II and AMD01 (one story, one cart): [Resources](https://quanserinc.box.com/s/9ztb4netcxl5aw36bdxhp3kxfgwbh4vh)
-
-    - Shake Table II and AMD02 (two story, one cart on top): [Resources](https://quanserinc.box.com/s/35sl2mr42pc2s5ggf0sgegt7gtzbm4g3)
-
-    - Shake Table II and 2xAMD01 (two story, two cart): [Resources](https://quanserinc.box.com/s/tg6galgzkzzrj2ovdgxc8s4np9mlatxf)
-
- **_For any other product not listed above, please visit the Quanser Website for [resources](https://www.quanser.com/resources/)._**
-
-# Resources For Older Products (Quanser Website)
-
-For older products, the resources are hosted externally, you can download the resources through the following links.
-
-- QUBE-Servo 2:  [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5671), [Virtual Resources](https://www.quanser.com/resource-type/virtual-resources/?_products=5882), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5671)
-
-- Rotary Servo: 
-    - Base Unit: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5813), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5813)
-
-    - Rotary Inverted Pendulum Module: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5809), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5809)
-
-    - Ball And Beam Module: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5716), [Virtual Resources](https://www.quanser.com/resource-type/virtual-resources/?_products=5892), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5716)
-
-    - Rotary Flexible Link Module: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5807), [Virtual Resources](https://www.quanser.com/resource-type/virtual-resources/?_products=5899), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5807)
-
-- Coupled Tanks: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5719), [Virtual Resources](https://www.quanser.com/resource-type/virtual-resources/?_products=5894), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5719)
-
-- Shake Table II: [Courseware Resources](https://www.quanser.com/resource-type/academic-resources/?_products=5821), [Technical Resources](https://www.quanser.com/resource-type/technical-resources/?_products=5821)
 
  **_For any other product not listed above, please visit the Quanser Website for [resources](https://www.quanser.com/resources/)._**
