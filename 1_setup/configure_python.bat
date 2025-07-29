@@ -88,8 +88,7 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             ) else if "!installed_status!"=="3.13" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
-            )
-            else (
+            ) else (
                 echo !requirement!: Not Required and Missing
             )
         )
