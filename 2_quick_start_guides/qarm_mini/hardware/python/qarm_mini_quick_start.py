@@ -6,7 +6,7 @@
 # imports
 import numpy as np
 from pal.products.qarm_mini import QArmMini
-from hal.products.qarm_mini import QArmMiniKeyboardNavigator, \
+from hal.content.qarm_mini import QArmMiniKeyboardNavigator, \
                                    QArmMiniFunctions
 from pal.utilities.keyboard import QKeyboard
 from pal.utilities.timing   import QTimer
