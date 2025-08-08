@@ -4,7 +4,7 @@
 # Use the hardware_test_basic_io.py to troubleshoot uses trying to drive the QCar.
 
 from pal.products.qcar import QCar
-from pal.utilities.gamepad import LogitechF710
+from pal.utilities.keyboard import KeyboardDrive,QKeyboard
 from pal.utilities.math import *
 
 import os
@@ -25,6 +25,7 @@ print('Sample Time: ', sampleTime)
 
 # Additional parameters
 counter = 0
+timeStep = sampleTime
 
 # Initialize motor command array
 QCarCommand = np.array([0,0])
@@ -35,48 +36,43 @@ _ = next(diff)
 timeStep = sampleTime
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-## QCar and Gamepad Initialization
+## QCar and keyboard Initialization
 # Changing readmode to 0 to use imediate I/O
 readMode = 0
 
 myCar = QCar(readMode=readMode)
-gpad = LogitechF710()
+kb = QKeyboard()
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-## Driving Configuration: Use 3 toggles or 4 toggles mode as you see fit:
-# Common to both 3 or 4 mode
-#   Steering                    - Left Lateral axis
-#   Arm                         - buttonLeft
-# In 3 mode:
-#   Throttle (Drive or Reverse) - Right Longitudonal axis
-# In 4 mode:
-#   Throttle                    - Right Trigger (always positive)
-#   Button A                    - Reverse if held, Drive otherwise
-configuration = '4' # change to '4' if required
+## Driving Configuration: Use 0 or 1.
+# In 0 mode:
+#   Arm with Space Bar, drive with "WASD" keys
+# In 1 mode:
+#   Arm with Space Bar, drive with arrow keys
+
+configuration = 1
+kbdrive = KeyboardDrive(mode=configuration,maxThrottle=0.2,maxSteer=0.2)
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 # Reset startTime before Main Loop
 startTime = time.time()
 
-## Main Loop
+## Main Loop 
 try:
     while elapsed_time() < simulationTime:
         # Start timing this iteration
         start = elapsed_time()
 
-        # Read Gamepad states
-        new = gpad.read()
+        # Read Keyboard states
+        kb.update()
 
         # Basic IO - write motor commands
-        if configuration == '3':
-            if new and gpad.buttonLeft:
-                QCarCommand = np.array([0.3*gpad.rightJoystickY, 0.5*gpad.leftJoystickX])
-        elif configuration == '4':
-            if new and gpad.buttonLeft:
-                if gpad.buttonA:
-                    QCarCommand = np.array([-0.3*gpad.trigger, 0.5*gpad.leftJoystickX])
-                else:
-                    QCarCommand = np.array([0.3*gpad.trigger, 0.5*gpad.leftJoystickX])
+        if kb.states[kb.K_SPACE]:
+            steering, throttle = kbdrive.update(kb)
+            QCarCommand = np.array([throttle, steering])
+        else:
+            QCarCommand = np.array([0, 0])
+
         LEDs = np.array([0, 0, 0, 0, 0, 0, 1, 1])
 
         # Adjust LED indicators based on steering and reverse indicators based on reverse gear
@@ -109,10 +105,9 @@ try:
         # Pause/sleep and print out the current timestamp
         time.sleep(sleepTime)
 
-        if new:
-            os.system('cls')
-            print("Car Speed:\t\t\t{0:1.2f}\tm/s\nRemaining battery capacity:\t{1:4.2f}\t%\nMotor throttle:\t\t\t{2:4.2f}\t% PWM\nSteering:\t\t\t{3:3.2f}\trad"
-                                                            .format(linearSpeed, 100 - (batteryVoltage - 10.5)*100/(12.6 - 10.5), QCarCommand[0], QCarCommand[1]))
+        os.system('cls')
+        print("Car Speed:\t\t\t{0:1.2f}\tm/s\nRemaining battery capacity:\t{1:4.2f}\t%\nMotor throttle:\t\t\t{2:4.2f}\t% PWM\nSteering:\t\t\t{3:3.2f}\trad"
+                                                        .format(linearSpeed, 100 - (batteryVoltage - 10.5)*100/(12.6 - 10.5), QCarCommand[0], QCarCommand[1]))
         timeAfterSleep = elapsed_time()
         timeStep = timeAfterSleep - start
         counter += 1
@@ -122,5 +117,4 @@ except KeyboardInterrupt:
 
 finally:
     myCar.terminate()
-    gpad.terminate()
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

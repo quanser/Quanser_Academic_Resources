@@ -5,6 +5,7 @@ import time
 import numpy as np
 import subprocess
 from pal.utilities.stream import BasicStream
+from quanser.devices import Keyboard, KeyState, VirtualKeyCodes
 
 class PygameKeyboard():
     def __init__(self):
@@ -59,27 +60,40 @@ class PygameKeyboard():
         pygame.quit()
 
 class KeyboardDrive():
-    def __init__(self,maxThrottle=0.2,maxSteer=0.1):
+    def __init__(self,mode=0,maxThrottle=0.2,maxSteer=0.1):
         self.deceleration = 0.1
         self.aceleration = 0.2
         self.key_throttle = 0
         self.key_steer = 0
         self.max_throttle = maxThrottle
         self.max_steer = maxSteer
+        self.mode = mode
 
-    def update(self,keyb):
-        if keyb.k_w or keyb.k_s:
-            sign=int(keyb.k_w)-int(keyb.k_s)
+    def update(self,kb):
+        
+        if self.mode == 0:
+            forward = kb.states[kb.K_W]
+            backword = kb.states[kb.K_S]
+            left = kb.states[kb.K_A]
+            right = kb.states[kb.K_D]
+        elif self.mode == 1:
+            forward = kb.states[kb.K_UP]
+            backword = kb.states[kb.K_DOWN]
+            left = kb.states[kb.K_LEFT]
+            right = kb.states[kb.K_RIGHT]
+        
+        if forward or backword:
+            sign=int(forward)-int(backword)
         else:
             sign = np.sign(self.key_throttle)
-        self.key_throttle += (int(keyb.k_w)-int(keyb.k_s))*0.2 - self.deceleration*sign
+        self.key_throttle += (int(forward)-int(backword))*0.2 - self.deceleration*sign
         self.key_throttle = np.clip(self.key_throttle,-self.max_throttle,self.max_throttle)
 
-        if keyb.k_a or keyb.k_d:
-            sign=int(keyb.k_a)-int(keyb.k_d)
+        if left or right:
+            sign=int(left)-int(right)
         else:
             sign = np.sign(self.key_steer)
-        self.key_steer += (int(keyb.k_a)-int(keyb.k_d))*0.2 - self.deceleration*sign
+        self.key_steer += (int(left)-int(right))*0.2 - self.deceleration*sign
         self.key_steer = np.clip(self.key_steer,-self.max_steer,self.max_steer)
         return self.key_steer,self.key_throttle
 
@@ -209,3 +223,94 @@ class KeyBoardDriver():
     def terminate(self):
         '''This method terminates the Keyboard and it's client gracefully.'''
         self.client.terminate()
+
+class QKeyboard():
+
+    K_SPACE = 0
+    K_HOME  = 1
+    K_ESC   = 2
+    K_UP    = 3
+    K_DOWN  = 4
+    K_RIGHT = 5
+    K_LEFT  = 6
+    K_W     = 7
+    K_S     = 8
+    K_D     = 9
+    K_A     = 10
+    K_X     = 11
+    K_Y     = 12
+    K_Z     = 13
+    K_G     = 14
+    K_F     = 15
+    K_R     = 16
+    K_T     = 17
+    K_NP0   = 18
+    K_NP1   = 19
+    K_NP2   = 20
+    K_NP3   = 21
+    K_NP4   = 22
+    K_NP5   = 23
+    K_NP6   = 24
+    K_NP7   = 25
+    K_NP8   = 26
+    K_NP9   = 27
+    K_0     = 28
+    K_1     = 29
+    K_2     = 30
+    K_3     = 31
+    K_4     = 32
+    K_5     = 33
+    K_6     = 34
+    K_7     = 35
+    K_8     = 36
+    K_9     = 37
+
+    def __init__(self):
+        self.kbd = Keyboard()
+
+        self.keys = np.array([VirtualKeyCodes.VK_SPACE,
+                         VirtualKeyCodes.VK_HOME,
+                         VirtualKeyCodes.VK_ESCAPE,
+                         VirtualKeyCodes.VK_UP,
+                         VirtualKeyCodes.VK_DOWN,
+                         VirtualKeyCodes.VK_RIGHT,
+                         VirtualKeyCodes.VK_LEFT,
+                         VirtualKeyCodes.VK_W,
+                         VirtualKeyCodes.VK_S,
+                         VirtualKeyCodes.VK_D,
+                         VirtualKeyCodes.VK_A,
+                         VirtualKeyCodes.VK_X,
+                         VirtualKeyCodes.VK_Y,
+                         VirtualKeyCodes.VK_Z,
+                         VirtualKeyCodes.VK_G,
+                         VirtualKeyCodes.VK_F,
+                         VirtualKeyCodes.VK_R,
+                         VirtualKeyCodes.VK_T,
+                         VirtualKeyCodes.VK_NUMPAD0,
+                         VirtualKeyCodes.VK_NUMPAD1,
+                         VirtualKeyCodes.VK_NUMPAD2,
+                         VirtualKeyCodes.VK_NUMPAD3,
+                         VirtualKeyCodes.VK_NUMPAD4,
+                         VirtualKeyCodes.VK_NUMPAD5,
+                         VirtualKeyCodes.VK_NUMPAD6,
+                         VirtualKeyCodes.VK_NUMPAD7,
+                         VirtualKeyCodes.VK_NUMPAD8,
+                         VirtualKeyCodes.VK_NUMPAD9,
+                         VirtualKeyCodes.VK_0,
+                         VirtualKeyCodes.VK_1,
+                         VirtualKeyCodes.VK_2,
+                         VirtualKeyCodes.VK_3,
+                         VirtualKeyCodes.VK_4,
+                         VirtualKeyCodes.VK_5,
+                         VirtualKeyCodes.VK_6,
+                         VirtualKeyCodes.VK_7,
+                         VirtualKeyCodes.VK_8,
+                         VirtualKeyCodes.VK_9], dtype=np.int32)
+        self.states_raw = self.kbd.createBuffer(len(self.keys))
+        self.update()
+
+    def update(self):
+        self.kbd.getKeyStates(self.keys, self.states_raw)
+        self.states = self.states_raw
+        for idx, key in enumerate(self.states_raw):
+            self.states[idx] = bool(key and KeyState.KEY_DOWN)

@@ -74,11 +74,10 @@ try:
         elif configuration == '4':
             if new and gpad.buttonLeft:
                 if gpad.buttonA:
-                    QCarCommand = np.array([0.1*(gpad.trigger-0.5) ,
-                                            0.5*gpad.leftJoystickX])
+                    QCarCommand = np.array([-0.3*gpad.trigger, 0.5*gpad.leftJoystickX])
                 else:
-                    QCarCommand = np.array([ 0.1 *-(gpad.trigger-0.5),
-                                            0.5*gpad.leftJoystickX])
+                    QCarCommand = np.array([0.3*gpad.trigger, 0.5*gpad.leftJoystickX])
+                    
         LEDs = np.array([0, 0, 0, 0, 0, 0, 1, 1])
 
         # Adjust LED indicators based on steering and reverse indicators based on reverse gear

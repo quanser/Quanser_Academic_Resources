@@ -128,7 +128,7 @@ class QLabsPerson(QLabsCharacter):
         c.actorFunction = self.FCN_PERSON_GET_COLLISION_COUNT
         c.payload = bytearray()
         
-        count = -1;
+        count = -1
 
         c.containerSize = c.BASE_CONTAINER_SIZE + len(c.payload)
 

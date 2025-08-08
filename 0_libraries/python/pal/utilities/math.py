@@ -330,7 +330,7 @@ class Calculus:
                 if temp < saturation and temp > -saturation:
                     integrand = temp
 
-    def integrator_variable(self, dt, integrand=0):
+    def integrator_variable(self, dt, integrand=0, minSaturation=-np.inf, maxSaturation=np.inf):
         """Iterative numerical integrator.
 
         Provide the sample time (s), and use the .send(value) method
@@ -351,7 +351,24 @@ class Calculus:
         """
         while True:
             x, dt = yield integrand
-            integrand = integrand + x * dt
+            temp = integrand + x * dt
+            if temp < maxSaturation and temp > minSaturation:
+                integrand = temp
+
+class Integrator:
+    def __init__(self, integrand=0, minSaturation=-np.inf, maxSaturation=np.inf):
+        self.maxSaturation = maxSaturation
+        self.minSaturation = minSaturation
+        self.integrand = integrand
+
+    def integrate(self, rate, timestep):
+        temp = self.integrand + rate * timestep
+        if temp < self.maxSaturation and temp > self.minSaturation:
+            self.integrand = temp
+        return self.integrand
+
+    def reset(self, resetValue):
+        self.integrand = resetValue
 
 class Filter:
     """Class object consisting of different filter functions"""

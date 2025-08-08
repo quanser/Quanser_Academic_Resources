@@ -147,7 +147,7 @@ class QLabsAnimal(QLabsCharacter):
         c.actorFunction = self.FCN_ANIMAL_GET_COLLISION_COUNT
         c.payload = bytearray()
         
-        count = -1;
+        count = -1
 
         c.containerSize = c.BASE_CONTAINER_SIZE + len(c.payload)
 

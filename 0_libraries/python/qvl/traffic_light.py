@@ -72,34 +72,13 @@ class QLabsTrafficLight(QLabsActor):
         :rtype: boolean
 
         """
-
         if (not self._is_actor_number_valid()):
             return False
         
         if self.deprecation_warned == False:
             print("The set_state method and the STATE member constants have been deprecated and will be removed in a future version of the API. Please use set_color with the COLOR member constants instead.")
-            self.deprecation_warned = True
 
-        c = CommModularContainer()
-        c.classID = self.ID_TRAFFIC_LIGHT
-        c.actorNumber = self.actorNumber
-        c.actorFunction = self.FCN_TRAFFIC_LIGHT_SET_STATE
-        c.payload = bytearray(struct.pack(">B", state))
-        c.containerSize = c.BASE_CONTAINER_SIZE + len(c.payload)
 
-        if waitForConfirmation:
-            self._qlabs.flush_receive()
-
-        if (self._qlabs.send_container(c)):
-            if waitForConfirmation:
-                c = self._qlabs.wait_for_container(self.ID_TRAFFIC_LIGHT, self.actorNumber, self.FCN_TRAFFIC_LIGHT_SET_STATE_ACK)
-                if (c == None):
-                    return False
-
-            return True
-        else:
-            return False
-        
 
     def set_color(self, color, waitForConfirmation=True):
         """Set the light color index of a traffic light actor
