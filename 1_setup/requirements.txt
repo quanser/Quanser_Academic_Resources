@@ -9,3 +9,4 @@ pyqtgraph
 keyboard
 scikit-learn
 pandas
+pygame
