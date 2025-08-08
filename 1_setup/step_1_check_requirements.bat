@@ -522,7 +522,7 @@ goto :sys_diag_complete
 set CHECK_FAIL=0 
 echo Checking what is presently installed in the Local Machine...
 ::call :check_var QUARC_DIR QUARC
-set "quarc_dir=C:\Program Files\Quanser\QUARC\quarc"
+set "quarc_dir=C:\Program Files\Quanser\QUARC\quarc_run.exe"
 if exist "%quarc_dir%" ( set "QUARC=%CHECK%") else ( set "QUARC=%CROSS%")
 ::call :check_var QSDK_DIR QSDK
 set "qsdk_dir=C:\Program Files\Quanser\Quanser SDK"

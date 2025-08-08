@@ -3,7 +3,6 @@ from quanser.hardware import HIL, HILError, MAX_STRING_LENGTH, Clock
 from quanser.hardware.enumerations import BufferOverflowMode
 from pal.utilities.vision import Camera3D
 
-
 class QArm():
     """
     QArm class for initialization, I/O, and termination.
@@ -14,6 +13,13 @@ class QArm():
     - Use the `read_write_std` method for standard I/O operations.
     - Use the `terminate` method to cleanly shut down the QArm.
     """
+
+    '''QArm class for initialization, I/O and termination'''
+    HOME_POSE  = np.array([0, 0, 0, 0], dtype=np.float64)
+    SLEEP_POSE = np.array([0, -17*np.pi/36, 15*np.pi/36, 0], dtype=np.float64)
+
+    LIMITS_MAX = np.array([ 17*np.pi/18,  17*np.pi/36,  15*np.pi/36,  8*np.pi/9], dtype=np.float64)
+    LIMITS_MIN = np.array([-17*np.pi/18, -17*np.pi/36, -19*np.pi/36, -8*np.pi/9], dtype=np.float64)
 
     #region: Channel and Buffer definitions
 
@@ -33,7 +39,8 @@ class QArm():
     measJointSpeed          = np.zeros(5, dtype=np.float64)
     measJointPWM            = np.zeros(5, dtype=np.float64)
     measJointTemperature    = np.zeros(5, dtype=np.float64)
-    
+
+
     #endregion
 
     def __init__(self, hardware=1, readMode=1, frequency=500, deviceId = 0, hilPort = 18900):
@@ -156,10 +163,10 @@ class QArm():
 
         # IO
         try:
-            #Writes: Analog Channel, Num Analog Channel, 
+            #Writes: Analog Channel, Num Analog Channel,
             # PWM Channel, Num PWM Channel, Digital Channel,
-            #  Num Digital Channel, Other Channel, 
-            # Num Other Channel, Analog Buffer, 
+            #  Num Digital Channel, Other Channel,
+            # Num Other Channel, Analog Buffer,
             # PWM Buffer, Digital Buffer, Other Buffer
             self.card.write(None, 0,
                             None, 0,
@@ -173,10 +180,10 @@ class QArm():
             # self.write_position(phiCMD, gprCMD)
             # self.write_led(baseLED)
             self.read_std()
-              
+
         except HILError as h:
             print(h.get_error_message())
-        
+
     def read_std(self):
         """
         Reads battery voltage, motor current, and encoder counts.
@@ -194,7 +201,7 @@ class QArm():
         - `measJointTemperature` 
         """
 
-        # IO   
+        # IO
         try:
             if self.readMode == 1:
                 self.card.task_read(
@@ -243,18 +250,18 @@ class QArm():
         """
 
         self.writeOtherBuffer[4] = np.clip(gprCMD,0.1,0.9) # Saturate gripper between 0.1 (open) and 0.9 (close)
-        
+
         new = False
         for motorIndex in range(4):
             self.writeOtherBuffer[motorIndex] = phiCMD[motorIndex]
 
         # IO
         try:
-            #Writes: Analog Channel, Num Analog Channel, 
-            # PWM Channel, Num PWM Channel, 
-            # Digital Channel, Num Digital Channel, 
-            # Other Channel, Num Other Channel, 
-            # Analog Buffer, PWM Buffer, 
+            #Writes: Analog Channel, Num Analog Channel,
+            # PWM Channel, Num PWM Channel,
+            # Digital Channel, Num Digital Channel,
+            # Other Channel, Num Other Channel,
+            # Analog Buffer, PWM Buffer,
             # Digital Buffer, Other Buffer
             self.card.write(None, 0,
                             None, 0,
@@ -264,7 +271,7 @@ class QArm():
                             None,
                             None,
                             self.writeOtherBuffer[0:5])
-            
+
             new = True
 
         except HILError as h:
@@ -298,7 +305,7 @@ class QArm():
 
         except HILError as h:
             print(h.get_error_message())
- 
+
     def terminate(self):
         """
         Terminates the QArm card.
@@ -318,7 +325,7 @@ class QArm():
             print('QArm terminated successfully.')
 
         except HILError as h:
-            print(h.get_error_message())     
+            print(h.get_error_message())
 
     def __enter__(self):
         """

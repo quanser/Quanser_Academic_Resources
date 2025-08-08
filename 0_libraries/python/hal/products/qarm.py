@@ -1,6 +1,7 @@
 import numpy as np
 import numpy.linalg as npla
-
+from pal.products.qarm import QArm
+from pal.utilities.math import Integrator
 
 class QArmUtilities():
     """QArm utilities, such as Forward/Inverse Kinematics, Differential Kinematics etc."""
@@ -18,7 +19,7 @@ class QArmUtilities():
     LAMBDA_3 = L_4 + L_5
     #endregion
 
-    
+
     @staticmethod
     def take_user_input_joint_space():
         """Use this method to take a user input for joint commands. Note that this method pauses execution until it returns. This is elegantly useful with the Position Mode on the QArm, which uses low level trajectory generation."""
@@ -38,7 +39,7 @@ class QArmUtilities():
         """Use this method to take a user input for end-effector position commands. Note that this method pauses execution until it returns. Note that this uses joint level trajectory generation, so the end-effector path will not be linear."""
         stringCmd = input("Where should the end-effector go? Enter floating point values separated by commas for the X (meters), Y (meters), Z (meters), wrist angle (degrees), and gripper (0-1).\nAll values are floats. Type Ctrl+C to exit)\n")
         try:
-            
+
             stringCmd = [x.strip() for x in stringCmd.split(',')]
             result = np.array([float(stringCmd[i]) for i in range(len(stringCmd))])
             result[3] = result[3] * np.pi/180 # convert result from degrees to radians
@@ -56,7 +57,7 @@ class QArmUtilities():
         finally:
             return result
 
-    def qarm_forward_kinematics(self, phi):
+    def forward_kinematics(self, phi):
         """ QUANSER_ARM_FPK v 1.0 - 30th August 2020
 
         REFERENCE:
@@ -105,7 +106,7 @@ class QArmUtilities():
 
         return p4, R04
 
-    def qarm_inverse_kinematics(self, p, gamma, phi_prev):
+    def inverse_kinematics(self, p, gamma, phi_prev):
         """
         QUANSER_ARM_IPK v 1.0 - 31st August 2020
 
@@ -195,7 +196,7 @@ class QArmUtilities():
             phiOptimal = [0, 0, 0, 0]
 
         return phi, phiOptimal
-    
+
     def _check_joint_limits(self, phi):
 
         flag = 0
@@ -203,11 +204,10 @@ class QArmUtilities():
             or phi[1] > 80*np.pi/180 or phi[1] < -80*np.pi/180 \
             or phi[2] > 75*np.pi/180 or phi[2] < -95*np.pi/180 \
             or phi[3] > 160*np.pi/180 or phi[3] < -160*np.pi/180:
-            
+
                 flag = 1
 
         return flag
-    
 
     def quanser_arm_DH(self, a, alpha, d, theta):
 
@@ -246,7 +246,7 @@ class QArmUtilities():
         T = T_R_z@T_T_z@T_T_x@T_R_x
 
         return T
-    
+
     def differential_kinematics(self, phi):
         """Implements the jacobian matrix using theta for the QArm Mini
 
@@ -274,7 +274,7 @@ class QArmUtilities():
         J[0,3] = 0
 
         J[1,0] = self.LAMBDA_2*np.cos(theta[0])*np.cos(theta[1]) - self.LAMBDA_3*np.cos(theta[0])*np.sin(theta[1]+theta[2])
-        J[1,1] = -self.LAMBDA_2*np.sin(theta[0])*np.sin(theta[1]) - self.LAMBDA_3*np.sin(theta[0])*np.cos(theta[1]+theta[2]) 
+        J[1,1] = -self.LAMBDA_2*np.sin(theta[0])*np.sin(theta[1]) - self.LAMBDA_3*np.sin(theta[0])*np.cos(theta[1]+theta[2])
         J[1,2] = -self.LAMBDA_3*np.sin(theta[0])*np.cos(theta[1] + theta[2])
         J[1,3] = 0
 
@@ -293,7 +293,7 @@ class QArmUtilities():
         J_inv = npla.inv(J) # inverse of the jacobian matrix
 
         return J, c, r, J_inv
-    
+
     @staticmethod
     def take_widget_mass():
         """Use this method to take a user input for widget weight."""
@@ -305,3 +305,153 @@ class QArmUtilities():
             result = 0
         finally:
             return result
+
+class QArmKeyboardNavigator():
+
+    '''This class provides a range of methods that let you drive the QArm Mini
+    manipulator using a KeyboardDriver class.
+
+    Use the move_joints_with_keyboard method to control the manipulator one
+    joint at a time (selected with keys 1 through 4) using the UP and DOWN
+    arrow keys.
+
+    Use the move_ee_with_keyboard method to control the manipulator's
+    end-effector one cartesian axis or gamma at a time (selected with keys x,
+    y, z, or g) using the UP and DOWN arrow keys. '''
+
+    def __init__(self, keyboardDriver, initialPose=QArm.HOME_POSE):
+
+        self.kbd = keyboardDriver #instance of KeyboardDriver from pal.utilities.keyboard
+        self.armMath = QArmUtilities()
+
+        ee_position, ee_rotation, gamma = self.armMath.forward_kinematics(phi=initialPose)
+
+        self.joint_0_integrator = Integrator(integrand=initialPose[0],
+                                        minSaturation=QArm.LIMITS_MIN[0],
+                                        maxSaturation=QArm.LIMITS_MAX[0])
+        self.joint_1_integrator = Integrator(integrand=initialPose[1],
+                                        minSaturation=QArm.LIMITS_MIN[1],
+                                        maxSaturation=QArm.LIMITS_MAX[1])
+        self.joint_2_integrator = Integrator(integrand=initialPose[2],
+                                        minSaturation=QArm.LIMITS_MIN[2],
+                                        maxSaturation=QArm.LIMITS_MAX[2])
+        self.joint_3_integrator = Integrator(integrand=initialPose[3],
+                                        minSaturation=QArm.LIMITS_MIN[3],
+                                        maxSaturation=QArm.LIMITS_MAX[3])
+
+        self.x_integrator = Integrator(integrand=ee_position[0])
+        self.y_integrator = Integrator(integrand=ee_position[1])
+        self.z_integrator = Integrator(integrand=ee_position[2])
+        self.g_integrator = Integrator(integrand=gamma,
+                                       minSaturation=-np.pi/2,
+                                       maxSaturation=np.pi/2)
+
+        self.j0Delta = self.joint_0_integrator.integrand
+        self.j1Delta = self.joint_1_integrator.integrand
+        self.j2Delta = self.joint_2_integrator.integrand
+        self.j3Delta = self.joint_3_integrator.integrand
+
+        self.xDelta = self.x_integrator.integrand
+        self.yDelta = self.y_integrator.integrand
+        self.zDelta = self.z_integrator.integrand
+        self.gDelta = self.g_integrator.integrand
+
+        self.current_joint_pose = initialPose
+        self.current_ee_pose = ee_position
+        self.current_gamma = gamma
+
+        self.active_joint = None
+        pass
+
+    def activate_joint(self, mode='joint'):
+
+        if mode=='joint':
+            if self.kbd.k_1:
+                self.active_joint = 0 # joint 1 base yaw
+            elif self.kbd.k_2:
+                self.active_joint = 1 # joint 2 shoulder pitch
+            elif self.kbd.k_3:
+                self.active_joint = 2 # joint 3 elbow pitch
+            elif self.kbd.k_4:
+                self.active_joint = 3 # joint 4 wrist pitch
+        elif mode=='task':
+            if self.kbd.k_x:
+                self.active_joint = 4 # base frame x
+            elif self.kbd.k_y:
+                self.active_joint = 5 # base frame y
+            elif self.kbd.k_z:
+                self.active_joint = 6 # base frame z
+            elif self.kbd.k_g:
+                self.active_joint = 7 # base frame z
+        else:
+            self.active_joint = None
+
+    def move_joints_with_keyboard(self, timestep, speed=np.pi/12):
+        '''Tap the keyboard 1 through 4 keys to select a joint. Then use the
+        UP and DOWN arrows to increase or decrease the joint's cmd
+        respectively.'''
+
+        if self.kbd.k_up:
+            cmd = speed
+        elif self.kbd.k_down:
+            cmd = -1*speed
+        else:
+            cmd = 0
+        self.activate_joint(mode='joint')
+
+        if self.active_joint==0:
+            self.j0Delta = self.joint_0_integrator.integrate(cmd, timestep)
+        elif self.active_joint==1:
+            self.j1Delta = self.joint_1_integrator.integrate(cmd, timestep)
+        elif self.active_joint==2:
+            self.j2Delta = self.joint_2_integrator.integrate(cmd, timestep)
+        elif self.active_joint==3:
+            self.j3Delta = self.joint_3_integrator.integrate(cmd, timestep)
+
+        self.current_joint_pose = np.array([self.j0Delta, self.j1Delta, self.j2Delta, self.j3Delta], dtype=np.float64)
+
+        return self.current_joint_pose
+
+    def move_ee_with_keyboard(self, timestep, speed=0.02):
+        '''Tap the keyboard x, y, z or g keys to select a cartesian x, y, z axis
+        or the end-effector orientation angle gamma. Then use the
+        UP and DOWN arrows to increase or decrease the corresponding cmd value.
+        Note, the speed is multiplied by a factor of 10 for the end-effector
+        angle Gamma.'''
+
+        if self.kbd.k_up:
+            cmd = speed
+        elif self.kbd.k_down:
+            cmd = -1*speed
+        else:
+            cmd = 0
+        self.activate_joint(mode='task')
+
+        xDelta = self.xDelta
+        yDelta = self.yDelta
+        zDelta = self.zDelta
+        gDelta = self.gDelta
+
+        if self.active_joint==4:
+            xDelta = self.x_integrator.integrate(cmd, timestep)
+        elif self.active_joint==5:
+            yDelta = self.y_integrator.integrate(cmd, timestep)
+        elif self.active_joint==6:
+            zDelta = self.z_integrator.integrate(cmd, timestep)
+        elif self.active_joint==7:
+            gDelta = self.g_integrator.integrate(10*cmd, timestep)
+
+        a, b, numSol, theta = self.armMath.inverse_kinematics(np.array([xDelta, yDelta, zDelta], dtype=np.float64), gDelta, self.current_joint_pose)
+        if numSol > 0:
+            self.current_joint_pose = theta
+            self.xDelta = xDelta
+            self.yDelta = yDelta
+            self.zDelta = zDelta
+            self.gDelta = gDelta
+        else:
+            self.x_integrator.reset(self.xDelta)
+            self.y_integrator.reset(self.yDelta)
+            self.z_integrator.reset(self.zDelta)
+            self.g_integrator.reset(self.gDelta)
+
+        return self.current_joint_pose

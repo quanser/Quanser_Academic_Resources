@@ -22,7 +22,7 @@ class MultiAgent():
     """
 
     # location of RT models and creation of new MultiAgent folder
-    __qalDirPath = os.environ.get('RTMODELS_DIR')
+    __qalDirPath = os.environ.get('RTMODELS_DIR', 'READTHEDOCS') # this is needed to create docs
     
     _QArmDir = os.path.normpath(
         os.path.join(__qalDirPath, 'QArm'))
@@ -469,8 +469,11 @@ def readRobots():
 
     # This function is not part of the MultiAgent class. Do not initialize a MultiAgent object only to use this function.
     
+    # location of RT models and creation of new MultiAgent folder
+    __qalDirPath = os.environ.get('RTMODELS_DIR', 'READTHEDOCS') # this is needed to create docs
+
     directory = os.path.normpath(
-        os.path.join(os.environ['RTMODELS_DIR'], 'MultiAgent'))
+        os.path.join(__qalDirPath, 'MultiAgent'))
     
     filePath = os.path.join(directory,"RobotAgents.json")
     tmpPath = os.path.join(directory,"tmp.csv")

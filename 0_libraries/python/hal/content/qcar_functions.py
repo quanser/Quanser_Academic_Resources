@@ -225,7 +225,7 @@ class QCarDriveController:
 
         return u, delta
 
-class ObjectDetection():
+class ObjectDetection:
     """ An classical object detection algorithm with different options of detection
         methods, as well as visualization tools.
 
@@ -262,7 +262,7 @@ class ObjectDetection():
 
         """
         # =================    SECTION A.2 - Mask Image     =================
-        img_thresh = np.zeros_like(img)
+        img_thresh = np.zeros(img.shape,dtype=np.uint8)
         return img_thresh
         # =================       End of SECTION A.2        =================
     
@@ -426,7 +426,7 @@ class ObjectDetection():
         '''
         pass
 
-class LaneKeeping():
+class LaneKeeping:
     """ Overarching class containing functions used for the lane keeping
         skills activity.
 
@@ -735,7 +735,7 @@ class SpeedController:
 
         return np.clip(u,-self.max_throttle,self.max_throttle)
 
-class InversePerspectiveMapping():
+class InversePerspectiveMapping:
     """Inverse perspective mapping (IPM) algorithm that creates a bird's-eye view image.
     
     Attributes:
@@ -820,7 +820,7 @@ class InversePerspectiveMapping():
         return dst
         # ==============      END OF SECTION B.5     ====================
 
-class PurePursuitController():
+class PurePursuitController:
     """A pure pursuit controller that produces a steering controller based on
        specified parameters and a target point.
     
@@ -860,7 +860,7 @@ class PurePursuitController():
         return steer
         # ==============         END OF SECTION F            ====================
 
-class LaneMarking():
+class LaneMarking:
     """This class stores relevant information for individual isolated lane marking.
     
     Attributes:
@@ -893,7 +893,7 @@ class LaneMarking():
         self.intersection = None
         # ==============          END OF SECTION E.2        ====================
       
-class TargetsTracker():
+class TargetsTracker:
     ''' Basic object tracker for target points. Consecutive IDs are assigned
         to each target point such that the target point to the left has larger ID value.
 
@@ -1064,7 +1064,7 @@ class TargetsTracker():
                 all_targets[r+1][0] = all_targets[r][0]-1
                 self.register(all_targets[r+1][1],all_targets[r+1][0])
 
-class LaneSelection():
+class LaneSelection:
     '''Facilitate the usage of gamepad left and right buttons for selecting
        detected lane centers.
 

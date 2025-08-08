@@ -5,20 +5,17 @@ the QArm Mini. It is designed to make it easy to read and write
 all available inputs/outputs of the QArm Mini.
 """
 
-import sys
-import os
-import platform
 import numpy as np
-from quanser.hardware import HIL, HILError, MAX_STRING_LENGTH, Clock
-from quanser.hardware.enumerations import BufferOverflowMode
-from quanser.common import Timeout
+from quanser.hardware import HIL, HILError, MAX_STRING_LENGTH
 from pal.utilities.vision import Camera2D
-
 
 class QArmMini():
 
-    HOME_POSE = np.array([0, np.pi / 2, -np.pi / 2, np.pi / 2], dtype=np.float64)
-    SLEEP_POSE = np.array([np.pi / 2, 0, 0, np.pi / 2], dtype=np.float64)
+    HOME_POSE  = np.array([0, np.pi / 2, -np.pi / 2, np.pi / 2], dtype=np.float64)
+    SLEEP_POSE = np.array([0, 0, 0, np.pi / 2], dtype=np.float64)
+
+    LIMITS_MAX = np.array([4*np.pi/3, 13*np.pi/12, np.pi/6, 8*np.pi/9], dtype=np.float64)
+    LIMITS_MIN = np.array([-10*np.pi/18, -np.pi/6, -5*np.pi/6, -np.pi/10], dtype=np.float64)
 
     def __init__(self,
                  id=0,
@@ -29,9 +26,9 @@ class QArmMini():
                  'j2_profile_velocity=6.2832;j2_profile_acceleration=6.2832;'
                  'j3_profile_velocity=6.2832;j3_profile_acceleration=6.2832;'
                  'gripper_profile_velocity=6.2832;gripper_profile_acceleration=6.2832;'),
-                 pGain = [10, 10, 10, 10, 20],
+                 pGain = [5, 10, 10, 10, 20],
                  iGain = [-1, 0.036, 0.036, -1, -1],
-                 dGain = [300, 0, 0, 0, 0],
+                 dGain = [200, 0, 0, 0, 0],
                  ffVGain = [-1, -1, -1, -1, -1],
                  ffAGain = [-1, -1, -1, -1, -1]
         ):
@@ -150,8 +147,8 @@ class QArmMini():
 
         # in rads
         if len(joints) != 4:
-            print ('Please provide all 4 joint positions. All joints set to 0 by default.')
-            joints = np.array([0, 0, 0, 0], dtype=np.float64)
+            print ('Please provide all 4 joint positions. Going HOME instead.')
+            joints = self.HOME_POSE
 
         thetaBias = [0,
                      -np.pi/2,
@@ -163,7 +160,7 @@ class QArmMini():
                         np.pi - 0.1834 + 0.07,
                         np.pi]
 
-        joints = joints + thetaBias + actuatorBias
+        joints = np.clip(joints, self.LIMITS_MIN, self.LIMITS_MAX) + thetaBias + actuatorBias
         pwm =  np.array([0, 0, 0, 0])
 
         values = np.concatenate([joints, pwm])
@@ -213,9 +210,9 @@ class QArmMini():
         except HILError as h:
             print(h.get_error_message())
 
-    def writeJointPWM(self,
+    def write_joint_PWM(self,
                       jointsPWM = np.array([0, 0, 0, 0], dtype=np.float64)):
-        """NOT CURRENTLY SUPPORTED
+        """
         Writes joint PWM commands to the QArm Mini.
             Makes position commands all 0 to prevent both being written at the same time.
         Args:
@@ -229,45 +226,34 @@ class QArmMini():
 
         np.clip(jointsPWM, -1, 1, out = jointsPWM)
 
-        position =  np.array([0, 0, 0, 0])
+        writeChannels = self.WRITE_OTHER_CHANNELS[5:9]
 
-        values = np.concatenate([position, jointsPWM])
-
-        writeChannels = np.concatenate(
-            [self.WRITE_OTHER_CHANNELS[0:4],
-             self.WRITE_OTHER_CHANNELS[5:9]])
         try:
             self.card.write_other(
                 writeChannels,
                 len(writeChannels),
-                np.array(values, dtype=np.float64))
+                np.array(jointsPWM, dtype=np.float64))
 
         except HILError as h:
             print(h.get_error_message())
 
-    def writeGripperPWM(self, gripperPWM = 0):
-        """NOT CURRENTLY SUPPORTED
+    def write_gripper_PWM(self, gripperPWM = 0):
+        """
         Writes gripper PWM command to the QArm Mini.
             Makes position command all 0 to prevent both being written at the same time.
         Args:
              gripper (float): commanded joint position (%) [0-1]
         """
         gripperPWM = np.array([gripperPWM])
-        np.clip(gripperPWM, 0, 1, out = gripperPWM)
+        np.clip(gripperPWM, -1, 1, out = gripperPWM)
 
-        gripperPosition =  np.array([0])
-
-        values = np.concatenate([gripperPosition, gripperPWM])
-
-        writeChannels = np.array(
-            [self.WRITE_OTHER_CHANNELS[4],
-             self.WRITE_OTHER_CHANNELS[9]])
+        writeChannels = self.WRITE_OTHER_CHANNELS[9]
 
         try:
             self.card.write_other(
                 writeChannels,
                 len(writeChannels),
-                np.array(values, dtype=np.float64))
+                np.array(gripperPWM, dtype=np.float64))
 
         except HILError as h:
             print(h.get_error_message())
@@ -341,9 +327,10 @@ class QArmMini():
 
     def read_write_std(self, joints = np.array([0, np.pi/2, -np.pi/2, np.pi/2], dtype=np.float64), gripper = 0):
 
+        writeFlag = True
         if len(joints) != 4:
-            print ('Please provide all 4 joint positions. All joints set to 0 by default.')
-            joints = np.array([0, 0, 0, 0], dtype=np.float64)
+            print ('Please provide all 4 joint positions. Going HOME instead.')
+            writeFlag = False
 
         thetaBias = [0,
                      -np.pi/2,
@@ -355,12 +342,12 @@ class QArmMini():
                         np.pi - 0.1834 + 0.07,
                         np.pi]
 
-        joints = joints + thetaBias + actuatorBias
+        joints = np.clip(joints, self.LIMITS_MIN, self.LIMITS_MAX) + thetaBias + actuatorBias
 
         gripper = np.array([gripper])
         np.clip(gripper, 0, 1, out = gripper)
 
-        gripper = gripper * -1.8 - 0.9
+        gripper = gripper * 1.68 - 0.9
 
         gripper = gripper + [np.pi]
         pwm =  np.array([0, 0, 0, 0])
@@ -371,10 +358,11 @@ class QArmMini():
         writeChannels = self.WRITE_OTHER_CHANNELS
 
         try:
-            self.card.write_other(
-                writeChannels,
-                len(writeChannels),
-                np.array(values, dtype=np.float64))
+            if writeFlag:
+                self.card.write_other(
+                    writeChannels,
+                    len(writeChannels),
+                    np.array(values, dtype=np.float64))
 
             self.card.read(
                 self.READ_ANALOG_CHANNELS,
@@ -398,7 +386,7 @@ class QArmMini():
             self.positionMeasured = self._readOtherBuffer[0:4] - thetaBias - actuatorBias
 
             self.gripperPositionMeasured = self._readOtherBuffer[4]  + [-np.pi]
-            self.gripperPositionMeasured = (self.gripperPositionMeasured - 0.9) / -1.8
+            self.gripperPositionMeasured = (self.gripperPositionMeasured + 0.9) / 1.68
 
             self.speedMeasured = self._readOtherBuffer[5:9]
             self.gripperSpeedMeasured = self._readOtherBuffer[9]

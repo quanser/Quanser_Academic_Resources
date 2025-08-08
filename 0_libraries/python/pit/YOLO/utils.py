@@ -2,10 +2,13 @@ import numpy as np
 import time
 from quanser.common import Timeout
 from pal.utilities.stream import BasicStream
-from pal.products.qcar import IS_PHYSICAL_QCAR,QCarRealSense
+from pal.utilities.vision import Camera3D
 import os
 import cv2
+import platform
 
+IS_PHYSICAL_QCAR = ('nvidia' == os.getlogin()) \
+    and ('aarch64' == platform.machine())
 #top 80 colors from xkcd color survey https://xkcd.com/color/rgb/
 MASK_COLORS_HEX=[
     "7e1e9c",
@@ -135,7 +138,19 @@ class QCar2DepthAligned():
         if self.isPhysical:
             self.status_check('', iterations=20)
         else:
-            self.camera = QCarRealSense(mode='RGB, Depth')
+            video3dPort = 18965            
+            self.camera = Camera3D(
+                mode='RGB, Depth',
+                deviceId = "0@tcpip://localhost:" +str(video3dPort),
+                frameWidthRGB = 640,
+                frameHeightRGB = 480,
+                frameRateRGB = 30,
+                frameWidthDepth = 640,
+                frameHeightDepth = 480,
+                frameRateDepth = 15,
+                frameWidthIR = 640,
+                frameHeightIR = 480,
+                frameRateIR = 30)
             self.depth_scale = 5.5
             self.M = np.array([[1.440749898,-6.45417E-16,-126.2303115],
                                [-0.000294167,1.445138872,-106.3509378],

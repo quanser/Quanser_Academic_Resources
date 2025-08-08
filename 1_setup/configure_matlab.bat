@@ -41,6 +41,10 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             call :TrimSpaces installed_status
             if "!installed_status!"=="Installed" (
                 echo !requirement!: Required and Installed
+            ) else if "!installed_status!"=="R2025a" (
+                echo !requirement!: Required and Installed
+            ) else if "!installed_status!"=="R2025b" (
+                echo !requirement!: Required and Installed
             ) else if "!installed_status!"=="R2023a" (
                 echo !requirement!: Required and Installed
             ) else if "!installed_status!"=="R2023b" (
@@ -97,6 +101,12 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             if "!installed_status!"=="Installed" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
+            ) else if "!installed_status!"=="R2025a" (
+                echo !requirement!: Not Required but Installed
+                set "not_required_installed=!not_required_installed! !requirement!"
+            ) else if "!installed_status!"=="R2025b" (
+                echo !requirement!: Not Required but Installed
+                set "not_required_installed=!not_required_installed! !requirement!"
             ) else if "!installed_status!"=="R2023a" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
@@ -144,6 +154,10 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             REM Loop to trim trailing spaces
             call :TrimSpaces installed_status
             if "!installed_status!"=="Installed" (
+                echo !requirement!: Optional but is installed
+            ) else if "!installed_status!"=="R2025a" (
+                echo !requirement!: Optional but is installed
+            ) else if "!installed_status!"=="R2025b" (
                 echo !requirement!: Optional but is installed
             ) else if "!installed_status!"=="R2023a" (
                 echo !requirement!: Optional but is installed
@@ -210,7 +224,7 @@ echo.
 
 REM Define MATLAB base path and versions to check
 set "MATLAB_BASE=C:\Program Files\MATLAB"
-set "MATLAB_VERSIONS=R2024b R2024a R2023b R2023a R2022b R2022a R2021b R2021a R2020b R2020a R2019b R2019a"
+set "MATLAB_VERSIONS=R2025b R2025a R2024b R2024a R2023b R2023a R2022b R2022a R2021b R2021a R2020b R2020a R2019b R2019a"
 set "USER_LIB_PATH=%USERPROFILE%\Documents\Quanser\0_libraries\matlab"
 setlocal enabledelayedexpansion
 REM Initialize a flag to track if any MATLAB versions are found
