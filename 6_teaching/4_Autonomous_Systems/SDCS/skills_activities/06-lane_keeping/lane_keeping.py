@@ -7,7 +7,7 @@ lane_keeping.py
 Skills activity code for lane keeping lab guide.
 Please review the accompanying "Lab Guide - Lane Keeping" PDF
 """
-from pal.utilities.keyboard import KeyboardDrive,PygameKeyboard
+from pal.utilities.keyboard import KeyboardDrive,QKeyboard
 # from pal.products.qcar import QCarRealSense,QCar
 from hal.content.qcar import QCarRealSense,QCar
 from hal.content.qcar_functions import LaneKeeping,SpeedController,LaneSelection
@@ -56,6 +56,9 @@ maxSteer = 0
 # ===== Keyboard Driver Parameters
 # - maxKeyThrottle: maximum PWN command from keyboard driver
 # - maxKeySteer: maximum steering angle from keyboard driver
+# - configuration: In 0 mode: Arm with Space Bar, drive with "WASD" keys; 
+#   In 1 mode: Arm with Space Bar, drive with arrow keys
+configuration = 1
 maxKeyThrottle = 0.2
 maxKeySteer = 0.1
 #endregion
@@ -75,7 +78,7 @@ maxKeySteer = 0.1
 # - kbdrive: converts keyboard inputs to steer and throttle command
 
 noKill = True
-kb = PygameKeyboard()
+kb = QKeyboard()
 qcarCam = QCarRealSense(mode='RGB',
                         frameWidthRGB=640,
                         frameHeightRGB=480)
@@ -93,7 +96,8 @@ myLaneKeeping = LaneKeeping(Kdd = Kdd,
 #                     imageWidth=640,
 #                     imageHeight=480)
 selector = LaneSelection()
-kbdrive = KeyboardDrive(maxThrottle=maxKeyThrottle,
+kbdrive = KeyboardDrive(mode=configuration,
+                        maxThrottle=maxKeyThrottle,
                         maxSteer=maxKeySteer)
 
 
@@ -132,9 +136,9 @@ try:
         targets = myLaneKeeping.find_target(isolated,v)
         
         # Receive Keyboard Signals
-        kb.read()
-        enableLaneKeep = kb.k_space
-        if kb.k_esc:
+        kb.update()
+        enableLaneKeep = kb.states[kb.K_SPACE]
+        if kb.states[kb.K_ESC]:
             print("Operator: Emergency Stop")
             noKill = False
 

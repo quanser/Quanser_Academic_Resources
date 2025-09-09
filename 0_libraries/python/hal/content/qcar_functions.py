@@ -1098,8 +1098,8 @@ class LaneSelection:
             ndarray: Selected target point.
 
         '''
-        _,left_pressed=self.left_edge_detect.send(kb.k_left)
-        _,right_pressed=self.right_edge_detect.send(kb.k_right)
+        _,left_pressed=self.left_edge_detect.send(kb.states[kb.K_LEFT])
+        _,right_pressed=self.right_edge_detect.send(kb.states[kb.K_RIGHT])
         if left_pressed: self.target_select+=1
         if right_pressed: self.target_select-=1
         self.target_select=self.clip(self.target_select,
