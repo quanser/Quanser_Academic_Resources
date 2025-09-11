@@ -7,7 +7,7 @@ lane_keeping.py
 Skills activity code for lane keeping lab guide.
 Please review the accompanying "Lab Guide - Lane Keeping" PDF
 """
-from pal.utilities.keyboard import KeyboardDrive,PygameKeyboard
+from pal.utilities.keyboard import PygameKeyboardDrive,PygameKeyboard
 # from pal.products.qcar import QCarRealSense,QCar
 from hal.content.qcar import QCarRealSense,QCar
 from hal.content.qcar_functions import LaneKeeping,SpeedController,LaneSelection
@@ -93,8 +93,8 @@ myLaneKeeping = LaneKeeping(Kdd = Kdd,
 #                     imageWidth=640,
 #                     imageHeight=480)
 selector = LaneSelection()
-kbdrive = KeyboardDrive(maxThrottle=maxKeyThrottle,
-                        maxSteer=maxKeySteer)
+kbdrive = PygameKeyboardDrive(maxThrottle=maxKeyThrottle,
+                              maxSteer=maxKeySteer)
 
 
 #endregion

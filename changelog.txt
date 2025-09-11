@@ -2,6 +2,15 @@
 Change Log for releases after 2025:
 ==========================================================================================================
 
+Release (2025-08-08):
+- Updated Aero 2 content names to match all other files
+- Added new skills activity 6 and 7 for QCar2
+- avrs multivehicle folders were renamed
+- Solved previous issue where QDrone files were deleted. 
+- updated scripts under setup to configure matlab and python. 
+- adding timing class
+
+
 Release (2025-03-06):
 - Initial folder structure change. Folders are now numbered and guides exist for following the file structure
 - Documents description updated to use new folder structure. 

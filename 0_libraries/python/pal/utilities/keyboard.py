@@ -59,6 +59,44 @@ class PygameKeyboard():
         """Terminate pygame"""
         pygame.quit()
 
+class PygameKeyboardDrive():
+    def __init__(self,maxThrottle=0.2,maxSteer=0.1):
+        self.deceleration = 0.1
+        self.aceleration = 0.2
+        self.key_throttle = 0
+        self.key_steer = 0
+        self.max_throttle = maxThrottle
+        self.max_steer = maxSteer
+        self.mode = mode
+
+    def update(self,kb):
+        
+        if self.mode == 0:
+            forward = kb.states[kb.K_W]
+            backword = kb.states[kb.K_S]
+            left = kb.states[kb.K_A]
+            right = kb.states[kb.K_D]
+        elif self.mode == 1:
+            forward = kb.states[kb.K_UP]
+            backword = kb.states[kb.K_DOWN]
+            left = kb.states[kb.K_LEFT]
+            right = kb.states[kb.K_RIGHT]
+        
+        if forward or backword:
+            sign=int(forward)-int(backword)
+        else:
+            sign = np.sign(self.key_throttle)
+        self.key_throttle += (int(forward)-int(backword))*0.2 - self.deceleration*sign
+        self.key_throttle = np.clip(self.key_throttle,-self.max_throttle,self.max_throttle)
+
+        if left or right:
+            sign=int(left)-int(right)
+        else:
+            sign = np.sign(self.key_steer)
+        self.key_steer += (int(left)-int(right))*0.2 - self.deceleration*sign
+        self.key_steer = np.clip(self.key_steer,-self.max_steer,self.max_steer)
+        return self.key_steer,self.key_throttle
+    
 class KeyboardDrive():
     def __init__(self,mode=0,maxThrottle=0.2,maxSteer=0.1):
         self.deceleration = 0.1

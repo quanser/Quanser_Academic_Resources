@@ -2,7 +2,7 @@
 
 
 # Quanser_Academic_Resources
-The Quanser Academic Resources includes the research and teaching content for using Quanser products, including libraries, research examples, teaching content, user manuals, guides and more.
+The [Quanser](https://www.quanser.com/) Academic Resources includes the research and teaching content for using Quanser products, including libraries, research examples, teaching content, user manuals, guides and more.
 
 This branch was created so you could download all files that are related to the Self Driving Car Studio which includes the `QCar and QCar 2` and that you can add to your QCar to start developing on the car itself.  If you are looking for resources for your PC, please refer to the [dev-windows](https://github.com/quanser/Quanser_Academic_Resources/tree/dev-windows) branch.
 
