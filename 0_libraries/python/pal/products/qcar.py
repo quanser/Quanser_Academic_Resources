@@ -806,7 +806,7 @@ class QCarGPS:
 
     """
 
-    def __init__(self, initialPose=[0, 0, 0], calibrate=False, gpsPort = 18967, lidarIdealPort = 18968, attach_lidar = False):
+    def __init__(self, initialPose=[0, 0, 0], calibrate=False, gpsPort = 18967, lidarIdealPort = 18968):
         """
         Initializes the QCarGPS class with the initial pose of the QCar.
 
@@ -820,7 +820,6 @@ class QCarGPS:
             self.__initLidarToGPS(initialPose)
 
         self._timeout = Timeout(seconds=0, nanoseconds=1)
-        self.attach_lidar = attach_lidar
         # Setup GPS client and connect to GPS server
         self.position = np.zeros((3))
         self.orientation = np.zeros((3))
@@ -856,13 +855,13 @@ class QCarGPS:
             nonBlocking=True
         )
         t0 = time.time()
-        if not IS_PHYSICAL_QCAR and QCAR_CONFIG['cartype']==1:
+        if IS_PHYSICAL_QCAR or QCAR_CONFIG['cartype']==1:
             while not self._lidar_client.connected:
                 if time.time()-t0 > 5:
                     print("Couldn't Connect to Lidar Server")
                     return
                 self._lidar_client.checkConnection()
-        elif not IS_PHYSICAL_QCAR and QCAR_CONFIG['cartype']==2 and self.attach_lidar:
+        else:
             self.lidar = QCarLidar()
         self.enableFiltering = True
         self.angularResolution = 1*np.pi/180
@@ -1043,9 +1042,9 @@ class QCarGPS:
         """ Terminates the GPS client. """
         self._gps_client.terminate()
         self._lidar_client.terminate()
-        if IS_PHYSICAL_QCAR:
+        if IS_PHYSICAL_QCAR or QCAR_CONFIG['cartype']==1:
             self.__stopLidarToGPS()
-        elif not IS_PHYSICAL_QCAR and QCAR_CONFIG['cartype']==2 and self.attach_lidar:
+        else:
             self.lidar.terminate()
             
     def __enter__(self):

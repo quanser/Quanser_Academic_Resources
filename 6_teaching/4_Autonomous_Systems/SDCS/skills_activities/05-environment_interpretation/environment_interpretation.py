@@ -81,7 +81,7 @@ def sig_handler(*args):
     KILL_THREAD = True
 signal.signal(signal.SIGINT, sig_handler)
 
-gps = QCarGPS(initialPose=initialPose,calibrate=calibrate,attach_lidar=True)
+gps = QCarGPS(initialPose=initialPose,calibrate=calibrate)
 while (not KILL_THREAD) and (gps.readGPS() or  gps.readLidar()):
     pass
 
