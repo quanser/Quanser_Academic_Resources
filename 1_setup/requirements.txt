@@ -10,3 +10,5 @@ keyboard
 scikit-learn
 pandas
 pygame
+scp
+paramiko
