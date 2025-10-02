@@ -28,7 +28,7 @@ def generate_launch_description():
     downward_facing_camera_node = Node(
             package='qcar2_nodes',
             executable='csi',
-            name='DownwardFacingCamera'
+            name='csi_camera'
         )
     
     qcar2_hardware = Node(
