@@ -24,8 +24,12 @@ class QArm():
     #region: Channel and Buffer definitions
 
     # Channels
-    WRITE_OTHER_CHANNELS = np.array([1000, 1001, 1002, 1003, 1004, 11005, 11006, 11007], dtype=np.int32)
-    READ_OTHER_CHANNELS = np.array([1000, 1001, 1002, 1003, 1004, 3000, 3001, 3002, 3003, 3004, 10000, 10001, 10002, 10003, 10004, 11000, 11001, 11002, 11003, 11004], dtype=np.int32)
+    WRITE_OTHER_CHANNELS = np.array([1000, 1001, 1002, 1003, 
+                                     1004, 11005, 11006, 11007], dtype=np.int32)
+    READ_OTHER_CHANNELS = np.array([1000, 1001, 1002, 1003, 1004, 
+                                    3000, 3001, 3002, 3003, 3004, 
+                                    10000, 10001, 10002, 10003, 10004, 
+                                    11000, 11001, 11002, 11003, 11004], dtype=np.int32)
     READ_ANALOG_CHANNELS = np.array([5, 6, 7, 8, 9], dtype=np.int32)
 
     # Buffers (internal)
@@ -76,13 +80,19 @@ class QArm():
         else:
             boardIdentifier = "0@tcpip://localhost:" + str(hilPort) + "?nagle='off'"
 
-        boardSpecificOptions = f"j0_mode=0;j1_mode=0;j2_mode=0;j3_mode=0\
-        ;gripper_mode=0;j0_profile_config=0;j0_profile_velocity=1.5708\
-            ;j0_profile_acceleration=1.0472;j1_profile_config=0\
-            ;j1_profile_velocity=1.5708;j1_profile_acceleration=1.0472\
-            ;j2_profile_config=0;j2_profile_velocity=1.5708\
-            ;j2_profile_acceleration=1.0472;j3_profile_config=0\
-            ;j3_profile_velocity=1.5708;j3_profile_acceleration=1.0472;"
+        
+        # if empty BSO, use defaults
+
+        boardSpecificOptions = (
+            "j0_mode=0;j1_mode=0;j2_mode=0;j3_mode=0;"
+            "gripper_mode=0;j0_profile_config=0;j0_profile_velocity=1.5708;"
+            "j0_profile_acceleration=1.0472;j1_profile_config=0;"
+            "j1_profile_velocity=1.5708;j1_profile_acceleration=1.0472;"
+            "j2_profile_config=0;j2_profile_velocity=1.5708;"
+            "j2_profile_acceleration=1.0472;j3_profile_config=0;"
+            "j3_profile_velocity=1.5708;j3_profile_acceleration=1.0472;"
+        )
+
         try:
             # Open the Card
             self.card.open("qarm_usb", boardIdentifier)
@@ -353,24 +363,79 @@ class QArm():
         """
         self.terminate()  
 
+
+
 class QArmRealSense(Camera3D):
     """
     A class for accessing 3D camera data from the RealSense camera on the QArm.
 
     Inherits from `Camera3D` in `pal.utilities.vision`.
 
+    Parameters
+    ----------
+    hardware : int, optional
+        Indicates whether the camera is hardware-based (1) or virtual (0). Default is 1.
+    deviceID : int, optional
+        Identifier for the camera device. Default is 0.
+    videoPort : int, optional
+        Port number for virtual QArm. Default is 18901. 
+    mode : str, optional
+        Mode to use for capturing data. Default is 'RGB&DEPTH', as long as the string includes
+        'rgb' and/or 'depth' it works.
+    frameWidthRGB : int, optional
+        Width of the RGB frame. Default is 640.
+    frameHeightRGB : int, optional 
+        Height of the RGB frame. Default is 400.
+    frameRateRGB : int, optional
+        Frame rate of the RGB camera. Default is 30.
+    frameWidthDepth : int, optional
+        Width of the depth frame. Default is 640.
+    frameHeightDepth : int, optional
+        Height of the depth frame. Default is 400.
+    frameRateDepth : int, optional
+        Frame rate of the depth camera. Default is 15.
+    frameWidthIR : int, optional
+        Width of the infrared (IR) frame. Default is 640.
+    frameHeightIR : int, optional
+        Height of the IR frame. Default is 400.
+    frameRateIR : int, optional
+        Frame rate of the IR camera. Default is 15.
+    readMode : int, optional
+        Mode to use for reading data from the camera. Default is 1.
+    focalLengthRGB : ndarray, optional
+        RGB camera focal length in pixels. Default is np.array([[None], [None]], dtype=np.float64).
+    principlePointRGB : ndarray, optional
+        Principle point of RGB camera in pixels. Default is np.array([[None], [None]], dtype=np.float64).
+    skewRGB : float, optional
+        Skew factor for RGB camera. Default is None.
+    positionRGB : ndarray, optional
+        Position of RGB camera in car's frame, shape (3,1). Default is array of None.
+    orientationRGB : ndarray, optional
+        Orientation of RGB camera in car's frame, shape (3,3). Default is array of None.
+    focalLengthDepth : ndarray, optional
+        Focal length of depth camera, shape (2,1). Default is array of None.
+    principlePointDepth : ndarray, optional
+        Principle point of depth camera, shape (2,1). Default is array of None.
+    skewDepth : float, optional
+        Skew of the depth camera. Default is None.
+    positionDepth : ndarray, optional
+        Position of depth camera, shape (3,1). Default is array of None.
+    orientationDepth : ndarray, optional
+        Orientation of depth camera in car's frame, shape (3,3). Default is array of None.
+
     Notes
     -----
-    - This class provides an interface for accessing RGB, depth, and IR data from the RealSense camera.
-    """
+    In simulation mode (hardware=0), frame dimensions are fixed to 640x480
+    for all cameras.
     
+    """
     def __init__(
             self,
             hardware = 1,
-            videoPort = 18901,
-            mode='RGB&DEPTH',
             deviceID = 0,
+            videoPort = 18901,
             readMode=1,
+            mode='RGB&DEPTH',
             frameWidthRGB=640,
             frameHeightRGB=400,
             frameRateRGB=30,
@@ -384,87 +449,22 @@ class QArmRealSense(Camera3D):
             principlePointRGB=np.array([[None], [None]], dtype=np.float64),
             skewRGB=None,
             positionRGB=np.array([[None], [None], [None]], dtype=np.float64),
-            orientationRGB=np.array([[None, None, None], [None, None, None],
-                                     [None, None, None]], dtype=np.float64),
+            orientationRGB=np.array(
+                [[None, None, None], [None, None, None], [None, None, None]],
+                dtype=np.float64),
             focalLengthDepth=np.array([[None], [None]], dtype=np.float64),
             principlePointDepth=np.array([[None], [None]], dtype=np.float64),
             skewDepth=None,
             positionDepth=np.array([[None], [None], [None]], dtype=np.float64),
-            orientationDepth=np.array([[None, None, None], [None, None, None],
-                                       [None, None, None]], dtype=np.float64)
+            orientationDepth=np.array(
+                [[None, None, None], [None, None, None], [None, None, None]],
+                dtype=np.float64),
         ):
-        """"
-        Initialize the 3D camera in the QArm for RGB and Depth.
-
-        Parameters
-        ----------
-        hardware : int, optional
-            Indicates whether the camera is hardware-based (1) or virtual (0). Defaults to 1.
-        videoPort : int, optional
-            Port number for virtual QArm. Defaults to 18901.
-        mode : str, optional
-            Mode to use for capturing data. Defaults to 'RGB&DEPTH'.
-        deviceID : int, optional
-            Identifier for the camera device. Defaults to 0.
-        readMode : int, optional
-            Mode for reading data from the camera. Defaults to 1.
-        frameWidthRGB : int, optional
-            Width of the RGB frame in pixels. Defaults to 640.
-        frameHeightRGB : int, optional
-            Height of the RGB frame in pixels. Defaults to 400.
-        frameRateRGB : int, optional
-            Frame rate of the RGB camera in frames per second. Defaults to 30.
-        frameWidthDepth : int, optional
-            Width of the depth frame in pixels. Defaults to 640.
-        frameHeightDepth : int, optional
-            Height of the depth frame in pixels. Defaults to 400.
-        frameRateDepth : int, optional
-            Frame rate of the depth camera in frames per second. Defaults to 15.
-        frameWidthIR : int, optional
-            Width of the infrared (IR) frame in pixels. Defaults to 640.
-        frameHeightIR : int, optional
-            Height of the IR frame in pixels. Defaults to 400.
-        frameRateIR : int, optional
-            Frame rate of the IR camera in frames per second. Defaults to 15.
-        focalLengthRGB : numpy.ndarray, optional
-            RGB Camera focal length in pixels. 
-            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
-        principlePointRGB : numpy.ndarray, optional
-            Principal point of the RGB camera in pixels. 
-            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
-        skewRGB : float, optional
-            Skew factor for the RGB camera. Defaults to None.
-        positionRGB : numpy.ndarray, optional
-            Position of the camera in the device's frame of reference. Should be a 3x1 array.
-            Defaults to `np.array([[None], [None], [None]], dtype=np.float64)`.
-        orientationRGB : numpy.ndarray, optional
-            Orientation of the camera in the device's frame of reference. Should be a 3x3 array.
-            Defaults to `np.array([[None, None, None], [None, None, None], [None, None, None]], dtype=np.float64)`.
-
-        focalLengthDepth : numpy.ndarray, optional
-            Depth Camera focal length in pixels. 
-            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
-        principlePointDepth : numpy.ndarray, optional
-            Principal point of the Depth camera in pixels. 
-            Defaults to `np.array([[None], [None]], dtype=np.float64)`.
-        skewDepth : float, optional
-            Skew factor for the Depth camera. Defaults to None.
-        positionDepth : numpy.ndarray, optional
-            Position of the camera in the device's frame of reference. Should be a 3x1 array.
-            Defaults to `np.array([[None], [None], [None]], dtype=np.float64)`.
-        orientationDepth : numpy.ndarray, optional
-            Orientation of the camera in the device's frame of reference. Should be a 3x3 array.
-            Defaults to `np.array([[None, None, None], [None, None, None], [None, None, None]], dtype=np.float64)`.
-
-        Notes
-        -----
-        - Inherits functionality from `Camera3D`.
-        """
 
         if hardware:
             deviceId = str(deviceID)
         else:
-            deviceId = "0@tcpip://localhost:" + str(videoPort)
+            deviceId = "0@tcpip://localhost:" +str(videoPort)
             frameWidthRGB = 640
             frameHeightRGB = 480
             frameRateRGB = 30
@@ -500,17 +500,3 @@ class QArmRealSense(Camera3D):
             orientationDepth
         )
 
-
-        """
-        Used for the `with` statement. Terminates the connection with the RealSense camera.
-
-        Parameters
-        ----------
-        type : Exception type
-            The exception type, if any.
-        value : Exception value
-            The exception value, if any.
-        traceback : Traceback
-            The traceback object, if any.
-        """
-        self.terminate()

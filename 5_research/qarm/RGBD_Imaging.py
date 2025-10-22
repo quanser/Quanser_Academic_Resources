@@ -1,4 +1,5 @@
 from pal.utilities.vision import Camera3D
+from pal.products.qarm import QArmRealSense
 import numpy as np
 import time
 import cv2
@@ -28,8 +29,11 @@ if hardware:
 else:
     id = '0@tcpip://localhost:18901'
 
-myCam1 = Camera3D(mode='RGB&DEPTH', frameWidthRGB=imageWidth, frameHeightRGB=imageHeight,
-                                frameWidthDepth=imageWidth, frameHeightDepth=imageHeight, deviceId=id, readMode=0)
+# if you want to use Camera3D directly instead of QArmRealSense, uncomment this initialization and comment out the next one
+# myCam1 = Camera3D(mode='RGB&DEPTH', frameWidthRGB=imageWidth, frameHeightRGB=imageHeight,
+#                                 frameWidthDepth=imageWidth, frameHeightDepth=imageHeight, deviceId=id, readMode=0)
+
+myCam1 = QArmRealSense(mode='RGB&DEPTH', hardware = hardware, readMode=0)
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 ## Main Loop
