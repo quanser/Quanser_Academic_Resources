@@ -47,7 +47,7 @@ class QArm():
 
     #endregion
 
-    def __init__(self, hardware=1, readMode=1, frequency=500, deviceId = 0, hilPort = 18900):
+    def __init__(self, hardware=1, readMode=0, frequency=500, deviceId = 0, hilPort = 18900):
         """
         Initializes and configures the QArm in Position Mode. 
         (PWM mode not supported)
@@ -57,7 +57,7 @@ class QArm():
         hardware : int, optional
             Indicates whether the QArm is hardware-based (1) or virtual (0). Defaults to 1.
         readMode : int, optional
-            Mode for reading data. 0 for immediate I/O, 1 for task-based I/O. Defaults to 1.
+            Mode for reading data. 0 for immediate I/O, 1 for task-based I/O. Defaults to 0.
         frequency : int, optional
             Sampling frequency (used when `readMode` is set to 1). Defaults to 500.
         deviceId : int, optional

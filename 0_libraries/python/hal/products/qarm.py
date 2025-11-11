@@ -23,22 +23,31 @@ class QArmUtilities():
     @staticmethod
     def take_user_input_joint_space():
         """Use this method to take a user input for joint commands. Note that this method pauses execution until it returns. This is elegantly useful with the Position Mode on the QArm, which uses low level trajectory generation."""
-        stringCmd = input("Where should the arm go? Enter floating point values separated by commas for the base, shoulder, elbow, wrist in degrees, and gripper (0-1).\nAll joints are floats. Type Ctrl+C to exit)\n")
+
         try:
+            stringCmd = input("Where should the arm go? Enter floating point values separated by commas for the base, shoulder, elbow, wrist in degrees, and gripper (0-1).\nAll joints are floats. Press Ctrl+C to exit)\n")
+            
             stringCmd = [x.strip() for x in stringCmd.split(',')]
             result = np.array([float(stringCmd[i]) for i in range(len(stringCmd))])
-            result = result * np.pi/180 # convert back to radians
-        except:
+            result[0:4] = result[0:4] * np.pi/180 # convert back to radians
+            return result
+        
+        except KeyboardInterrupt:
+            print("\nOperation canceled by user. Exiting gracefully...")
+            exit(0)
+
+        except Exception as e:
             print("Invalid entry. Going HOME instead. Please try again.")
             result = np.array([0, 0, 0, 0, 0])
-        finally:
+        
             return result
 
     @staticmethod
     def take_user_input_task_space():
         """Use this method to take a user input for end-effector position commands. Note that this method pauses execution until it returns. Note that this uses joint level trajectory generation, so the end-effector path will not be linear."""
-        stringCmd = input("Where should the end-effector go? Enter floating point values separated by commas for the X (meters), Y (meters), Z (meters), wrist angle (degrees), and gripper (0-1).\nAll values are floats. Type Ctrl+C to exit)\n")
+        
         try:
+            stringCmd = input("Where should the end-effector go? Enter floating point values separated by commas for the X (meters), Y (meters), Z (meters), wrist angle (degrees), and gripper (0-1).\nAll values are floats. Type Ctrl+C to exit)\n")
 
             stringCmd = [x.strip() for x in stringCmd.split(',')]
             result = np.array([float(stringCmd[i]) for i in range(len(stringCmd))])
@@ -51,11 +60,18 @@ class QArmUtilities():
             if (wristAngle > 160*np.pi/180) or (wristAngle < -160*np.pi/180):
                 print("Wrist angle out of bounds. Please try again.")
                 result = np.array([0.45, 0.00, 0.49, 0])
-        except:
+            
+            return result
+        
+        except KeyboardInterrupt:
+            print("\nOperation canceled by user. Exiting gracefully...")
+            exit(0)
+
+        except Exception as e:
             print("Invalid entry. Going HOME instead. Please try again.")
             result = np.array([0.45, 0.00, 0.49, 0])
-        finally:
             return result
+
 
     def forward_kinematics(self, phi):
         """ QUANSER_ARM_FPK v 1.0 - 30th August 2020

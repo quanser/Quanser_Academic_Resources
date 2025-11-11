@@ -13,7 +13,7 @@ def elapsed_time():
 startTime = time.time()
 #endregion
 
-with QArm(hardware=1) as myArm:
+with QArm(hardware=1, readMode=0) as myArm:
 #region: Main Loop
     myArmUtilities = QArmUtilities()
     ledCmd = np.array([0, 1, 0], dtype=np.float64)
