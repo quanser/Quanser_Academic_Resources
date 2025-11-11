@@ -15,7 +15,7 @@ from pal.utilities.timing import QTimer
 ## Section A - Setup
 poseData, jointData, timeData  = [], [], []
 kbd         = QKeyboard()
-myMiniArm   = QArmMini(hardware=1, id=8)
+myMiniArm   = QArmMini(hardware=1, id=3)
 kbdNav      = QArmMiniKeyboardNavigator(keyboard=kbd, initialPose=myMiniArm.HOME_POSE)
 myArmMath   = QArmMiniFunctions()
 timer       = QTimer(sampleRate=30.0, totalTime=300.0)

@@ -21,7 +21,7 @@ print('Sample Time: ', sampleTime)
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 # Additional parameters
-ipHost, ipDriver = '192.168.3.10', 'localhost'
+ipHost, ipQCar = '192.168.3.10', 'localhost'
 counter = 0
 imageWidth = 640
 imageHeight = 480

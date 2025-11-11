@@ -26,9 +26,9 @@ with QArm(hardware=1) as myArm:
         positionCmd = result[0:3]
         gamma = result[3] 
         gripCmd = result[4]
-        allPhi, phiCmd = myArmUtilities.qarm_inverse_kinematics(positionCmd, gamma, myArm.measJointPosition[0:4])
+        allPhi, phiCmd = myArmUtilities.inverse_kinematics(positionCmd, gamma, myArm.measJointPosition[0:4])
         
-        location, rotation = myArmUtilities.qarm_forward_kinematics(np.append(phiCmd, gamma))
+        location, rotation = myArmUtilities.forward_kinematics(np.append(phiCmd, gamma))
 
         print(f"Arm going to: {location}")
 

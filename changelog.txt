@@ -2,6 +2,12 @@
 Change Log for releases after 2025:
 ==========================================================================================================
 
+Release (2025-11-11):
+- Updated QArm and QArm mini files
+- Fixed difference in naming for QArm examples using the forward and inverse kin functions
+- Added QArm and QArm mini examples
+- QArm library now includes a camera class
+
 Release (2025-08-08):
 - Updated Aero 2 content names to match all other files
 - Added new skills activity 6 and 7 for QCar2

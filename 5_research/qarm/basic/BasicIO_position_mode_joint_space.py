@@ -25,7 +25,7 @@ with QArm(hardware=1) as myArm:
         phiCmd = result[0:4]
         gripCmd = result[4]
 
-        location, rotation = myArmUtilities.qarm_forward_kinematics(phiCmd)
+        location, rotation = myArmUtilities.forward_kinematics(phiCmd)
         print(f"Arm going to: {location} in x, y, z")
 
         myArm.read_write_std(phiCMD=phiCmd, gprCMD=gripCmd, baseLED=ledCmd)

@@ -1,0 +1,39 @@
+[System]
+Name='qarm_fuzzy_controller'
+Type='mamdani'
+Version=2.0
+NumInputs=1
+NumOutputs=1
+NumRules=5
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='position_error'
+Range=[-2.3562 2.3562]
+NumMFs=5
+MF1='negative':'trimf',[-2.3562 -2.3562 -1.1781]
+MF2='small':'trimf',[-0.5890 0 0.5890]
+MF3='positive':'trimf',[1.1781 2.3562 2.3562]
+MF4='little_negative':'trimf',[-1.7670 -0.5890 0]
+MF5='little_positive':'trimf',[ 0 0.5890 1.7670]
+
+[Output1]
+Name='voltage'
+Range=[-1 1]
+NumMFs=5
+MF1='spin_back_fast':'trimf',[-1 -1 -0.6]
+MF2='no_change':'trimf',[-0.25 0 0.25]
+MF3='spin_ahead_fast':'trimf',[0.6 1 1]
+MF4='spin_back_slow':'trimf',[-0.7 -0.15 0]
+MF5='spin_ahead_slow':'trimf',[0 0.15 0.7]
+
+[Rules]
+2, 2 (1) : 1
+4, 4 (1) : 1
+1, 1 (1) : 1
+5, 5 (1) : 1
+3, 3 (1) : 1

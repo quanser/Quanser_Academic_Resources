@@ -66,6 +66,6 @@ start "LeaderFollower" "quarc_run" -r  MS_QD2_QBPlat.rt-win64 -drone_ip %drone_i
 @REM Wait for Mission Server Startup
 timeout /t 20
 @REM Drone
-start "Drone" "quarc_run" -r -t tcpip://%drone_id%:17000 QDrone.rt-linux_qdrone2 -uri tcpip://%drone_id%:17001?retries=10
+start "Drone" "quarc_run" -r -t tcpip://%drone_id%:17000 QD2_DroneStack_PID_R2023a.rt-linux_qdrone2 -uri tcpip://%drone_id%:17001?retries=10
 @REM QBot
 start "QBot" "quarc_run" -r -t tcpip://%qbot_id%:17000 qbot_driver.rt-linux_qbot_platform -uri tcpip://%qbot_id%:17001?retries=10
