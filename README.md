@@ -27,7 +27,7 @@ Before getting started with these resources, the first step is to download them 
 2. Open your Documents folder and open a windows terminal in that folder.
 3. Run the following command to create the Quanser directory and copy the contents of this repo in there.
     ```
-    git clone https://github.com/quanser/Quanser_Academic_Resources.git Quanser
+    git clone -b test_trainers --single-branch https://github.com/quanser/Quanser_Academic_Resources.git Quanser
     ```
 
 </details>
