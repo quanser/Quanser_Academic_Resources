@@ -462,9 +462,29 @@ class Camera2D():
         )
 
     def __enter__(self):
-        """Used for with statement."""
+        """
+        Used for `with` statement.
+
+        Returns
+        -------
+        SensorsCamera
+            The current instance of the class.
+        """
         return self
 
     def __exit__(self, type, value, traceback):
-        """Used for with statement. Terminates the Camera"""
+        """
+        Used for `with` statement.
+        Terminates the connection with the camera.
+
+        Parameters
+        ----------
+        type : Exception type
+            The exception type, if any.
+        value : Exception value
+            The exception value, if any.
+        traceback : Traceback
+            The traceback object, if any.
+        """
+        
         self.terminate()
