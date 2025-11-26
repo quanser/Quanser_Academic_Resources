@@ -44,7 +44,7 @@ ament_target_dependencies(command rclcpp geometry_msgs qcar2_interfaces)
 
 
 add_executable(qcar2_hardware src/qcar2_hardware.cpp)
-target_link_libraries(qcar2_hardware -lhil -lquanser_devices -lquanser_runtime -lquanser_common)
+target_link_libraries(qcar2_hardware -lquanser_devices -lhil -lquanser_runtime -lquanser_common)
 ament_target_dependencies(qcar2_hardware rclcpp std_msgs geometry_msgs sensor_msgs control_msgs qcar2_interfaces)
 
 add_executable(rgbd src/rgbd.cpp)
