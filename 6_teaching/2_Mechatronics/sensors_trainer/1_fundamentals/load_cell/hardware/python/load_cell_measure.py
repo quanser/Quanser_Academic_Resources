@@ -11,8 +11,8 @@ import numpy as np
 
 # region: set up experiment parameters
 frequency = 1000 # Hz
-simulationTime = 100 # Second
-params = [0, 0] # fill in with calibration coefficients [slope, intercept]
+simulationTime = 300 # Second
+coefficients  = [0, 0] # fill in with calibration coefficients [slope, intercept]
 buffer = deque([],maxlen=100) # buffer to store last 100 samples for moving average
 timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 # endregion 

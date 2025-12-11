@@ -1,14 +1,22 @@
+# Stepper 
+
+# Understanding stepper motor drive modes.
+
+# region: Python level imports
 import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.actuators import ActuatorsTrainer
+# endregion 
 
-simulationTime = 30 # will run for this amount of seconds
+
+# region: Experiment constants
+simulationTime = 90 # will run for this amount of seconds
 frequency = 300 # Hz
-timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
 cntr4s = 0
 loopCounter = 0
 stepperFwd = True
+
                        # a+ a- b+ b-
 waveDrive =   np.array([[0, 0, 0, 0],  
                         [0, 0, 0, 0],  
@@ -34,15 +42,17 @@ halfStepDrive = np.array([[0, 0, 0, 0],
 
 
 stepperAmplitude = 0.3 # 12V * 0.3 = 3.6 V
+stepsPerSecond = 10
 
-stepsPerSecond = 10 
 nextStep = 1
 stepCounter = 0
+# endregion
 
+# region: Main Loop
 with ActuatorsTrainer(block = 2) as actuators:
+    timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
     actuators.enable_motors()
-    timer._restart()
     while timer.check():
 
         actuators.read_outputs()
@@ -66,3 +76,4 @@ with ActuatorsTrainer(block = 2) as actuators:
         actuators.write_motors()
 
         timer.sleep()
+# endregion

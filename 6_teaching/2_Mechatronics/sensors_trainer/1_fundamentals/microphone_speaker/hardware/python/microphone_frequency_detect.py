@@ -12,7 +12,7 @@ from scipy.signal import find_peaks
 # region: define Frequency Detection Callback Class
 class frequency_detection:
     def __init__(self):
-        # self.previous_peaks = []
+        self.previous_peaks = []
         pass
 
     def __call__(self, mag, freqs):

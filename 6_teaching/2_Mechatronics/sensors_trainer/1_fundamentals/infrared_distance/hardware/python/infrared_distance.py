@@ -19,25 +19,22 @@ scope.addAxis(row=0,
             timeWindow=window,
             yLabel='Voltage (V)',
             yLim=(0, 3.3))
-scope.axes[0].attachSignal(name='Measured voltage')
+scope.axes[0].attachSignal(name='Measured Voltage')
 
 # Voltage scope
 scope.addAxis(row=1,
             col=0,
             timeWindow=window,
             yLabel='Distance (m)',
-            yLim=(0, 0.80))
+            yLim=(0, 1))
 scope.axes[1].attachSignal(name='Measured Distance (m)')
 # endregion
 
 
 # region: experiment constants
 frequency = 200 # Hz
-cntr1s = 0
-cntr3s = 0
-counter = 0
-amplitude = 0.268
-exponent = -1.192
+amplitude = 0
+exponent = 0
 # endregion
 
 

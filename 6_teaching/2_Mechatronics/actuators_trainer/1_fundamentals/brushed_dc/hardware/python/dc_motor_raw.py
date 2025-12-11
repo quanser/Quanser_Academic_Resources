@@ -1,13 +1,21 @@
+# DC Motor - raw signals 
+
+# Understanding how DC motors get driven.
+
+# region: Python level imports
 from pal.products.actuators import ActuatorsTrainer
 from pal.utilities.timing import Timer
+# endregion 
 
+# region: Experiment constants
 frequency = 120 # Hz
 simulationTime = 5 # seconds
+# endregion
 
-# Initialize timer
-timer = Timer(frequency, simulationTime)
-
+# region: Main Loop
 with ActuatorsTrainer(block = 2) as actuators:
+    timer = Timer(frequency, simulationTime)
+
     actuators.enable_motors()
 
     while timer.check():
@@ -22,3 +30,5 @@ with ActuatorsTrainer(block = 2) as actuators:
         actuators.write_motors()
 
         timer.sleep()
+    
+#endregion

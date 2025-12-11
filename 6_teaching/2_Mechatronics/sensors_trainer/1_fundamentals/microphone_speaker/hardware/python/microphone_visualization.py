@@ -14,6 +14,10 @@ vis = AudioVisualizer(input_device=input_device,
                         block_size=1024, 
                         waveform_max_time_blocks=1,
                         waveform_yrange = (-0.1, 0.1),
+                        # show_fft=True,
+                        # fft_block_size= 1024,
+                        # fft_xrange=(0,20000),
+                        # fft_yrange=(0,5)
                         )
 vis.start()
 # endregion

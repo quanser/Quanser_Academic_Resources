@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 
 # region: set up experiment parameters
 frequency = 1000 # Hz
+weightTime = 3 # seconds to record data for each weight
 recordedData=[]
 # endregion 
 
@@ -32,13 +33,13 @@ def process(sensors,weightTime,frequency):
     timer = Timer(sampleRate=frequency, totalTime=duration)
     sensorDataBuffer = np.zeros(int(frequency*duration)) 
     counter = 0
+    # --- complete function here ---
     while timer.check():
-        sensors.read_outputs()
-        loadCell = sensors.loadCell
-        # --- complete function here ---
-
-        # ---------------------
+        
         timer.sleep()
+    return 0
+    # ---------------------
+
 
 def calibrate(recordedData):
     '''
@@ -62,9 +63,9 @@ with SensorsTrainer() as sensors:
         weight = input(f"Enter the weight of the item on load cell and press enter to continue (Enter q to quit):")
         if not weight or weight.lower() == 'q':
             break
-        mean_voltage = process(sensors,frequency)
-        print(mean_voltage)
+        mean_voltage = process(sensors,weightTime,frequency)
         recordedData.append((weight, mean_voltage))
+        print(f'recorded mean voltage: {mean_voltage} for weight: {weight} g')
     calibrate(recordedData)
 # endregion
 input ("Press Enter to exit...")

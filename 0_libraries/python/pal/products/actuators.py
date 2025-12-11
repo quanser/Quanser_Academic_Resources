@@ -15,7 +15,7 @@ import time
 import numpy as np
 from quanser.hardware import (HIL, HILError,
                               MAX_STRING_LENGTH, Clock,
-                              DigitalState)
+                              DigitalState, IntegerProperty)
 from quanser.hardware.enumerations import BufferOverflowMode
 
 class ActuatorsTrainer():
@@ -180,6 +180,15 @@ class ActuatorsTrainer():
                     self.READ_ENCODER_CHANNELS,
                     len(self.READ_ENCODER_CHANNELS),
                     np.zeros(len(self.READ_ENCODER_CHANNELS), dtype=np.int32))
+                
+                # check firmware
+                properties = np.array([IntegerProperty.FIRMWARE_BUILD], dtype=np.int32)
+
+                num_properties = len(properties)
+                buffer = np.zeros(num_properties, dtype=np.int32)
+                self.card.get_integer_property(properties, num_properties, buffer)
+                # print(buffer)
+                self._firmwareBuild = buffer
 
                 self.card.watchdog_set_pwm_expiration_state(
                     self.WRITE_PWM_CHANNELS,
@@ -640,7 +649,6 @@ class ActuatorsTrainer():
         else:
             if time.time() - self._startTime > 0.3:
                 self._checkError = True
-
 
     def terminate(self):
         """

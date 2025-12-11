@@ -1,10 +1,16 @@
+# BLDC - bldc
+
+# Learning to drive a BLDC motor
+
+# region: Python level imports
 import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.actuators import ActuatorsTrainer
+# endregion 
 
+# region: Experiment constants
 simulationTime = 30 # will run for this amount of seconds
 frequency = 400 # Hz
-timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
 cntr1s = 0
 cntr3s = 0
@@ -17,9 +23,12 @@ bldc = np.array([[0, 0, 0],
                  [0, 0, 0],
                  [0, 0, 0]])
 
-bldcAmplitude = 0.2
+bldcAmplitude = 0.15
+# endregion
 
+# region: Main Loop
 with ActuatorsTrainer(block = 2) as actuators:
+    timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
     actuators.enable_motors()
     while timer.check():
@@ -30,6 +39,7 @@ with ActuatorsTrainer(block = 2) as actuators:
 
         # convert from binary to decimal
         hallState = 0
+
 
         #commands based on hall sensors.
         match hallState:
@@ -78,3 +88,4 @@ with ActuatorsTrainer(block = 2) as actuators:
 
         timer.sleep()
 
+# endregion

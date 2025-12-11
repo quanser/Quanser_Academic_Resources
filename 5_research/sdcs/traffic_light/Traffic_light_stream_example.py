@@ -85,9 +85,9 @@ try:
             #color = [1, 0, 0] # for red
             #color = [0, 1, 0] # for yellow
             #color = [0, 0, 1] # for green
-            bytesSent = myClient.send(np.array(color, dtype=np.uint8))
+            sentFlag = myClient.send(np.array(color, dtype=np.uint8))
 
-            if bytesSent == -1:
+            if sentFlag == -1:
                 print('Server application not receiving.')
                 break
 
@@ -106,7 +106,7 @@ except KeyboardInterrupt:
 finally:
     # Reset Traffic Light
     print('Reset Traffic Light LEDs')
-    bytesSent = myClient.send(np.array([0, 0, 0], dtype=np.uint8))
+    sentFlag = myClient.send(np.array([0, 0, 0], dtype=np.uint8))
     time.sleep(0.2)
     # Terminate Client
     myClient.terminate()

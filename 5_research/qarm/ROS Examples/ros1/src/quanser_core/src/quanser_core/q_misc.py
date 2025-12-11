@@ -157,22 +157,22 @@ class BasicStream:
         buffer - numpy array of data to be sent \n
 
         OUTPUTS: \n
-        bytesSent - number of bytes actually sent (-1 if send failed) \n
+        sentFlag - number of bytes actually sent (-1 if send failed) \n
         """
 
         # Set up array to hold bytes to be sent
         byteArray = buffer.tobytes()
-        self.bytesSent = 0
+        self.sentFlag = 0
         
         # Send bytes and flush immediately after
         try:
-            self.bytesSent = self.clientStream.send(byteArray, len(byteArray))
+            self.sentFlag = self.clientStream.send(byteArray, len(byteArray))
             self.clientStream.flush()
         except StreamError as e:
             print(e.get_error_message())
-            self.bytesSent = -1 # If an error occurs, set bytesSent to -1 for user to check
+            self.sentFlag = -1 # If an error occurs, set sentFlag to -1 for user to check
         finally:
-            return self.bytesSent
+            return self.sentFlag
 
 class Utilities:
     '''Class object consisting of common utilities such as saturation methods'''

@@ -100,9 +100,9 @@ try:
         if myServer.connected:
             output = [location[0], location[1], location[2], rotation[0], rotation[1], rotation[2], int(status)]
             toNumpy = np.array(output, dtype=np.dtype('d'))
-            bytesSent = myServer.send(toNumpy)
-            #print('Bytes sent:', bytesSent)
-            if bytesSent == -1:
+            sentFlag = myServer.send(toNumpy)
+            #print('Bytes sent:', sentFlag)
+            if sentFlag == -1:
                 error = error + 1
             else:
                 error = 0

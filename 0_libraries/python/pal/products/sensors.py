@@ -180,20 +180,22 @@ class SensorsTrainer():
             len(self.WRITE_OTHER_CHANNELS),
             dtype=np.float64)
 
-        self.READ_ANALOG_CHANNELS = np.array([0, 1, 2, 3, 4, 5, 6],
+        self.READ_ANALOG_CHANNELS = np.array([0, 1, 2, 3, 4, 5, 6, 7],
                                              dtype=np.uint32)
         self.READ_ENCODER_CHANNELS = np.array([0, 1], dtype=np.uint32)
         self.READ_DIGITAL_CHANNELS = np.array([0, 1, 2, 3, 4, 5, 6, 
-                                               7, 8, 9, 10, 11, 12],
+                                               7, 8, 9, 10, 11, 12, 13, 14],
                                               dtype=np.uint32)
 
         rangeTOF = np.arange(0, 128, dtype=np.uint32) # 0 - 127
         environmentSensors = np.array([9000, 10000, 11000], dtype=np.uint32)
         colorReflectance =  np.arange(11001, 11070, dtype=np.uint32) # 11001 - 11069
         TOFTargets = np.arange(13000, 13064, dtype=np.uint32) # 13000 - 13063
-        IMU_thermal =  np.array([3000, 3001, 3002, 4000, 
+        imuThermal =  np.array([3000, 3001, 3002, 4000, 
                                  4001, 4002, 8000, 8001, 8002,
                                  10001, 10002, 10003], dtype=np.uint32)
+        cpuTemp = np.array([10004], dtype=np.uint32)
+
         
         radarStartChnl = np.array([128], dtype=np.uint32)
         radarLengthChnl = np.array([129], dtype=np.uint32)
@@ -246,7 +248,7 @@ class SensorsTrainer():
         
         self.READ_OTHER_CHANNELS = np.concatenate((rangeTOF, environmentSensors,
                                         colorReflectance, TOFTargets,
-                                        IMU_thermal, radarStartChnl,
+                                        imuThermal, cpuTemp, radarStartChnl,
                                         radarLengthChnl, radarPointsChnl,
                                         radarServiceChnl, radarDistance, 
                                         radarAmplitude, ultraStartChnl,
@@ -279,14 +281,19 @@ class SensorsTrainer():
         self.passiveIR = np.zeros(1, dtype=np.float64)
         self.IRDistance = np.zeros(1, dtype=np.float64)
         self.loadCell = np.zeros(1, dtype=np.float64)
+        self.userCurrent = np.zeros(1, dtype=np.float64)
 
         # encoder channel
         self.encoder = np.zeros(2, dtype=np.int32)
 
         # digital channel
+        self.digitalInputs = np.zeros(4, dtype=np.float64)
         self.buttons = np.zeros(2, dtype=np.float64)
         self.joystickButton = np.zeros(1, dtype=np.float64)
         self.encoderPulses = np.zeros(2, dtype=np.float64)
+        self.powerAlert = np.zeros(1, dtype=np.float64)
+        self.thermocoupleFault = np.zeros(4, dtype=np.float64)
+        self.sdCardPresent = np.zeros(1, dtype=np.float64)
 
         # other channel: TOF color sensor and environment
         self.TOFDistance = np.zeros(64, dtype=np.float64)
@@ -295,6 +302,7 @@ class SensorsTrainer():
         self.TOFNumberOfTargets = np.zeros(64, dtype=np.float64)
         self.pressure = np.zeros(1, dtype=np.float64)
         self.tempWeather = np.zeros(1, dtype=np.float64)
+        self.tempCPU = np.zeros(1, dtype=np.float64)
         self.humidity = np.zeros(1, dtype=np.float64)
         self.colorClear = np.zeros(1, dtype=np.float64)
         self.colorRGB = np.zeros(3, dtype=np.float64)
@@ -339,15 +347,13 @@ class SensorsTrainer():
                     StringProperty.SERIAL_NUMBER,64)
                 
                 # check firmware
-                properties = np.array([IntegerProperty.FIRMWARE_MAJOR_VERSION, 
-                                       IntegerProperty.FIRMWARE_MINOR_VERSION,
-                                       IntegerProperty.FIRMWARE_BUILD, 
-                                       IntegerProperty.FIRMWARE_DATE], dtype=np.int32)
+                properties = np.array([IntegerProperty.FIRMWARE_BUILD], dtype=np.int32)
 
                 num_properties = len(properties)
                 buffer = np.zeros(num_properties, dtype=np.int32)
                 self.card.get_integer_property(properties, num_properties, buffer)
                 # print(buffer)
+                self._firmwareBuild = buffer
 
                 self.card.set_encoder_counts(
                     self.READ_ENCODER_CHANNELS,
@@ -407,6 +413,8 @@ class SensorsTrainer():
                         self._frequency,
                         self.samples 
                     )
+
+                    self.read_outputs() # read data once to clear old data
 
             self._HilError = False
 
@@ -600,16 +608,18 @@ class SensorsTrainer():
             self.passiveIR = self._readAnalogBuffer[4]
             self.IRDistance = self._readAnalogBuffer[5]
             self.loadCell = self._readAnalogBuffer[6]
+            self.userCurrent = self._readAnalogBuffer[7]
 
             self.encoder0 = self._readEncoderBuffer[0]
             self.encoder1 = self._readEncoderBuffer[1]
 
+            self.digitalInputs = self._readDigitalBuffer[0:4]
             self.buttons = self._readDigitalBuffer[4:6]
             self.joystickButton = self._readDigitalBuffer[6]
             self.encoderPulses = self._readDigitalBuffer[[7, 8]]
-            self.thermocoupleFault = self._readDigitalBuffer[9:]
-            #self.digitalInputs = self._readDigitalBuffer[0:4]
-
+            self.powerAlert = self._readDigitalBuffer[9]
+            self.thermocoupleFault = self._readDigitalBuffer[10:14]
+            self.sdCardPresent = self._readDigitalBuffer[14]
 
             self.TOFDistance = self._readOtherBuffer[0:64]
             self.TOFSigma = self._readOtherBuffer[64:128]
@@ -627,14 +637,15 @@ class SensorsTrainer():
             self.tempThermo = self._readOtherBuffer[273]
             self.tempThermoChip = self._readOtherBuffer[274]
             self.tempIMU = self._readOtherBuffer[275]
+            self.tempCPU = self._readOtherBuffer[276]
 
             if self._radarEn:
-                self.radarStart = self._readOtherBuffer[276]
-                self.radarLength = self._readOtherBuffer[277]
-                self.radarPoints = self._readOtherBuffer[278]
-                self.radarService = self._readOtherBuffer[279]
-                distanceEnd = 280+self._radDistLen
-                self.radarDistances = self._readOtherBuffer[280:distanceEnd]
+                self.radarStart = self._readOtherBuffer[277]
+                self.radarLength = self._readOtherBuffer[278]
+                self.radarPoints = self._readOtherBuffer[279]
+                self.radarService = self._readOtherBuffer[280]
+                distanceEnd = 281+self._radDistLen
+                self.radarDistances = self._readOtherBuffer[281:distanceEnd]
                 amplitudeEnd = distanceEnd + self._radAmpLen
                 self.radarAmplitudes = self._readOtherBuffer[distanceEnd:amplitudeEnd]
 
@@ -651,7 +662,7 @@ class SensorsTrainer():
                 self.radarService = np.float64(0)
                 self.radarDistances = np.float64(0)
                 self.radarAmplitudes  = np.float64(0)
-                amplitudeEnd = 282
+                amplitudeEnd = 283
 
             if self._ultraEn:
                 self.ultraStart = self._readOtherBuffer[amplitudeEnd]
@@ -837,6 +848,7 @@ class SensorsDisplay():
     def read_touch(self):
         """
         Reads touch input from the Mechatronics Sensors Trainer LCD.
+        The device can read up to 5 fingers. 
 
         Returns
         -------
@@ -854,9 +866,10 @@ class SensorsDisplay():
             each containing:
             - `r` (int): Pixel row of the finger.
             - `c` (int): Pixel column of the finger.
+            - `id` (int): Identifier associated with the finger.
+            THE FOLLOWING DETAILS ARE NOT TESTED AND MIGHT NOT WORK.
             - `event` (int): Event type (0 = put down, 1 = put up,
                                          2 = contact, 3 = no event).
-            - `id` (int): Identifier associated with the finger.
             - `weight` (float): Touch weight
                     (valid points in X * valid points in Y / 2).
             - `speed` (int): Speed of the touch
@@ -1026,7 +1039,7 @@ class SensorsDisplay():
                 image_size=image.shape,
                 image_format=ImageFormat.ROW_MAJOR_GREYSCALE,
                 image=image,
-                mask=mask)
+                mask=mask)     
         
 
     def begin_draw(self):

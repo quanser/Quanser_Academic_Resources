@@ -1,10 +1,16 @@
+# BLDC - hall
+
+# Exploring hall sensor readings
+
+# region: Python level imports
 import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.actuators import ActuatorsTrainer
+# endregion 
 
+# region: Experiment constants
 simulationTime = 30 # will run for this amount of seconds
 frequency = 60 # Hz
-timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
 cntr1s = 0
 cntr3s = 0
@@ -13,12 +19,15 @@ bldc = np.array([[1, 0, 0], # enable A
                  [0, 1, 0], # enable B
                  [0, 0, 1]]) # enable C
 
-bldcAmplitude = 0.1
+bldcAmplitude = 0.2
 
 bldcCmd = bldc[0]
 index = 0
+# endregion
 
+# region: Main Loop
 with ActuatorsTrainer(block = 2) as actuators:
+    timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
     actuators.enable_motors()
     while timer.check():
@@ -41,7 +50,6 @@ with ActuatorsTrainer(block = 2) as actuators:
             index = index + 1
             bldcCmd = bldc[index%3]
             cntr3s = 0
-            
 
         encoderCounts = actuators.encoder
 
@@ -52,6 +60,7 @@ with ActuatorsTrainer(block = 2) as actuators:
         timer.sleep()
 
 print(f'Encoder Counts: {encoderCounts}')
+# endregion
 
 
 

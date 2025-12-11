@@ -6,19 +6,15 @@ from pal.utilities.keyboard import QKeyboard
 from matplotlib import pyplot as plt
 # endregion 
 
-# region: observer definition 
-# <NO SCOPE DEFINED>
-# endregion
-
 # region: experiment constants
-simulationTime = 120 # will run for this amount of seconds
+simulationTime = 600 # will run for this amount of seconds
 frequency = 200 # Hz
 counter = 0
 samples = 0
 data = []
-minMeasurementValue = 0.1
-stepBetweenMeasurements = 0.05
-maximumMeasurementValue = 0.8
+minMeasurementValue = 0 # in meters
+stepBetweenMeasurements = 0.05 # in meters
+maximumMeasurementValue = 4 # in meters
 
 numSamples = int((maximumMeasurementValue - minMeasurementValue)/stepBetweenMeasurements)
 # endregion 
@@ -28,6 +24,7 @@ numSamples = int((maximumMeasurementValue - minMeasurementValue)/stepBetweenMeas
 timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 keyboardInput = QKeyboard()
 print("Press SPACE to record a measurement, a total of ", numSamples+1, "will be recorded.")
+print(f"Start at: {minMeasurementValue} meters")
 with SensorsTrainer() as sensors:
 
     while timer.check():
@@ -37,13 +34,14 @@ with SensorsTrainer() as sensors:
             keyboardInput.update()
             if bool(keyboardInput.states[keyboardInput.K_SPACE]):
                 # append data [voltage, distance]
-                distance = minMeasurementValue
-                data.append([infrared,distance + stepBetweenMeasurements *(samples)])
-                print(f"Recorded Voltage: {infrared:.3f}     Distance (m): {distance + 0.05 * (samples):.3f} samples: {samples+1}   (space pressed)")
+                distance = minMeasurementValue + (stepBetweenMeasurements *samples)
+                data.append([infrared,distance])
+                print(f"Recorded Voltage: {infrared:.3f}     Distance (m): {distance:.3f} samples: {samples+1}   (space pressed)")
+                print("value appended")
 
+                print(f"Next distance: {distance + stepBetweenMeasurements:.3f} m")
                 samples += 1
 
-                print("value appended")
         counter += 1
         if samples > numSamples:
             break

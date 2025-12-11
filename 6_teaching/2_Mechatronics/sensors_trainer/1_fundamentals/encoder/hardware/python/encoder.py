@@ -56,7 +56,7 @@ with SensorsTrainer(knobEncQuad=4) as sensors:
             
         # Do something every half second
         if counterHalfSec%150 == 0:  # half of the frequency will give us half a second.
-            countsPerTurn = 0
+            countsPerRev = 0
             
         counter += 1
         counterHalfSec += 1

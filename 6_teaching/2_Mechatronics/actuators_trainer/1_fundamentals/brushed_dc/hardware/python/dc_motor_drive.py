@@ -1,33 +1,25 @@
+# DC Motor - drive
+
+# Characterizing a DC motor.
+
+# region: Python level imports
 import numpy as np
 import subprocess
-import os
 import sys
+import os
 
 from pal.products.actuators import ActuatorsTrainer
 from pal.utilities.probe import Probe
 from pal.utilities.timing import Timer
 from pal.utilities.math import SignalGenerator
+# endregion 
 
-simulationTime = 120 # will run for this amount of seconds
-frequency = 120 # Hz
-counter = 0 # counter to track scopes
-prevSpeed = 0
-encoderRatio = 1
-squareWaveVoltage = 12
-
-# Square wave command generator at a 12 Volt amplitude and 4 second period
-squareWaveGenerator = SignalGenerator().square(squareWaveVoltage, 4)
-dc_command = next(squareWaveGenerator)
-
-# model parameters
-speedGain   = 0 # rads / s / V
-beta        = 0.15  # filter parameter
-
+#region: Scope setup
 # Scopes for motor voltage, encoder and speed
 probe = Probe(ip = 'localhost')
 probe.add_scope(numSignals=1, name='Motor Voltage')
 probe.add_scope(numSignals=1, name='Motor Encoder')
-probe.add_scope(numSignals=1, name='Motor Speed')
+probe.add_scope(numSignals=1, name='Tachometer (Motor Speed)')
 probe.add_scope(numSignals=2, name='Motor Model')
 subprocess.Popen(
     [sys.executable, 
@@ -35,11 +27,31 @@ subprocess.Popen(
     cwd=os.path.dirname(__file__))
 while not probe.connected:
     probe.check_connection()
+# endregion
 
-# Initialize timer
-timer = Timer(frequency, simulationTime)
 
+# region: Experiment constants
+simulationTime = 120 # will run for this amount of seconds
+frequency = 120 # Hz
+counter = 0 # counter to track scopes
+prevSpeed = 0
+encoderRatio = 1
+squareWaveVoltage = 12
+
+# model parameters
+speedGain   = 0 # rads / s / V
+beta        = 0.15  # filter parameter
+# endregion
+
+# Square wave command generator at a 12 Volt amplitude and 4 second period
+squareWaveGenerator = SignalGenerator().square(squareWaveVoltage, 4)
+dc_command = next(squareWaveGenerator)
+
+
+# region: Main Loop
 with ActuatorsTrainer(block = 2) as actuators:
+    # Initialize timer
+    timer = Timer(frequency, simulationTime)
 
     actuators.enable_motors()
 
@@ -49,10 +61,13 @@ with ActuatorsTrainer(block = 2) as actuators:
         currentTime = timer.get_current_time()
         actuators.read_outputs()
 
+        counts = actuators.encoder # counts
+        tachometer = actuators.tach # counts/s
+
         # update voltage command, as well as motor position & speed
         dc_command = squareWaveGenerator.send(currentTime)
-        position   = encoderRatio*actuators.encoder
-        speed      = encoderRatio*actuators.tach
+        position   = encoderRatio*counts
+        speed      = encoderRatio*tachometer
         mdlSpeed   = (((1-beta)*prevSpeed) + (beta*speedGain*dc_command))
 
         # update scopes every second sample
@@ -61,7 +76,7 @@ with ActuatorsTrainer(block = 2) as actuators:
                         scopeData=(currentTime,[dc_command]))
             probe.send(name='Motor Encoder',
                         scopeData=(currentTime,[position]))
-            probe.send(name='Motor Speed',
+            probe.send(name='Tachometer (Motor Speed)',
                         scopeData=(currentTime,[speed]))
             probe.send(name='Motor Model',
                         scopeData=(currentTime,[speed, mdlSpeed]))
@@ -75,4 +90,6 @@ with ActuatorsTrainer(block = 2) as actuators:
         prevSpeed = mdlSpeed
         timer.sleep()
 
+input('Press the enter key to exit.')
 probe.terminate()
+#endregion

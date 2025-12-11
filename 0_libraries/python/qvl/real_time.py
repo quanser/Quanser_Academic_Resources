@@ -8,21 +8,20 @@ import math
 class QLabsRealTime:
     """ The QLabsRealTime class is a collection of methods to start and stop pre-compiled real-time models to support open worlds in QLabs."""
 
-    _URIPort = 17001
-
     # Initialize class
     def __init__(self):
        """ Constructor Method """
        return
 
-    #def start_real_time_model(self, modelName, actorNumber=0, QLabsHostName='localhost', userArguments=True, additionalArguments=""):
-    def start_real_time_model(self, modelName, actorNumber=0, QLabsHostName='localhost', RTModelHostName='localhost', userArguments=True, additionalArguments=""):
+    def start_real_time_model(self, modelName, actorNumber=0, QLabsHostName='localhost', RTModelHostName='localhost', uriPort = 17001, userArguments=True, additionalArguments=""):
         """Starts pre-compiled real-time code made with QUARC or the Quanser APIs that has been designed to provide a real-time dynamic model and a virtual hardware interface. This function is for local execution only, but QLabs can still be running remotely.
 
         :param modelName: Filename of the model without extension.
         :param actorNumber: (Optional) The user defined identifier corresponding with a spawned actor of the same class and actor number. Only used for models with "workspace" in the model name.
         :param QLabsHostName: (Optional) The host name or IP address of the machine running QLabs. Only used for models with "workspace" in the model name.
-        :param userArguments: (Optional) Enables using non-standard device unmbers and uris
+        :param RTModelHostName: (Optional) The host name or IP address of the machine running the RT Model. Only used for models with "workspace" in the model name (advanced feature).
+        :param uriPort: (Optional) The user specified port number for the -uri run. Required for when more than a single type of device is being used.
+        :param userArguments: (Optional) Enables using non-standard device numbers and uris
         :param additionalArguments: (Optional) See QUARC documentation for additional quarc_run arguments.
         :type modelName: string
         :type actorNumber: uint32
@@ -37,10 +36,13 @@ class QLabsRealTime:
 
         if platform.system() == "Windows":
             if qlabs_rt_model:
-                self._URIPort = 17001 + actorNumber
+                URIPort = 17001 + actorNumber
+                if uriPort > 17001:
+                    URIPort = uriPort
+
                 if userArguments:
                     # this is a qlabs rt model, and use the QLabsHostName, _URIPort and actorNumber parameters
-                    cmdString="start \"QLabs_{}_{}\" \"%QUARC_DIR%\\quarc_run\" -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(modelName, actorNumber, modelName, self._URIPort, QLabsHostName, actorNumber, additionalArguments)
+                    cmdString="start \"QLabs_{}_{}\" \"%QUARC_DIR%\\quarc_run\" -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(modelName, actorNumber, modelName, URIPort, QLabsHostName, actorNumber, additionalArguments)
                 else:
                     # this is a qlabs rt model, but don't use additional parameters
                     cmdString="start \"QLabs_{}_{}\" \"%QUARC_DIR%\\quarc_run\" -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, actorNumber, modelName, additionalArguments)
@@ -72,7 +74,7 @@ class QLabsRealTime:
                         #cmdString="quarc_run -D -r -t tcpip://host.docker.internal:17000 {}.rt-linux_x86_64 {}".format(modelName, additionalArguments)
                         cmdString="quarc_run -D -r -t tcpip://{}:17000 {}.rt-linux_x86_64 {}".format(RTModelHostName, modelName, additionalArguments)
                 else:
-                    print("This method cannot be used to deploy generic real-time models to this platform. Please refer to the QUARC command line tools documentation for more information.")
+                    print("This method cannot be used to deploy generic real-time models to this platform. Please refer to the QUARC command line tools documentation for more information.")            
             else:
                 print("This Linux machine not supported for real-time model execution")
                 return
@@ -85,10 +87,9 @@ class QLabsRealTime:
 
         os.system(cmdString)
 
-        self._URIPort = self._URIPort + 1
         return cmdString
 
-    def terminate_real_time_model(self, modelName, RTModelHostName='localhost', additionalArguments=''):
+    def terminate_real_time_model(self, modelName, RTModelHostName='localhost',  additionalArguments=''):
         """Stops a real-time model specified by name that is currently running.
 
         :param modelName: Filename of the model without extension.
@@ -107,6 +108,7 @@ class QLabsRealTime:
             elif platform.machine() == "x86_64":
                 #cmdString="quarc_run -q -Q -t tcpip://host.docker.internal:17000 {}.rt-linux_x86_64 {}".format(modelName, additionalArguments)
                 cmdString="quarc_run -q -Q -t tcpip://{}:17000 {}.rt-linux_x86_64 {}".format(RTModelHostName, modelName, additionalArguments)
+            
             else:
                 print("This Linux machine not supported for real-time model execution")
                 return
@@ -118,7 +120,7 @@ class QLabsRealTime:
         os.system(cmdString)
         return cmdString
 
-    def terminate_all_real_time_models(self, RTModelHostName='localhost', additionalArguments=''):
+    def terminate_all_real_time_models(self, RTModelHostName='localhost',  additionalArguments=''):
         """Stops all real-time models currently running.
 
         :param additionalArguments: (Optional) See QUARC documentation for additional quarc_run arguments.

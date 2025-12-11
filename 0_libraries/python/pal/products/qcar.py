@@ -862,7 +862,8 @@ class QCarGPS:
                     return
                 self._lidar_client.checkConnection()
         else:
-            self.lidar = QCarLidar()
+            port = lidarIdealPort-2
+            self.lidar = QCarLidar(lidarPort=port)
         self.enableFiltering = True
         self.angularResolution = 1*np.pi/180
         self._phi = np.linspace(

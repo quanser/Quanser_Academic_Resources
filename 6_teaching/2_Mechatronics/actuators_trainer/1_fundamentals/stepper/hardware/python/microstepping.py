@@ -1,28 +1,41 @@
+# Stepper - microstepping
+
+# Understanding microstepping with sine waves.
+
+# region: Python level imports
 import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.actuators import ActuatorsTrainer
 from pal.utilities.math import SignalGenerator
+# endregion 
 
+# region: Experiment constants
 
 simulationTime = 30 # will run for this amount of seconds
-frequency = 500 # Hz 
-
-timer = Timer(sampleRate=frequency, totalTime=simulationTime)
-
+frequency = 500 # Hz # keep same angular frequency/speed, but change frequency
+# at 30rad/s, 200Hz gives 41 samples per period
+# at 400Hz it gives 83 and at 60, it gives 10
 cntr4s = 0
 
 stepperAmplitude = 0.5
-angularFrequency = 30  
+angularFrequency = 30 # up to 380 at 500 HZ for 8 samples per period
+# samples per period = 2pi/(angularFrequency*sampleTime) or # samples per period = 2pi* frequency /(angularFrequency)
 sineWave = SignalGenerator().sine(stepperAmplitude, angularFrequency)
 cosineWave = SignalGenerator().cosine(stepperAmplitude, angularFrequency)
 next(sineWave)
 next(cosineWave)
 
-forward = True
-with ActuatorsTrainer(block = 3) as actuators:
+# endregion
 
+
+# region: Main Loop
+forward = True
+with ActuatorsTrainer(block = 2) as actuators:
+
+    timer = Timer(sampleRate=frequency, totalTime=simulationTime)
+    
     actuators.enable_motors()
-    timer._restart()
+
     while timer.check():
 
         actuators.read_outputs()
@@ -39,7 +52,7 @@ with ActuatorsTrainer(block = 3) as actuators:
         cntr4s = cntr4s + 1
 
         if cntr4s == frequency*4:
-            # forward = not forward
+            # do something
             cntr4s = 0
 
         if forward:
@@ -49,3 +62,4 @@ with ActuatorsTrainer(block = 3) as actuators:
 
         actuators.write_motors()
         timer.sleep()
+# endregion

@@ -391,7 +391,7 @@ class BasicStream:
         buffer - numpy array of data to be sent \n
 
         OUTPUTS: \n
-        bytesSent - number of bytes actually sent (-1 if send failed) \n
+        sentFlag - number of bytes actually sent (-1 if send failed) \n
          \n
         Stream Server as an example \n
         >>> while True:
@@ -417,17 +417,17 @@ class BasicStream:
 
         # Set up array to hold bytes to be sent
         byteArray = buffer.tobytes()
-        self.bytesSent = 0
+        self.sentFlag = 0
 
         # Send bytes and flush immediately after
         try:
-            self.bytesSent = self.clientStream.send_byte_array(byteArray, len(byteArray))
+            self.sentFlag = self.clientStream.send_byte_array(byteArray, len(byteArray))
             self.clientStream.flush()
         except StreamError as e:
             print(e.get_error_message())
-            self.bytesSent = -1 # If an error occurs, set bytesSent to -1 for user to check
+            self.sentFlag = -1 # If an error occurs, set sentFlag to -1 for user to check
         finally:
-            return self.bytesSent
+            return self.sentFlag
 
 class Camera3D():
     def __init__(

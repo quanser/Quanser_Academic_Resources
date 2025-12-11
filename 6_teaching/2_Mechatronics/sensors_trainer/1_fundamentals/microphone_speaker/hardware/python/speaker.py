@@ -13,36 +13,36 @@ from matplotlib import pyplot as plt
 
 # region: set up audio output parameters
 output_device = find_audio_out("Quanser")
-sample_rate = 44100        # sample rate
-wave_duration = 15.5   # seconds per note
+sampleRate = 44100        # sample rate
+wave_duration = 5.0   # seconds per note
 # endregion
 
 # region: function to generate waveform
-def generate_waveform(desred_freq, sample_rate, duration):
+def generate_waveform(desiredFreq, sampleRate, duration):
     '''
     Generate a sine wave of desired frequency.
     args:
-        desred_freq: desired frequency in Hz (float)
-        sample_rate: sample rate in Hz (int)
+        desiredFreq: desired frequency in Hz (float)
+        sampleRate: sample rate in Hz (int)
         duration: duration in seconds (float)
     
-    return: numpy array of shape (sample_rate * duration, 1)
+    return: numpy array of shape (sampleRate * duration, 1)
     '''
     # --- complete function hre ---
-    wave = np.zeros((sample_rate, 1), dtype=np.float32)
+    wave = np.zeros((sampleRate, 1), dtype=np.float32)
     # -----------------------------
     return wave
 # endregion
 
 # region: main speaker loop
-with sd.OutputStream(device= output_device, channels=1, samplerate=sample_rate) as stream:
+with sd.OutputStream(device= output_device, channels=1, samplerate=sampleRate) as stream:
     try:
         while True:
             ans = input("Enter desired frequency:")
             try:
                 freq = float(ans)
                 print(f"Playing {freq:.2f} Hz...")
-                wave = generate_waveform(freq, sample_rate, wave_duration)
+                wave = generate_waveform(freq, sampleRate, wave_duration)
                 stream.write(wave)
 
                 time.sleep(1)

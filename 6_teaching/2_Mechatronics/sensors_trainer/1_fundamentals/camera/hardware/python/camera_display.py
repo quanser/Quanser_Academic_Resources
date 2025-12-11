@@ -3,7 +3,6 @@
 # Students can use this as a starting point for more complex image processing tasks.
 
 # region: Python level imports
-import numpy as np
 import cv2
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsCamera

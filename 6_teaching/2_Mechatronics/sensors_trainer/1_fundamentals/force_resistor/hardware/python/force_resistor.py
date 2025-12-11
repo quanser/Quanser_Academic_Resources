@@ -11,8 +11,8 @@ from pal.products.sensors import SensorsTrainer
 from pal.utilities.probe import Probe
 # endregion 
 
-#region: Scope or Probe/Observer setup
-# Scopes for force resistor reading
+#region: Scope setup
+# Scope for force resistor reading
 probe = Probe(ip = 'localhost')
 probe.add_scope(numSignals=1, name='Force Resistor')
 
