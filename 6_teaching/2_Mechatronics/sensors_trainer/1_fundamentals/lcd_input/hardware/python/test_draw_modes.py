@@ -8,25 +8,25 @@ import cv2
 white = np.full((480, 800, 3), 255, dtype=np.uint8)
 
 with SensorsTrainer() as sensors, \
-     SensorsDisplay() as lcd:   
+     SensorsDisplay() as lcd:    
 
      # Build full paths to find images if file is ran from another location. 
      # Picture files still need to be in the same location as this script. 
 
      # Directory where the script is located
      script_dir = os.path.dirname(os.path.abspath(__file__))
-     pic1_path = os.path.join(script_dir, 'picture1.png')
-     pic2_path = os.path.join(script_dir, 'picture2.png')
+     blue_path = os.path.join(script_dir, 'blue_pic.png')
+     yllw_path = os.path.join(script_dir, 'yellow_pic.png')
      mask_path = os.path.join(script_dir, 'mask.png')
 
-     pic1 = cv2.imread(pic1_path, cv2.IMREAD_COLOR)
-     pic2 = cv2.imread(pic2_path, cv2.IMREAD_COLOR)
+     blue = cv2.imread(blue_path, cv2.IMREAD_COLOR)
+     yellow = cv2.imread(yllw_path, cv2.IMREAD_COLOR)
      mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
 
      # # could use this instead if file is being ran from the folder 
      # # where this file is located. 
-     # pic1 = cv2.imread('picture1.png', cv2.IMREAD_COLOR)
-     # pic2 = cv2.imread('picture2.png', cv2.IMREAD_COLOR)
+     # blue = cv2.imread('blue_pic.png', cv2.IMREAD_COLOR)
+     # yellow = cv2.imread('yellow_pic.png', cv2.IMREAD_COLOR)
      # mask = cv2.imread('mask.png', cv2.IMREAD_GRAYSCALE)
 
      # Draw Image Example to show how to draw images into the screen. 
@@ -34,9 +34,9 @@ with SensorsTrainer() as sensors, \
      lcd.print_text("Draw Image Example", 3, 10)
      time.sleep(2)
      # draw image example
-     lcd.draw_image(pic1, 0, 0)
+     lcd.draw_image(blue, 0, 0)
      time.sleep(1)
-     lcd.draw_image(pic2, 200, 50)
+     lcd.draw_image(yellow, 200, 50)
      time.sleep(1) 
      lcd.draw_image(mask, 400, 200)
      time.sleep(2) 
@@ -47,10 +47,10 @@ with SensorsTrainer() as sensors, \
      lcd.print_text("Understanding Begin/End Draw", 3, 10)
      time.sleep(2)
      lcd.begin_draw()
-     lcd.draw_image(pic1, 0, 0)
+     lcd.draw_image(blue, 0, 0)
      time.sleep(1)
      time.sleep(0.5)
-     lcd.draw_image(pic2, 200, 50)
+     lcd.draw_image(yellow, 200, 50)
      lcd.print_text("Understanding Begin/End Draw", 3, 10)
      time.sleep(0.5)
      lcd.end_draw()
@@ -65,9 +65,9 @@ with SensorsTrainer() as sensors, \
      time.sleep(2)
      lcd.draw_image(white, 0, 0)
      time.sleep(1) 
-     lcd.draw_image_mask(pic1, mask, 0, 0)
+     lcd.draw_image_mask(blue, mask, 0, 0)
      time.sleep(1) 
-     lcd.draw_image_mask(pic2, mask, 0, 200)
+     lcd.draw_image_mask(yellow, mask, 0, 200)
      time.sleep(2)
 
      # Blend Image Example. Uses the given mask 
@@ -78,9 +78,9 @@ with SensorsTrainer() as sensors, \
      time.sleep(2) 
      lcd.draw_image(white, 0, 0)
      time.sleep(1) 
-     lcd.draw_image_blend(pic1, mask, 0, 0)
+     lcd.draw_image_blend(blue, mask, 0, 0)
      time.sleep(1) 
-     lcd.draw_image_blend(pic2, mask, 0, 200)
+     lcd.draw_image_blend(yellow, mask, 0, 200)
      time.sleep(2)
 
      # Blend Image Example. Uses the given mask 
@@ -89,9 +89,9 @@ with SensorsTrainer() as sensors, \
      time.sleep(0.5)
      lcd.print_text("Draw Image Blend Example 2", 3, 10, setColor=True, rgb=[0, 255, 0])
      time.sleep(2) 
-     lcd.draw_image(pic1, 0, 0)
+     lcd.draw_image(blue, 0, 0)
      time.sleep(0.5) 
-     lcd.draw_image_blend(pic2, mask, 0, 0)
+     lcd.draw_image_blend(yellow, mask, 0, 0)
      time.sleep(1) 
 
 

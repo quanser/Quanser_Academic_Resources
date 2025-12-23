@@ -716,7 +716,6 @@ class SensorsTrainer():
         finally:
             self.card.close()
 
-
     def __enter__(self):
         """
         Used for the `with` statement.

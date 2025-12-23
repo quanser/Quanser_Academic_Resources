@@ -9,7 +9,7 @@ from pal.utilities.scope import MultiScope
 simulationTime = 60 # will run for this amount of seconds
 
 scope = MultiScope(rows= 2, cols =1,
-            title='Distance Measurement',
+            title='Infrared Measurement',
             fps=60 )
 
 # Distance scope
