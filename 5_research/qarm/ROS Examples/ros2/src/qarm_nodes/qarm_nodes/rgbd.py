@@ -18,10 +18,8 @@ class QArmCamera(Node):
         self.declare_parameter('depth_width', 640)
         self.declare_parameter('depth_height', 480)
         self.declare_parameter('fps', 30.0)
-        self.declare_parameter('publish_raw',True)
 
         # Set up camera
-        self.publish_raw = self.get_parameter('publish_raw').get_parameter_value().bool_value
         self.color_width = self.get_parameter('color_width').get_parameter_value().integer_value
         self.color_height = self.get_parameter('color_height').get_parameter_value().integer_value
         self.depth_width = self.get_parameter('depth_width').get_parameter_value().integer_value

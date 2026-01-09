@@ -1,11 +1,12 @@
 from setuptools import setup
 import os
+from glob import glob
 
 package_name = 'qarm_nodes'
 
 setup(
     name=package_name,
-    version='0.0.0',
+    version='1.0.0',
     packages=[package_name],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,8 +21,8 @@ setup(
         ('share/' + package_name, ['package.xml']),
         # if you have launch files, you can install them too
         # (uncomment if applicable)
-        # (os.path.join('share', package_name, 'launch'),
-        #  glob(os.path.join('launch', '*.py'))),
+        (os.path.join('share', package_name, 'launch'),
+         glob(os.path.join('launch', '*.py'))),
     ],
     entry_points={
         'console_scripts': [

@@ -11,6 +11,12 @@ class QArmActionClient(Node):
     def __init__(self, name):
         super().__init__(name)
         self.move_qarm_client_ = ActionClient(self,MoveQArm,name)
+        self.declare_parameter(
+            'goal_pose',
+            [0.0,0.0,0.5,0.0])
+        # print(self.get_parameter('goal_pose').get_parameter_value())
+        self.goal_pose = self.get_parameter(
+            'goal_pose').get_parameter_value().double_array_value
     
     def send_goal(self,goal_pose):
         # Wait for the server
@@ -54,7 +60,9 @@ def main(args=None):
     try:
         with rclpy.init(args=args):
             qarm_action_client = QArmActionClient('move_qarm')
-            qarm_action_client.send_goal([0,0,0.5,0])
+            goal_pose = list(qarm_action_client.goal_pose)
+            qarm_action_client.get_logger().info(f'Goal pose parameter: {goal_pose}')
+            qarm_action_client.send_goal(goal_pose)
             rclpy.spin(qarm_action_client)
 
     except (KeyboardInterrupt, ExternalShutdownException):
