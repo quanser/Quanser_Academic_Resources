@@ -8,7 +8,6 @@
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer
 import numpy as np
-import matplotlib.pyplot as plt
 # endregion 
 
 # region: set up experiment parameters
@@ -60,7 +59,7 @@ def calibrate(recordedData):
 # region: main calibration loop
 with SensorsTrainer() as sensors:
     while True:
-        weight = input(f"Enter the weight of the item on load cell and press enter to continue (Enter q to quit):")
+        weight = input("Enter the weight of the item on load cell (in grams) and press enter to continue (Enter q to quit):")
         if not weight or weight.lower() == 'q':
             break
         mean_voltage = process(sensors,weightTime,frequency)

@@ -1,7 +1,6 @@
 import subprocess
 import sys
 import os
-import math
 
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer

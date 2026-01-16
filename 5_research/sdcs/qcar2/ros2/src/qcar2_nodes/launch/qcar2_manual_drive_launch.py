@@ -25,7 +25,7 @@ def generate_launch_description():
             name='RealsenseCamera'
         )
     
-    downward_facing_camera_node = Node(
+    csi_camera_node = Node(
             package='qcar2_nodes',
             executable='csi',
             name='csi_camera'
@@ -41,11 +41,18 @@ def generate_launch_description():
         package = 'qcar2_nodes',
         executable = 'command',
         name = 'joystick_command'
-    )        
+    )
+
+    qcar2_sensor_tf_node = Node(
+        package='qcar2_nodes',
+        executable='fixed_lidar_frame',
+        name='fixed_lidar_frame')
+
     return LaunchDescription([
         lidar_node,
-        realsense_camera_node,
-        downward_facing_camera_node,
+        qcar2_sensor_tf_node,
+        # realsense_camera_node,
+        # csi_camera_node,
         qcar2_hardware,
         joystick_command
     ])

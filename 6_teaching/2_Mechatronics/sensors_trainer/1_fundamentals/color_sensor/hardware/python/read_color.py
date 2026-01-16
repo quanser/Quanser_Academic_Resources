@@ -5,11 +5,10 @@
 
 # region: Python level imports
 import numpy as np
-import subprocess
 import cv2
 
 from pal.utilities.timing import Timer
-from pal.products.sensors import SensorsTrainer, SensorsDisplay, SensorsCamera
+from pal.products.sensors import SensorsTrainer
 from visualizer import ColorDisplay
 from colormath.color_objects import XYZColor, sRGBColor
 from colormath.color_conversions import convert_color

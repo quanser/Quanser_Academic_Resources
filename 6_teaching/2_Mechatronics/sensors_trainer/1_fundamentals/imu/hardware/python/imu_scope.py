@@ -28,7 +28,8 @@ while not probe.connected:
 # endregion
 
 # region: Experiment constants
-sampleRate = 480
+sampleRate = 480 # Hz
+totalTime = 20 # sec
 # endregion
 
 # region: Main Loop
@@ -36,7 +37,7 @@ with SensorsTrainer() as sensors:
     gyroData  = [[], [], []]
     accelData = [[], [], []]
     counter = 0
-    timer   = Timer(sampleRate=sampleRate, totalTime=20)
+    timer   = Timer(sampleRate=sampleRate, totalTime=totalTime)
 
     while timer.check():
         # get current timestamp

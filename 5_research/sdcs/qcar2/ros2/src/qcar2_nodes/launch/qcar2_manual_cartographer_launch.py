@@ -63,7 +63,8 @@ def generate_launch_description():
             output='screen',
             parameters=[{'use_sim_time': use_sim}],
             arguments=['-configuration_directory', cartographer_config_dir,
-                       '-configuration_basename', configuration_basename])
+                       '-configuration_basename', configuration_basename],
+            remappings=[('/imu', '/qcar2_imu')])
 
     cartographer_occupancy_grid_node = Node(
             package='cartographer_ros',

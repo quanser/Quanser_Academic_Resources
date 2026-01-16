@@ -50,11 +50,15 @@ with SensorsTrainer() as sensors:
         sensors.read_outputs()
         
         potentiometer = sensors.forceResistor
-        joystick = sensors.joystick
+        joystick0 = sensors.joystick[0]
+        joystick1 = sensors.joystick[1]
         joystickButton = sensors.joystickButton
 
         # Estimate potentiometer angle
         # potAngle = 
+
+        correctedJoy0 = correct_deadzone(joystick0)
+        correctedJoy1 = correct_deadzone(joystick1)
         
         # update scopes every 4 samples
         if counter%4 == 0:
@@ -65,8 +69,8 @@ with SensorsTrainer() as sensors:
             probe.send(name='Joystick', 
                        scopeData=(currentTime,
                                   [potentiometer, 
-                                   joystick[0], 
-                                   joystick[1], 
+                                   joystick0, 
+                                   joystick1, 
                                    joystickButton]))
             
             

@@ -1,14 +1,10 @@
 import time
 from pal.products.qarm_mini import QArmMini
 from pal.utilities.keyboard import KeyBoardDriver
-from hal.products.qarm_mini import QArmMiniKeyboardNavigator
+from hal.content.qarm_mini import QArmMiniKeyboardNavigator
 
 kbd         = KeyBoardDriver(rate=30.0)
-<<<<<<< HEAD
 myMiniArm   = QArmMini(hardware=1, id=6)
-=======
-myMiniArm   = QArmMini(hardware=1, id=8)
->>>>>>> feature-qarm_mini
 kbdNav      = QArmMiniKeyboardNavigator(kbd, initialPose=myMiniArm.HOME_POSE)
 
 simulationTime  = 300 # will run for 10 seconds

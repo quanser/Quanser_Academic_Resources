@@ -8,7 +8,6 @@ inputs/outputs of the device. 4 instances of the class are needed for
 the 4 available blocks in the product.
 """
 
-import os
 import sys
 import time
 
@@ -30,6 +29,7 @@ class ActuatorsTrainer():
             frequency=200,
             servoMode=0,
             brushedDCLimit=0.7,
+            bldcSensorless = 0,
             boardSpecificOptions=''):
 
         """
@@ -54,11 +54,18 @@ class ActuatorsTrainer():
             This range gets mapped to a 0 to 1 PWM input in the device.
             Defaults to 0. (0 for 0.5 to 2.5ms, 1 for 1 to 2ms).
             Used only when boardSpecificOptions is empty, if not, set as part
-            of that string. 
+            of that string.
+        bldcSensorless : int, optional
+            Indicates if the BLDC motor is used in sensorless mode.
+            Defaults to 0. (0 for Hall sensor mode, 1 for sensorless mode).
+            When 0, all 3 BLDC motor outputs (A, B and C) are directly derived
+            by 3 PWM channels. When 1, the board is configured for sensorless
+            operation. Only a single PWM output is used as a bidirectional
+            input to drive the BLDC motor. Motor enable still needs to be used.
         boardSpecificOptions : str, optional
             Board-specific configuration options. Defaults to an empty string.
-            If modified, `servoMode` will not be read, if it needs to be 
-            defined, use `servo_pwm_range` in this string, it 
+            If modified, `servoMode` will not be read, if it needs to be
+            defined, use `servo_pwm_range` in this string, it
             will default to 0 if not defined here.
 
         Raises
@@ -75,12 +82,15 @@ class ActuatorsTrainer():
                 "supply_voltage_low_limit=10.0;"
                 "supply_voltage_high_limit=16.0;"
                 "supply_current_high_limit=8.0;"
-                "dc_motor_current_high_limit=1.5;"
+                "dc_motor_current_high_limit=1.1;"
                 "servo_motor_current_high_limit=1.3;"
                 "bldc_motor_current_high_limit=2.0;"
-                "stepper_motor_current_high_limit=2.3;"
-                f"servo_pwm_range={servoMode};enc_dir=0"
-            )
+                "stepper_motor_current_high_limit=1.7;"
+                f"servo_pwm_range={servoMode};enc_dir=0;"
+                f"bldc_motor_mode={bldcSensorless};"
+                "bldc_start_tc=0.03;"
+                "bldc_start_target=1200"
+                )
 
         self._boardSpecificOptions = boardSpecificOptions
         self._frequency = frequency
@@ -180,7 +190,7 @@ class ActuatorsTrainer():
                     self.READ_ENCODER_CHANNELS,
                     len(self.READ_ENCODER_CHANNELS),
                     np.zeros(len(self.READ_ENCODER_CHANNELS), dtype=np.int32))
-                
+
                 # check firmware
                 properties = np.array([IntegerProperty.FIRMWARE_BUILD], dtype=np.int32)
 
@@ -373,7 +383,8 @@ class ActuatorsTrainer():
     def update_dc(self,  cmd=0, limitCmd = True):
         """
         Updates the DC motor command.
-        The command value  of -1 to 1 maps to a voltage range of ±12V.
+        The command value  of -1 to 1 maps to a voltage range of ±12V or
+        the voltage provided by the connected supply.
         After updating values, use `write_motors()` to send
         the command to the motors.
 
@@ -402,7 +413,7 @@ class ActuatorsTrainer():
     def update_dc_individual(self, left=0, right=0):
         """
         Updates the DC motor commands individually for left and right channels.
-        -1 to 1 range maps to ±12V.
+        -1 to 1 range maps to ±12V or the voltage provided by the connected supply.
         This function is not recommended, it only exists for teaching purposes,
         for normal usage, use `update_dc()` function directly.
         After updating values, use `write_motors()` to send
@@ -430,6 +441,8 @@ class ActuatorsTrainer():
         Use alongside `enable_bldc()` for correct usage.
         After updating values, use `write_motors()` to send
         the command to the motors.
+        The command value  of -1 to 1 maps to a voltage range of ±12V or
+        the voltage provided by the connected supply.
 
         Parameters
         ----------
@@ -451,7 +464,7 @@ class ActuatorsTrainer():
 
     def update_bldc_sensorless(self, pwm):
         """
-        Updates the BLDC  motor command when using sensorless mode.
+        Updates the BLDC motor command when using sensorless mode.
         This will only work when init parameters are correctly set.
         In this mode, `enable_bldc` does not need to be used,
         enabling bldc once using `enable_motors` is enough.
@@ -459,7 +472,8 @@ class ActuatorsTrainer():
         After updating values, use `write_motors()` to send
         the command to the motors.
 
-        The command value  of -1 to 1 maps to a voltage range of ±12V.
+        The command value  of -1 to 1 maps to a voltage range of ±12V or
+        the voltage provided by the connected supply.
 
         Parameters
         ----------
@@ -473,14 +487,17 @@ class ActuatorsTrainer():
         imitates a hardware tach.
         """
 
-        pwm = np.clip(pwm, 0, 1)
-        self._writePWMBuffer[3:6] = [pwm, 0, 0]
+        pwm = np.clip(pwm, -1, 1)
+        self._writePWMBuffer[3] = pwm
 
     def update_stepper(self, coils):
         """
         Updates the stepper motor commands.
         After updating values, use `write_motors()` to send
         the command to the motors.
+
+        The command value  of -1 to 1 maps to a voltage range of ±12V or
+        the voltage provided by the connected supply.
 
         Parameters
         ----------
@@ -520,6 +537,7 @@ class ActuatorsTrainer():
 
         - self.temperature (float): Temperature (C)
         - self.tach (float): Tachometer (counts/s)
+        - self.sensorlessTach (float): Tachometer for sensorless BLDC drive (counts/s)
 
         - self.hallSensor (ndarray, float): Hall/encoder sensor pulses
             [A, B, C]

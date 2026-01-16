@@ -17,7 +17,7 @@ displays = []
 
 probe = Probe(ip=ip_host)
 probe.add_scope(numSignals=4, name='my scope')
-
+rng = np.random.default_rng()     # non-deterministic random number generator
 connectionSuccessful = False
 t_prev = time.time()
 try:
@@ -29,7 +29,7 @@ try:
             probe.check_connection()
 
         if probe.connected:
-            a = np.random.randint(-3, 3)
+            a = rng.integers(-3, 3)
             b = np.sin(5*elapsed_time())
             c = np.cos(4*elapsed_time())
             d = np.sign(b)

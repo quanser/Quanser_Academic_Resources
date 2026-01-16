@@ -3,12 +3,11 @@
 # Students will implement latching functionality 
 
 # region: Python level imports
-import numpy as np
 import subprocess
 import sys
 import os
 from pal.utilities.timing import Timer
-from pal.products.sensors import SensorsTrainer, SensorsDisplay
+from pal.products.sensors import SensorsTrainer
 from pal.utilities.probe import Probe
 # endregion 
 

@@ -8,7 +8,6 @@ import numpy as np
 from pal.products.actuators import ActuatorsTrainer
 from pal.products.sensors import SensorsTrainer
 from pal.utilities.timing import Timer
-from pal.utilities.math import SignalGenerator
 
 simulationTime = 150 # will run for this amount of seconds
 frequency = 400 # Hz
@@ -24,7 +23,7 @@ timer = Timer(frequency, simulationTime)
 # Open actuators block0 and the sensors trainer
 with (ActuatorsTrainer(block = 0) as block0,
       SensorsTrainer(knobEncQuad=4) as sensors):
-    
+
     # Enable motors on all blocks
     block0.enable_motors()
 
@@ -34,7 +33,7 @@ with (ActuatorsTrainer(block = 0) as block0,
         currentTime = timer.get_current_time()
 
         # read outputs from block 0
-        # Even if encoders or currents are not used, 
+        # Even if encoders or currents are not used,
         # this is necessary to keep the communication active and not trigger
         # a watchdog timeout.
         block0.read_outputs()
@@ -42,14 +41,14 @@ with (ActuatorsTrainer(block = 0) as block0,
         # read sensors output data
         sensors.read_outputs()
 
-        # read encoder counts and clip them from -100 to 100 
+        # read encoder counts and clip them from -100 to 100
         # to use as a percentage to control the DC motor
-        encoderCounts = np.clip(sensors.encoder, -100, 100)
+        encoderCounts = np.clip(sensors.encoder0, -100, 100)
 
         # motor command will be between -0.5 to 0.5 (-1 to 1 is equal to -12 to 12 V)
         dcCmd = 0.5 * encoderCounts/100
 
-        # print twice a second. 
+        # print twice a second.
         if counter%printCounts == 0:
             print(f"Time: {currentTime:.2f} s | Encoder Counts: {encoderCounts}  | DC Motor Command {dcCmd:.2f} V")
 
@@ -57,8 +56,8 @@ with (ActuatorsTrainer(block = 0) as block0,
         # update DC motor
         block0.update_dc(dcCmd, limitCmd=False)
 
-        # write motor commands 
+        # write motor commands
         block0.write_motors()
-       
+
         counter += 1
         timer.sleep()

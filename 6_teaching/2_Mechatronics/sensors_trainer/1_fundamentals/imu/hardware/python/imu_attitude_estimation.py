@@ -26,13 +26,14 @@ while not probe.connected:
 # endregion
 
 # region: Experiment constants
-sampleRate = 480
+sampleRate = 480 # Hz
+totalTime = 300 # seconds
 attitude = np.zeros(5, dtype=np.float64)
 # endregion
 
 # region: Main Loop
 with SensorsTrainer() as sensors:
-    timer   = Timer(sampleRate=sampleRate, totalTime=300)
+    timer   = Timer(sampleRate=sampleRate, totalTime=totalTime)
     counter = 0
     while timer.check():
         # get current timestamp

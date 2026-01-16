@@ -1,0 +1,10 @@
+# goal
+float64[4] task_space_pose
+---
+# result
+bool success
+string message
+---
+# feedback
+float64 position_error_norm
+float64 orientation_error

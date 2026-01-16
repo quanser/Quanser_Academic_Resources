@@ -5,8 +5,6 @@
 # region: Python level imports
 from visualizer import AudioVisualizer
 from pal.products.sensors import  find_audio_in
-import numpy as np
-from scipy.signal import find_peaks
 # endregion
 
 # region: define Frequency Detection Callback Class

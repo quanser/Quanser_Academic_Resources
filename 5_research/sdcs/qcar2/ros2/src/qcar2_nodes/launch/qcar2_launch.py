@@ -36,10 +36,16 @@ def generate_launch_description():
             executable='qcar2_hardware',
             name='qcar2_hardware',
         )
+
+    qcar2_sensor_tf_node = Node(
+        package='qcar2_nodes',
+        executable='fixed_lidar_frame',
+        name='fixed_lidar_frame')
      
     return LaunchDescription([
         lidar_node,
+        qcar2_sensor_tf_node,
         # realsense_camera_node,
-        csi_camera_node,
+        # csi_camera_node,
         qcar2_hardware,
     ])

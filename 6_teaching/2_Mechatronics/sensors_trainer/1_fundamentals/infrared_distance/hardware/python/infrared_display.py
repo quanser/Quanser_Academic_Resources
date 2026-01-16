@@ -1,5 +1,4 @@
 # region: system imports
-import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer
 from pal.utilities.scope import MultiScope

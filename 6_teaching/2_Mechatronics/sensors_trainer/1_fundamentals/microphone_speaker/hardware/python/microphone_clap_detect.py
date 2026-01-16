@@ -5,8 +5,6 @@
 # region: Python level imports
 from visualizer import AudioVisualizer
 from pal.products.sensors import  find_audio_in
-import time
-import numpy as np
 # endregion
 
 # region: define Clap Detection Callback Class

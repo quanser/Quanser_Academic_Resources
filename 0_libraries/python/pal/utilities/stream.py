@@ -9,7 +9,7 @@ over a network connection, and managing the connection's state.
 from quanser.communications import Stream, StreamError, PollFlag
 try:
     from quanser.common import Timeout
-except:
+except ImportError:
     from quanser.communications import Timeout
 import numpy as np
 import pickle
@@ -223,7 +223,7 @@ class StreamClient(BaseStream):
 
 class BasicStream:
     '''Class object consisting of basic stream server/client functionality'''
-    def __init__(self, uri, agent='S', receiveBuffer=np.zeros(1, dtype=np.float64), sendBufferSize=2048, 
+    def __init__(self, uri, agent='S', receiveBuffer=np.zeros(1, dtype=np.float64), sendBufferSize=2048,
                  recvBufferSize=2048, nonBlocking=False, verbose=False, reshapeOrder = 'C'):
         '''
         This functions simplifies functionality of the quanser_stream module to provide a
@@ -249,7 +249,7 @@ class BasicStream:
         self.uri 			= uri
         self.receiveBuffer  = receiveBuffer
         self.verbose        = verbose
-        self.reshapeOrder   = reshapeOrder  
+        self.reshapeOrder   = reshapeOrder
         # reshape order need to be specified as "F" when reading images streamed from a MATLAB server
 
         # If the agent is a Client, then Server isn't needed.

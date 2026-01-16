@@ -36,7 +36,7 @@ imageProcessingTool = ImageProcessing()
 with  SensorsCamera(frameWidth=imageSize[0], 
                     frameHeight=imageSize[1], 
                     frameRate=frameRate, 
-                    cameraID=0) as camera:
+                    cameraID=0) as camera: # modify cameraID if needed
 
     while timer.check():
         

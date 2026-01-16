@@ -8,7 +8,6 @@ import cv2
 
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer, SensorsDisplay
-from pal.utilities.probe import Probe
 # endregion
 
 # region: Experiment constants

@@ -223,7 +223,6 @@ class PathFollower(Node):
       44.0
       Translation
       1.15,0.55
-`
       '''
 
       self.scale = 1.0
@@ -248,7 +247,7 @@ class PathFollower(Node):
       self.tf_listener = TransformListener(self.tf_buffer, self)
 
       # parameters common to all methods
-      self.dt = 1/80
+      self.dt = 1/200
 
       # Initial estimates for QCar state and covarience matrix (P)
       x0 = np.zeros((3,1))
@@ -256,12 +255,12 @@ class PathFollower(Node):
 
 
       # For pose estimation
-      R_combined = np.diagflat([0.1, 0.1, 0.01])
+      R_combined = np.diagflat([0.0001, 0.0001, 0.0001])
 
       self.qcar2_ekf = QcarEKF(
         x0=x0,
         P0=P0,
-        Q=np.diagflat([0.0001, 0.0001, 0.001]),
+        Q=np.diagflat([0.01, 0.01, 0.01]),
         R=R_combined)
       self.pose_ekf = np.zeros((3,1))
 
@@ -295,7 +294,7 @@ class PathFollower(Node):
 
       self.publisher = self.create_publisher(Twist,'/cmd_vel_nav', 1)
       self.cyclic = False
-      self.max_steering_angle = 0.6
+      self.max_steering_angle = 1.0
 
       self.joint_state_subscriber = self.create_subscription(JointState, '/qcar2_joint',self.joint_state_callback, 1)
       self.qcar2_measurred_speed = 0
@@ -448,8 +447,8 @@ class PathFollower(Node):
     def path_publisher(self):
         path_msg = Path()
         path_msg.header.stamp = self.get_clock().now().to_msg()
-        # path_msg.header.frame_id = "map"
-        path_msg.header.frame_id = "map_rotated"
+        path_msg.header.frame_id = "map"
+        # path_msg.header.frame_id = "map_rotated"
 
         for i in range(self.wpi):
         # for i in range(self.N):
@@ -464,7 +463,8 @@ class PathFollower(Node):
           t = np.array([self.translation_offset[0],self.translation_offset[1]])
           wp_1_mod = ([self.wp[0,i],self.wp[1,i]]+t)@R_QLabs_ROS
           pose.header.stamp = self.get_clock().now().to_msg()
-          pose.header.frame_id = "map_rotated"
+          # pose.header.frame_id = "map_rotated"
+          pose.header.frame_id = "map"
           pose.pose.position.x =wp_1_mod[0]
           pose.pose.position.y =wp_1_mod[1]
 
@@ -532,7 +532,7 @@ class PathFollower(Node):
 
             lookahead_dist = speed_command*0.5
             skip_index = int(speed_command*(speed_command/max_speed))
-            lookahead_dist = np.clip(lookahead_dist,0.1,0.6)
+            lookahead_dist = np.clip(lookahead_dist,2*L,0.75)
             skip_index = np.clip(skip_index,5,60)
 
 
@@ -583,7 +583,7 @@ class PathFollower(Node):
 
     def nav_command(self,enable, speed_command):
       QCarCommands = Twist()
-      QCarCommands.linear.x = enable*np.clip(speed_command*np.power(np.cos(self.current_steering),2),0.05,0.7)
+      QCarCommands.linear.x = enable*np.clip(speed_command*np.power(np.cos(self.current_steering),1),0.05,0.7)
       QCarCommands.angular.z = enable*self.current_steering
       self.publisher.publish(QCarCommands)
 
@@ -593,7 +593,7 @@ class PathFollower(Node):
       self.path_status_publisher.publish(msg)
 
     def tf_timer(self):
-      from_frame_rel= "map_rotated"
+      from_frame_rel= "map"
       to_frame_rel = self.target_frame
 
       try:

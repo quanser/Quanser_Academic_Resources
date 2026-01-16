@@ -3,7 +3,6 @@
 # Understanding microstepping with sine waves.
 
 # region: Python level imports
-import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.actuators import ActuatorsTrainer
 from pal.utilities.math import SignalGenerator

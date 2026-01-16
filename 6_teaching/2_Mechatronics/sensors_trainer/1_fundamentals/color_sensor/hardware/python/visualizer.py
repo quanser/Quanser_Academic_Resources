@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 class ColorDisplay:
     """ An classical object detection algorithm with different options of detection

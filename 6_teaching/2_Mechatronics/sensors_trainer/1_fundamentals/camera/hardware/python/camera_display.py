@@ -6,8 +6,8 @@
 import cv2
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsCamera
-from hal.utilities.image_processing import ImageProcessing 
-# endregion 
+from hal.utilities.image_processing import ImageProcessing
+# endregion
 
 
 # region: Experiment constants
@@ -22,16 +22,16 @@ timer = Timer(sampleRate=frameRate, totalTime=simulationTime)
 imageProcessingTool = ImageProcessing()
 
 
-with  SensorsCamera(frameWidth=imageSize[0], 
-                    frameHeight=imageSize[1], 
-                    frameRate=frameRate, 
-                    cameraID=1) as camera:
+with  SensorsCamera(frameWidth=imageSize[0],
+                    frameHeight=imageSize[1],
+                    frameRate=frameRate,
+                    cameraID=0) as camera: # modify cameraID if needed
 
     while timer.check():
-        
+
         currentTime = timer.get_current_time()
 
-        
+
         # read camera for 30Hz
         frame = camera.read()
         if frame:
@@ -45,7 +45,7 @@ with  SensorsCamera(frameWidth=imageSize[0],
 
 
         timer.sleep()
-    
+
 
 cv2.destroyAllWindows()
 # endregion

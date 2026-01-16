@@ -22,6 +22,7 @@ timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
 with SensorsTrainer() as sensors, SensorsDisplay() as lcd:
 
+    print("Touch input ready. Waiting for touch input...")
     while timer.check():
         
         currentTime = timer.get_current_time()

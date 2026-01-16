@@ -571,9 +571,10 @@ for /f "tokens=2 delims=:" %%v in ('py -0 2^>nul') do (
         set "MINOR=!MINOR:~0,2!"  
 
         if %%a equ 3 (
+            if "!MINOR!"=="14" (set "PYTHON=3.14" & goto :FOUND)
+            if "!MINOR!"=="13" (set "PYTHON=3.13" & goto :FOUND)
             if "!MINOR!"=="12" (set "PYTHON=3.12" & goto :FOUND)
             if "!MINOR!"=="11" (set "PYTHON=3.11" & goto :FOUND)
-            if "!MINOR!"=="13" (set "PYTHON=3.13" & goto :FOUND)
         )
     )
 )

@@ -7,8 +7,7 @@
 import numpy as np
 import sounddevice as sd
 import time
-from pal.products.sensors import  find_audio_out,find_audio_in
-from matplotlib import pyplot as plt
+from pal.products.sensors import  find_audio_out
 # endregion 
 
 # region: set up audio output parameters

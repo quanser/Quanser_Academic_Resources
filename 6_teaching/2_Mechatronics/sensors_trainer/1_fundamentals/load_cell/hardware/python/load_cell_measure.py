@@ -6,7 +6,6 @@
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer
 from collections import deque
-import numpy as np
 # endregion 
 
 # region: set up experiment parameters

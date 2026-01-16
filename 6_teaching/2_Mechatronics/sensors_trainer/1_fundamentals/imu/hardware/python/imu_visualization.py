@@ -1,10 +1,13 @@
-# IMU - IMU Visualization 
+# IMU - IMU Visualization
 
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer, SensorsDisplay
 from library_visualization import VisualizeIMU
 
-timer   = Timer(sampleRate=480, totalTime=300)
+sampleRate = 480 # Hz
+totalTime = 300 # seconds
+
+timer   = Timer(sampleRate=sampleRate, totalTime=totalTime)
 viz     = VisualizeIMU()
 
 visualization = 1
@@ -35,5 +38,6 @@ with SensorsTrainer() as sensors, \
         counter += 1
         timer.sleep()
 
-with SensorsDisplay() as lcd: lcd.clear()
+with SensorsDisplay() as lcd:
+    lcd.clear()
 input('Press the enter key to exit.')

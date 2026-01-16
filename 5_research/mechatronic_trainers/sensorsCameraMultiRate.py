@@ -4,7 +4,6 @@
 # while capturing camera images at a specified frame rate.
 
 # region: system imports
-import numpy as np
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer, SensorsCamera
 from pal.utilities.scope import MultiScope
@@ -12,12 +11,12 @@ import cv2
 # endregion
 
 #Make sure to set frequency to a value higher than all individual rates
-frequency = 200  # Hz 
+frequency = 200  # Hz
 
 simulationTime = 150  # seconds
 
 # Set up fps for the scope updates. Get counts needed to run at that rate.
-scopeRefreshRate = 30 
+scopeRefreshRate = 30
 scopeCounts = int(round(frequency / scopeRefreshRate))
 
 scope = MultiScope(rows= 1, cols = 2,
@@ -42,7 +41,7 @@ scope.addAxis(row=0,
 scope.axes[1].attachSignal(name='temp')
 
 
-# Set up fps for the camera and different sensors. 
+# Set up fps for the camera and different sensors.
 # Get counts needed to run at that rate.
 
 frameRate = 30  # Camera frame rate in Hz
@@ -61,14 +60,14 @@ counter = 0
 timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
 # initialize sensors trainer and its camera
-with (SensorsTrainer() as sensors, 
-      SensorsCamera(frameRate=frameRate, 
+with (SensorsTrainer() as sensors,
+      SensorsCamera(frameRate=frameRate,
                     cameraID=0) as camera): # Camera ID may need to be 1 if your computer has a webcam
 
-    while timer.check():  
+    while timer.check():
         currentTime = timer.get_current_time()
         sensors.read_outputs()
-        
+
         infrared = sensors.IRDistance
         temperature = sensors.tempWeather
 
@@ -78,11 +77,11 @@ with (SensorsTrainer() as sensors,
                 image = camera.imageData
                 cv2.imshow("Color Image", image)
                 cv2.waitKey(1)
-        
+
         if counter%IRCounts == 0:
             # print(f"Time: {currentTime:.2f} s | IR Distance Measurement: {infrared:.3f} V")
             scope.axes[0].sample(currentTime, infrared)
-        
+
         if counter%tempCounts == 0:
             # print(f"Time: {currentTime:.2f} s | Temperature: {infrared:.1f} °C")
             scope.axes[1].sample(currentTime, temperature)

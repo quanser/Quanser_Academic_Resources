@@ -2,7 +2,7 @@ from pal.utilities.stream import BasicStream
 from threading import Thread
 try:
     from quanser.common import Timeout
-except:
+except ImportError:
     from quanser.communications import Timeout
 import cv2
 import numpy as np
@@ -267,7 +267,7 @@ class Observer():
         port = 18800+self.numDisplays
         uriAddress  = 'tcpip://localhost:' + str(port)
 
-        if name == None:
+        if name is None:
             name = 'Display '+str(self.numDisplays)
 
         properties = dict()
@@ -295,7 +295,7 @@ class Observer():
         self.numPlots += 1
         port = 18600+self.numPlots
         uriAddress  = 'tcpip://localhost:'+str(port)
-        if name == None:
+        if name is None:
             name = 'Plot '+str(self.numPlots)
 
         properties = dict()
@@ -319,7 +319,7 @@ class Observer():
 
         self.numScopes += 1
 
-        if name == None:
+        if name is None:
             name = 'Scope '+str(self.numScopes)
 
         properties = dict()

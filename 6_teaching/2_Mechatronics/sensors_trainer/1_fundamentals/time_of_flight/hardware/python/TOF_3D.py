@@ -1,162 +1,119 @@
 # TOF_3D.py
-# This script reads Time-of-Flight (TOF) sensor data from a Sensors Trainer
-# and visualizes the 3D point cloud using Open3D.
+# Live visualization of TOF 3D point cloud using VisPy
+# Mimics the behavior of your Open3D code, but compatible with Python 3.11-3.14
 
-# region: Python level imports
-import numpy as np
-import open3d as o3
 import numpy as np
 import matplotlib.pyplot as plt
 
+from vispy import scene, app
+from vispy.color import Colormap
+
 from pal.utilities.timing import Timer
-from pal.products.sensors import SensorsTrainer, SensorsDisplay
+from pal.products.sensors import SensorsTrainer
 
-# endregion
+# -----------------------------
+# Experiment constants
+# -----------------------------
+simulationTime = 120   # seconds
+frequency = 300        # Hz
 
-# region: Helper Functions
-def create_ground_grid_xy(rows=8, cols=8, spacing=0.02, z=0.001, color=[0.1, 0.1, 0.1]):
-    points = []
-    lines = []
+FOV = 60               # Field of view in degrees
+deltaAngle = np.linspace(-FOV / 2, FOV / 2, int(60 / 7)) * np.pi / 180
 
-    for i in range(rows + 1):
-        y = i * spacing
-        points.append([0, y, z])
-        points.append([cols * spacing, y, z])
-        lines.append([len(points) - 2, len(points) - 1])
+SCALE = 0.2  # Visualization scaling factor
+TOFMeas3D = np.zeros((8, 8, 3), dtype=np.float64)
 
-    for j in range(cols + 1):
-        x = j * spacing
-        points.append([x, 0, z])
-        points.append([x, rows * spacing, z])
-        lines.append([len(points) - 2, len(points) - 1])
+# Distance coloring
+colormap = plt.get_cmap("viridis")  # Can also try "plasma", "jet", etc.viridis
+vispy_cmap = Colormap(colormap(np.linspace(0, 1, 256))[:, :3])
 
-    grid = o3.geometry.LineSet()
-    grid.points = o3.utility.Vector3dVector(points)
-    grid.lines = o3.utility.Vector2iVector(lines)
-    grid.colors = o3.utility.Vector3dVector([color] * len(lines))
+# -----------------------------
+# VisPy scene setup
+# -----------------------------
+canvas = scene.SceneCanvas(keys='interactive', size=(800, 600), show=True, bgcolor='white')
+view = canvas.central_widget.add_view()
 
-    # Center the grid at origin
-    grid.translate([-cols * spacing / 2, -rows * spacing / 2, 0])
-    return grid
+# Add XYZ axes
+axes = scene.visuals.XYZAxis(parent=view.scene)
 
-# endregion
+# Add a simple ground grid (wireframe)
+grid_size = 0.24
+grid_res = 12
+x = np.linspace(-grid_size/2, grid_size/2, grid_res)
+y = np.linspace(-grid_size/2, grid_size/2, grid_res)
+for xi in x:
+    line = scene.visuals.Line(pos=np.column_stack([np.full_like(y, xi), y, np.zeros_like(y)]),
+                              color=(0.5, 0.5, 0.5, 0.8), parent=view.scene)
+for yi in y:
+    line = scene.visuals.Line(pos=np.column_stack([x, np.full_like(x, yi), np.zeros_like(x)]),
+                              color=(0.5, 0.5, 0.5, 0.8), parent=view.scene)
 
-# region: Experiment constants
+# Preallocate 64-point cloud (8x8)
+points_init = np.zeros((64, 3))
+colors_init = np.zeros((64, 3))
 
-simulationTime = 120 # will run for this amount of seconds
-frequency =  300 #Hz
+# Create a VisPy Markers visual for point cloud
+pcd = scene.visuals.Markers(parent=view.scene)
+pcd.set_data(points_init, face_color=colors_init, size=10)
 
-counter = 0 # counter to track scopes
+# Set camera 
+view.camera = scene.TurntableCamera(fov=0, azimuth=-29, elevation=32, distance=0.018, center=[0,0,0])
 
-
-FOV = 60
-deltaAngle = np.linspace(-FOV/2,FOV/2,int(60/7))*np.pi/180
-TOFDist = np.ones((8,8), dtype=np.float64)
-TOFMeas3D = np.ones((8,8,3), dtype=np.float64)
-distortion_map = np.zeros((8, 8))  # store Z error per pixel
-calibration_points = None
-
-vis = o3.visualization.Visualizer()
-vis.create_window(window_name="ToF Live Update", width=800, height=600)
-
-axis = o3.geometry.TriangleMesh.create_coordinate_frame(size=0.05)
-vis.add_geometry(axis)  
-
-
-# # Optional grid overlay
-grid = create_ground_grid_xy(rows= 12, cols=12 )
-vis.add_geometry(grid)
-
-
-pcd = o3.geometry.PointCloud()
-pcd.points = o3.utility.Vector3dVector(np.zeros((1,3)))  # placeholder
-vis.add_geometry(pcd)
-
-frame_counter =0
-
-# Optional view setup
-vis.poll_events()
-vis.update_renderer()
-
-# perform correction 
-sample_flat_surface = np.zeros((8,8,3), dtype=np.float64)
-
-# endregion
-
-# region:  Main Loop
+# -----------------------------
+# Timer for updates
+# -----------------------------
 timer = Timer(sampleRate=frequency, totalTime=simulationTime)
 
-with SensorsTrainer() as sensors, SensorsDisplay() as lcd:
+# -----------------------------
+# Main loop
+# -----------------------------
+with SensorsTrainer() as sensors:
+
     while timer.check():
-        currentTime = timer.get_current_time()
         sensors.read_outputs()
 
+        # Read TOF sensor values (8x8)
         TOFSensor = sensors.TOFDistance
-        NumberSquare = np.flip(sensors.TOFNumberOfTargets.reshape(8,8), axis=0)
-        ToFMeasurements = np.flip((TOFSensor * sensors.TOFNumberOfTargets).reshape(8,8), axis=0)
+        ToFMeasurements = np.flip((TOFSensor * sensors.TOFNumberOfTargets).reshape(8, 8), axis=0)
 
         # Compute 3D coordinates
-
         for i in range(8):
             for j in range(8):
+                X = ToFMeasurements[i, j]
 
-                # Value given is distance (X value) and we need to recover y and z elements
-                X = ToFMeasurements[i][j]  # Assume this is the X component
-
-                # Get direction vector from angles
-                dir_x = np.cos(-deltaAngle[i]) * np.sin(np.pi/2 - deltaAngle[j])
-                dir_y = np.cos(-deltaAngle[i]) * np.cos(np.pi/2 - deltaAngle[j])
+                dir_x = np.cos(-deltaAngle[i]) * np.sin(np.pi / 2 - deltaAngle[j])
+                dir_y = np.cos(-deltaAngle[i]) * np.cos(np.pi / 2 - deltaAngle[j])
                 dir_z = np.sin(-deltaAngle[i])
 
-                # Recover magnitude of the full 3D distance
-                if abs(dir_x) > 1e-6:  # Prevent divide by zero
+                if abs(dir_x) > 1e-6:
                     P = X / dir_x
                 else:
-                    P = 0.0  # Or skip this point
+                    P = 0.0
 
-                # Compute full 3D vector
-                TOFMeas3D[i][j][0] = X 
-                TOFMeas3D[i][j][1] = P * dir_y 
-                # Add offset from floor to vertical location of sensor 
-                TOFMeas3D[i][j][2] = P * dir_z +0.045 
+                TOFMeas3D[i, j, 0] = X
+                TOFMeas3D[i, j, 1] = P * dir_y
+                TOFMeas3D[i, j, 2] = max(P * dir_z + 0.045, 0.0)  # Sensor height offset, clamp floor
 
-                # We assume you cannot see below the floor 
-                if TOFMeas3D[i][j][2] < 0:
-                    TOFMeas3D[i][j][2] = 0   
+        # Flatten to 64x3 points
+        points = TOFMeas3D.reshape(-1, 3) * SCALE
 
-
-        
-        # Flatten and validate
-        points = TOFMeas3D.reshape(-1, 3)
-        valid = np.isfinite(points).all(axis=1)
-        points = points[valid]
-        
-        # Step 1: Compute Euclidean distance from origin (0, 0, 0)
-        distances = points[:, 0] 
+        # Distance-based coloring
+        # Step 1. Compute Euclidean distance from origin (0, 0, 0) 
+        distances = points[:, 0]
 
         # Step 2: Normalize distances to [0, 1]
         dist_min = 0.1
         dist_max = 0.3
         dist_norm = np.clip((distances - dist_min) / (dist_max - dist_min + 1e-8), 0.0, 1.0)
-        colormap = plt.get_cmap("viridis")  # Can also try "plasma", "jet", etc.viridis
-        colors = colormap(dist_norm)[:, :3]  # Ignore alpha channel
+        colors = vispy_cmap.map(dist_norm)
 
-        # Update Open3D point cloud
-        pcd.points = o3.utility.Vector3dVector(points*0.2)
-        pcd.colors = o3.utility.Vector3dVector(colors)
-        render_option = vis.get_render_option()
-        render_option.point_size = 40.0  # Adjust the size as needed
+        # Update the point cloud (in-place)
+        pcd.set_data(points, face_color=colors, size=10)
 
-        vis.update_geometry(pcd)
-        vis.poll_events()
-        vis.update_renderer()
+        # Process VisPy GUI events (needed to actually display)
+        app.process_events()
 
         timer.sleep()
 
-vis.destroy_window()
-# endregion
-
-
-
-
-
+# Close VisPy app (optional)
+canvas.close()

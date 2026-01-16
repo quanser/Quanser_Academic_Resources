@@ -10,7 +10,7 @@ import os
 import sys
 
 import numpy as np
-from quanser.hardware import (HIL, HILError, MAX_STRING_LENGTH, 
+from quanser.hardware import (HIL, HILError, MAX_STRING_LENGTH,
                               Clock, StringProperty, IntegerProperty,
                               EncoderQuadratureMode)
 from quanser.hardware.enumerations import BufferOverflowMode
@@ -30,7 +30,7 @@ class SensorsTrainer():
             frequency=200,
             radarService = 0,
             radarStart = 0.2,
-            radarLength = 1,
+            radarLength = 1.0,
             ultraService = 0,
             ultraStart = 0.0,
             ultraLength = 2.4,
@@ -39,7 +39,6 @@ class SensorsTrainer():
             btn0Pol = 1,
             btn1Pol = 1,
             boardSpecificOptions=''):
-
         """
         Initializes and configures the Sensors Trainer.
 
@@ -58,22 +57,22 @@ class SensorsTrainer():
             Indicates the radar service to use. Defaults to 0 (off).
             (1.Distance. 2.Presence, 3.Power Bins, 4.Envelope, 5.IQ, 6.Sparse)
         radarStart: float, optional
-            Start distance in meters for radar reading. Defaults to 0.1. 
+            Start distance in meters for radar reading. Defaults to 0.1.
             Radar range is 0 to 7 meters.
         radarLength: float, optional
-            Distance in meters for radar reading starting at `radarStart`. 
-            Defaults to 6.9. Radar range is 0 to 7 meters. e.g., to read 
-            from 0 to 1 m or 2 to 3 m, this value should be 1. 
+            Distance in meters for radar reading starting at `radarStart`.
+            Defaults to 6.9. Radar range is 0 to 7 meters. e.g., to read
+            from 0 to 1 m or 2 to 3 m, this value should be 1.
         ultraService : int, optional
             Indicates the ultrasonic service to use. Defaults to 0 (off).
             (1. Distance only, 2.Distance + IQ)
         ultraStart: float, optional
-            Start distance in meters for ultrasonic reading. Defaults to 0. 
+            Start distance in meters for ultrasonic reading. Defaults to 0.
             Ultrasonic range is 0 to 2.4 meters.
         ultraLength: float, optional
-            Distance in meters for ultrasonic reading starting at `ultraStart`. 
-            Defaults to 2.4. Radar range is 0 to 2.4 meters. e.g., to read 
-            from 0 to 1 m or 2 to 3 m, this value should be 1. 
+            Distance in meters for ultrasonic reading starting at `ultraStart`.
+            Defaults to 2.4. Radar range is 0 to 2.4 meters. e.g., to read
+            from 0 to 1 m or 2 to 3 m, this value should be 1.
         knobEncQuad: int, optional
             Decoding mode for the knob encoder. Defaults to 4. (Quadrature)
             (1. 1x decoding, 2. 2x decoding, 4. 4x decoding).
@@ -83,7 +82,7 @@ class SensorsTrainer():
         boardSpecificOptions : str, optional
             Board-specific configuration options. Defaults to an empty string.
             If modified, `radarService`, `radarStart`, `radarLength`,
-            `ultraService`, `ultraStart` and `ultraLength` will not be read and 
+            `ultraService`, `ultraStart` and `ultraLength` will not be read and
             will have to be defined in the string as
             `radar_serv`, `radar_start`, `radar_len`, `ultra_len`,
             `ultra_serv` and `ultra_start`.
@@ -96,7 +95,7 @@ class SensorsTrainer():
 
         knobEncQuad = knobEncQuad if knobEncQuad in (1,2,4)  else 4
         extEncQuad = extEncQuad if extEncQuad in (1,2,4)  else 4
-    
+
         if not boardSpecificOptions:
             if radarService < 0 or radarService > 6:
                 print(f"Invalid radarService value: {radarService}. Must be between 1 and 6.")
@@ -104,58 +103,45 @@ class SensorsTrainer():
             if radarStart > 6.5 or radarStart < 0:
                 radarStart = 0
                 print('Make sure radarStart is between 0 and 6.5 m. Value set to 0')
-            
+
             if radarLength + radarStart > 7.0:
                 radarLength = 7 - radarStart
                 print(f'radarLength was out of bounds. Value set to {radarLength}'
                       f' to keep range between {radarStart} and 7.')
-                
-            if ultraService < 0 or ultraService > 2:
-                print(f"Invalid radarService value: {ultraService}. Must be between 1 and 2.")
 
-            if ultraStart > 2.4 or ultraStart < 0:
+            if ultraService < 0 or ultraService > 2:
+                print(f"Invalid radarService value: {ultraService}. Must be between 0 and 2.")
+
+            if ultraStart > 5 or ultraStart < 0:
                 ultraStart = 0
-                print('Make sure ultraStart is between 0 and 2.4 m. Value set to 0')
-            
-            if ultraLength + ultraStart > 2.4:
-                radarLength = 2.4 - ultraStart
-                print(f'radarLength was out of bounds. Value set to {ultraLength}'
-                      f' to keep range between {ultraStart} and 2.4.')
-                
+                print('Make sure ultraStart is between 0 and 5 m. Value set to 0')
+
+            if ultraLength + ultraStart > 5:
+                ultraLength = 5 - ultraStart
+                print(f'ultraLength was out of bounds. Value set to {ultraLength}'
+                      f' to keep range between {ultraStart} and 5.')
+
             # if empty BSO, use defaults
             boardSpecificOptions = (
-                "gyro_fs=2000;accel_fs=16;color_int=50;color_ag=4;color_dg=4;"
+                "adc1_os=256;adc2_os=256;adc3_os=64;"
+                f"btn0_pol={btn0Pol};btn1_pol={btn1Pol};"
+                "dio0_mode=0;dio1_mode=0;dio2_mode=0;dio3_mode=0;"
+                "enc_dir=0;enc_mode=0;enc_freq=240e6;knob_dir=0;"
+                "gyro_avg=1;gyro_filter=196.6;gyro_fs=2000;gyro_rate=1125;"
+                "accel_avg=1;accel_filter=246;accel_fs=16;accel_rate=1125;"
+                "temp_filter=7932;color_int=50;color_ag=4;color_dg=4;"
                 "tof_res=8x8;tof_order=0;tof_freq=15;tof_int=2;tof_sharp=14;"
-                "radar_down=1;radar_gain=0.30;radar_hwaas=30;"
-                f"radar_len={radarLength};radar_mur=6;radar_noise=0;"
-                "radar_prof=3;radar_samp=A;"
+                "radar_bins=0;radar_down=1;radar_gain=0.30;radar_hwaas=30;"
+                f"radar_len={radarLength};radar_mur=6;radar_noise=0;radar_prof=3;"
+                "radar_run=0.7;radar_samp=A;"
                 f"radar_serv={radarService};radar_start={radarStart};"
                 "radar_sweeps=16;radar_swprate=0.0;"
                 f"ultra_int=100;ultra_len={ultraLength};"
                 f"ultra_serv={ultraService};ultra_start={ultraStart};"
+                "hum_over=2;press_over=4;temp_over=8;"
+                "weather_standby=0.5;weather_filt=2;"
+                "load_gain=128;load_rate=320;"
             )
-
-            # # uncomment for rev 6
-            # boardSpecificOptions = (
-            #     f"btn0_pol={btn0Pol};btn1_pol={btn1Pol};"
-            #     "dio0_mode=0;dio1_mode=0;dio2_mode=0;dio3_mode=0;"
-            #     "enc_dir=0;enc_mode=0;enc_freq=240e6;"
-            #     "knob_dir=0;"
-            #     "gyro_avg=1;gyro_filter=196.6;gyro_fs=2000;gyro_rate=1125;"
-            #     "accel_avg=1;accel_filter=246;accel_fs=16;accel_rate=1125;"
-            #     "temp_filter=7932;color_int=50;color_ag=4;color_dg=4;"
-            #     "tof_res=8x8;tof_order=0;tof_freq=15;tof_int=2;tof_sharp=14;"
-            #     "radar_bins=0;radar_down=1;radar_gain=0.30;"
-            #     f"radar_hwaas=30;radar_len={radarLength};radar_mur=6;"
-            #     "radar_noise=0;radar_prof=3;radar_run=0.7;radar_samp=A;"
-            #     f"radar_serv={radarService};radar_start={radarStart};"
-            #     "radar_sweeps=16;radar_swprate=0.0;"
-            #     "ultra_int=100;ultra_len=2.4;"
-            #     f"ultra_serv={ultraService};ultra_start={ultraStart};"
-            #     "hum_over=2;press_over=4;temp_over=8;"
-            #     "weather_standby=0.5;weather_filt=2;"
-            #     "load_gain=128;load_rate=320;"
-            # )
 
 
         self._boardSpecificOptions = boardSpecificOptions
@@ -183,20 +169,20 @@ class SensorsTrainer():
         self.READ_ANALOG_CHANNELS = np.array([0, 1, 2, 3, 4, 5, 6, 7],
                                              dtype=np.uint32)
         self.READ_ENCODER_CHANNELS = np.array([0, 1], dtype=np.uint32)
-        self.READ_DIGITAL_CHANNELS = np.array([0, 1, 2, 3, 4, 5, 6, 
-                                               7, 8, 9, 10, 11, 12, 13, 14],
+        self.READ_DIGITAL_CHANNELS = np.array([0, 1, 2, 3, 4, 5, 6,
+                                               7, 8, 9, 10, 11, 12, 13, 14,30],
                                               dtype=np.uint32)
 
         rangeTOF = np.arange(0, 128, dtype=np.uint32) # 0 - 127
         environmentSensors = np.array([9000, 10000, 11000], dtype=np.uint32)
         colorReflectance =  np.arange(11001, 11070, dtype=np.uint32) # 11001 - 11069
         TOFTargets = np.arange(13000, 13064, dtype=np.uint32) # 13000 - 13063
-        imuThermal =  np.array([3000, 3001, 3002, 4000, 
+        imuThermal =  np.array([3000, 3001, 3002, 4000,
                                  4001, 4002, 8000, 8001, 8002,
                                  10001, 10002, 10003], dtype=np.uint32)
         cpuTemp = np.array([10004], dtype=np.uint32)
 
-        
+
         radarStartChnl = np.array([128], dtype=np.uint32)
         radarLengthChnl = np.array([129], dtype=np.uint32)
         radarPointsChnl = np.array([13064], dtype=np.uint32)
@@ -206,7 +192,7 @@ class SensorsTrainer():
         ultraLengthChnl = np.array([131], dtype=np.uint32)
         ultraDistChnl = np.array([132], dtype=np.uint32)
         ultraPointsChnl = np.array([13065], dtype=np.uint32)
-        
+
         self._radarEn = 1
         # Define radar channels based on radarService using if-elif-else
         if radarService == 1:  # Distance
@@ -233,7 +219,7 @@ class SensorsTrainer():
             self._radarEn = 0
         else:
             raise ValueError(f"Invalid radarService value: {radarService}. Must be between 1 and 6.")
-        
+
         self._ultraEn = 1
         # Define radar channels based on radarService using if-elif-else
         if ultraService == 2:  # IQ
@@ -245,15 +231,15 @@ class SensorsTrainer():
             self._ultraEn = 0
         else:
             raise ValueError(f"Invalid ultraService value: {ultraService}. Must be between 1 and 6.")
-        
+
         self.READ_OTHER_CHANNELS = np.concatenate((rangeTOF, environmentSensors,
                                         colorReflectance, TOFTargets,
                                         imuThermal, cpuTemp, radarStartChnl,
                                         radarLengthChnl, radarPointsChnl,
-                                        radarServiceChnl, radarDistance, 
+                                        radarServiceChnl, radarDistance,
                                         radarAmplitude, ultraStartChnl,
                                         ultraLengthChnl, ultraPointsChnl,
-                                        ultraDistChnl, ultraIQDistance, 
+                                        ultraDistChnl, ultraIQDistance,
                                         ultraAmplitude))
 
         # Internal read buffers
@@ -294,6 +280,7 @@ class SensorsTrainer():
         self.powerAlert = np.zeros(1, dtype=np.float64)
         self.thermocoupleFault = np.zeros(4, dtype=np.float64)
         self.sdCardPresent = np.zeros(1, dtype=np.float64)
+        self.radarConfigError = np.zeros(1, dtype=np.float64)
 
         # other channel: TOF color sensor and environment
         self.TOFDistance = np.zeros(64, dtype=np.float64)
@@ -342,10 +329,10 @@ class SensorsTrainer():
                 self.card.set_card_specific_options(
                     self._boardSpecificOptions,
                     MAX_STRING_LENGTH)
-                
+
                 self.serialNumber = self.card.get_string_property(
                     StringProperty.SERIAL_NUMBER,64)
-                
+
                 # check firmware
                 properties = np.array([IntegerProperty.FIRMWARE_BUILD], dtype=np.int32)
 
@@ -360,9 +347,9 @@ class SensorsTrainer():
                     len(self.READ_ENCODER_CHANNELS),
                     np.zeros(len(self.READ_ENCODER_CHANNELS), dtype=np.int32)
                 )
-                
-                modes = np.array([EncoderQuadratureMode.X4, 
-                                  EncoderQuadratureMode.X4], 
+
+                modes = np.array([EncoderQuadratureMode.X4,
+                                  EncoderQuadratureMode.X4],
                                   dtype=np.int32)
 
                 if knobEncQuad == 1:
@@ -411,23 +398,23 @@ class SensorsTrainer():
                         self._readTask,
                         Clock.HARDWARE_CLOCK_0,
                         self._frequency,
-                        self.samples 
+                        self.samples
                     )
 
-                    self.read_outputs() # read data once to clear old data
+                self.read_outputs() # read data once to clear old data
 
             self._HilError = False
 
         except HILError as h:
             self._HilError = True  # Flag to know if error was HIL
-                     
+
             if h.error_code == -108:
                 print('Make sure your device is connected to your PC and has finished loading.')
-                
+
             elif h.error_code == -1068:
                 print('Update your device firmware by following the instructions at *link*')
                 print(h.get_error_message())
-            
+
             else:
                 print(h.get_error_message())
             sys.exit()
@@ -478,23 +465,23 @@ class SensorsTrainer():
             )
         except HILError as h:
             self._HilError = True  # Flag to know if error was HIL
-            raise 
+            raise
 
     def read_outputs(self):
         """Reads all sensor data from the Mechatronics Sensor Trainer.
-    
-        This method reads all available sensor data and updates the 
+
+        This method reads all available sensor data and updates the
         corresponding instance variables with the latest measurements.
-    
+
         Returns
         -------
         None
-    
+
         Raises
         ------
         HILError
             If there is an error during the read operation.
-    
+
         Attributes Updated
         ----------------
         self.joystick : ndarray of float, shape (2,)
@@ -503,7 +490,7 @@ class SensorsTrainer():
             Light resistor measurement in volts.
         self.forceResistor : float
             Force resistor measurement in volts.
-        self.passiveIR : float 
+        self.passiveIR : float
             Passive IR sensor measurement in volts.
         self.IRDistance : float
             IR distance sensor measurement in volts.
@@ -515,8 +502,8 @@ class SensorsTrainer():
             External encoder position in counts.
 
         self.buttons : ndarray of float, shape (2,)
-            Button states [button0, button1], 1 when pressed. 
-            If button polarity is initialized as 0, it produces 0 when pressed. 
+            Button states [button0, button1], 1 when pressed.
+            If button polarity is initialized as 0, it produces 0 when pressed.
         self.joystickButton : float
             Joystick button state, 1 when pressed.
         self.encoderPulses : ndarray of float, shape (2,)
@@ -567,7 +554,7 @@ class SensorsTrainer():
             Active Radar Service mode.
         self.radarDistances : ndarray of float
             Radar distance measurements in meters (length varies by service).
-        self.radarAmplitudes : ndarray of float 
+        self.radarAmplitudes : ndarray of float
             Radar amplitude measurements (length varies by service).
         """
 
@@ -620,6 +607,10 @@ class SensorsTrainer():
             self.powerAlert = self._readDigitalBuffer[9]
             self.thermocoupleFault = self._readDigitalBuffer[10:14]
             self.sdCardPresent = self._readDigitalBuffer[14]
+            self.radarConfigError = self._readDigitalBuffer[15]
+            if self.radarConfigError == 1:
+                print('Radar configuration error. Check initial radar settings.')
+                self.terminate()
 
             self.TOFDistance = self._readOtherBuffer[0:64]
             self.TOFSigma = self._readOtherBuffer[64:128]
@@ -706,13 +697,13 @@ class SensorsTrainer():
 
                 # self.card.watchdog_clear()
                 # self.card.watchdog_stop()
-                print(f'Sensors Trainer closed gracefully.')
+                print('Sensors Trainer closed gracefully.')
 
         except HILError as h:
             print('Error during termination/closing.')
             print('Try restarting the device if needed.')
             print(h.get_error_message())
-        
+
         finally:
             self.card.close()
 
@@ -847,7 +838,7 @@ class SensorsDisplay():
     def read_touch(self):
         """
         Reads touch input from the Mechatronics Sensors Trainer LCD.
-        The device can read up to 5 fingers. 
+        The device can read up to 5 fingers.
 
         Returns
         -------
@@ -986,7 +977,7 @@ class SensorsDisplay():
                 image_format=ImageFormat.ROW_MAJOR_GREYSCALE,
                 image=image,
                 mask=mask)
-        
+
 
     def draw_image_mask(self, image, mask, column=0, row=0):
         """
@@ -1038,8 +1029,8 @@ class SensorsDisplay():
                 image_size=image.shape,
                 image_format=ImageFormat.ROW_MAJOR_GREYSCALE,
                 image=image,
-                mask=mask)     
-        
+                mask=mask)
+
 
     def begin_draw(self):
         """
@@ -1120,21 +1111,21 @@ class SensorsDisplay():
         """
         Return the current LCD screen content as a NumPy array of dtype uint8.
         Image can be color or greyscale, in OpenCV BGR format.
-        
+
         Parameters
         ----------
         greyscale : bool, optional
-            If True, return a 2-D greyscale image of shape (480, 800). 
-            If False, return a 3-D color image of shape (480, 800, 3). 
+            If True, return a 2-D greyscale image of shape (480, 800).
+            If False, return a 3-D color image of shape (480, 800, 3).
             Default is False.
 
         Returns
         -------
         image_data : numpy.ndarray
-            uint8 array containing the display image. 
-            Shape is (480, 800) for greyscale and (480, 800, 3) for color images. 
+            uint8 array containing the display image.
+            Shape is (480, 800) for greyscale and (480, 800, 3) for color images.
             When a color image is returned, the channel order is BGR.
-        
+
         Notes
         -----
         - The returned resolution corresponds to the device display (480 rows × 800 columns).
@@ -1151,7 +1142,7 @@ class SensorsDisplay():
             # greyscale openCV format
             image_data = np.zeros((480, 800), dtype=np.uint8)
             self.display.getImage(ImageFormat.ROW_MAJOR_GREYSCALE, ImageDataType.UINT8, image_data)
-            
+
         return image_data
 
     def save(self, filename):
@@ -1233,7 +1224,7 @@ class SensorsDisplay():
             print("KeyboardInterrupt handled. Cleaning up.")
             self.terminate()
             return True  # Suppress the exception
-        
+
         if exc_type is HILError:
             self._HilError = True
             print(
@@ -1243,7 +1234,7 @@ class SensorsDisplay():
             print('Try restarting the device if needed.')
             self.terminate()
             return True  # Suppress the exception
-        
+
         # If another exception occurred, handle it
         if exc_type is not None:
             print(f"Exception occurred: {exc_type.__name__}: {exc_value}")
@@ -1413,7 +1404,7 @@ def find_audio_out(partial_name = 'Sensors Trainer'):
     Only devices with at least one output channel are considered.
     """
     import sounddevice as sd
-    
+
     for i, device in enumerate(sd.query_devices()):
         if partial_name in device['name'] and device['max_output_channels'] > 0:
             print("Using output device:", device['name'], "ID:" , i)

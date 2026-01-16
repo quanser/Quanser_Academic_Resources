@@ -3,7 +3,6 @@
 # Characterizing a DC motor.
 
 # region: Python level imports
-import numpy as np
 import subprocess
 import sys
 import os

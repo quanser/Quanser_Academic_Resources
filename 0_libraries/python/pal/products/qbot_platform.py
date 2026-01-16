@@ -8,12 +8,12 @@ important safety features into the robot.
 
 """
 
-import sys
+# import sys
 import os
 import platform
 import numpy as np
-from quanser.hardware import HIL, HILError, MAX_STRING_LENGTH, Clock
-from quanser.hardware.enumerations import BufferOverflowMode
+# from quanser.hardware import HIL, HILError, MAX_STRING_LENGTH, Clock
+# from quanser.hardware.enumerations import BufferOverflowMode
 from quanser.common import Timeout
 from pal.utilities.stream import BasicStream
 from pal.utilities.vision import Camera2D, Camera3D

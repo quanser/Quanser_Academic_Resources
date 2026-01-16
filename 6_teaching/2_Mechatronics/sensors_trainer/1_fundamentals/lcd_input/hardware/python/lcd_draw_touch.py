@@ -55,6 +55,8 @@ def control_loop():
 
     timer = Timer(sampleRate=frequency, totalTime=simulationTime)
     
+    print("Touch input ready. Waiting for touch input...")
+    
     with (SensorsTrainer() as sensors, 
           SensorsDisplay() as lcd):
         
