@@ -48,8 +48,7 @@ This guide walks you through getting started with the following labs/products:
 - [Mechatronics Design Lab (MDL)](#mdl): 
     - Mechatronic Sensors Trainer, Mechatronic Actuators Trainer
 
-If  your product is not listed above, follow instead [Getting Started With Other Solutions](#solutions). 
-
+**_For any other product not listed above, please visit the Quanser Website for [resources](https://www.quanser.com/resources/)._**
 
 ## AVRS
 
@@ -111,7 +110,7 @@ The Mechatronic Design Lab (MRL) is a teaching lab for sensors and actuators. Th
 1.  Run through the quick start guides of the products you have to make sure your hardware is functioning as expected. These files are located under `2_quick_start_guides/mech_actuators_trainer` and `2_quick_start_guides/mech_sensors_trainer`. Note that also individual IO tests and python examples are located in the product folder under `5_research`. 
 2. Review the User Manuals under `3_user_manuals/mech_actuators_trainer` and `3_user_manuals/mech_sensors_trainer` for more detailed information on the device. 
 3. You can also see examples in `5_research/mechatronic_trainers` that use each of the devices individually or together to understand how to do more complicated things that are not part of the fundamental labs.
-4. Teaching content is located under `6_teaching/2_Mechatronics/`. The content for each of the products is shown below as well as their corresponding skills progressions. 
+4. Teaching content is located under `6_teaching/2_Mechatronics/`. The content for each of the products is shown below as well as their corresponding skills progressions. For more information about the structure of lab content, see [Using the Provided Curriculum](#curriculum) at the bottom of this document.
 
     <img src="images/mdl_teaching.png" width="700">
 
@@ -236,7 +235,7 @@ Quanser content is subdivided into a series of directories to help you get start
 
 - **0_libraries**: Source location for custom Python/Simulink libraries, as well as other useful files used in the libraries. Please review `libraries_guide` inside the libraries folder for more information.
 
-- **1_setup**: Setup for different lab products. 
+- **1_setup**: Setup for different lab products and setup for a Raspberry Pi. 
 - **2_quick_start_guides**: Standalone Quick Start Guides for various products. 
 - **3_user_manuals**: PDF files of user manuals for different Quanser products.
 - **4_concept_reviews**: Consists of .docx/.pdf files for background concepts utilized in Quanser Curriculum.
