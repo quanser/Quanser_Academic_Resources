@@ -70,10 +70,8 @@ if [ ! -f "$MARKER_FILE" ]; then
     # public release
     # wget --no-cache https://repo.quanser.com/debian/release/config/configure_raspbian64_repo_release.sh
     # public prerelease
-    # wget --no-cache https://repo.quanser.com/debian/prerelease/config/configure_raspbian64_repo_prerelease.sh
-    # private prerelease
-    wget --no-cache https://qrepoprivate.blob.core.windows.net/debian/prerelease/config/configure_raspbian64_repo_prerelease.sh
-
+    wget --no-cache https://repo.quanser.com/debian/prerelease/config/configure_raspbian64_repo_prerelease.sh
+    
     chmod u+x "$CONFIG_SCRIPT"
     ./"$CONFIG_SCRIPT"
 

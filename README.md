@@ -16,6 +16,8 @@ This repository includes content for the following products: `Qube-Servo 3, Aero
 
 ## Downloading Resources
 
+**Note:** If you are trying to set up a Raspberry Pi (4 or 5) to use with the Mechatronic Sensors Trainer and/or the Mechatronic Actuators Trainer, skip this guide and see [Raspberry Pi Setup](1_setup/raspberry_pi/pi_setup.pdf). These devices work both in Windows computers and Raspberry Pis.
+
 Before getting started with these resources, the first step is to download them into your computer. There is two ways to do this, using Git, or downloading the files simply as a .zip file. We recommend having our resources in a C:/Users/user/Documents/Quanser folder.
 
 ### With Git
@@ -53,22 +55,7 @@ To begin using these resources, you will need to install the necessary software 
 
 ## Getting Started With Content
 
-For a comprehensive guide to getting started with these resources and using your Quanser product there are two guides to get started depending on your product.
-
-For setup for a product that is part of the labs listed below, please refer to the [Getting Started - Labs](docs/start_labs.md) guide.
-
-    - Autonomous Vehicles Research Studio (AVRS):
-        - QDrone, QDrone 2, QBot 2, QBot 2e
-    - Mobile Robotics Lab (MRL):
-        - QBot Platform, QArm Mini
-    - Self Driving Car Studio (SDCS):
-        - QCar, QCar 2
-
-For setup for any other device listed below, please refer to the [Getting Started - Others](docs/start_others.md) guide.
-
-    - Aero 2
-    - QArm
-    - Qube-Servo 3
+For a comprehensive guide to getting started with these resources and using your Quanser products, follow the [Getting Started Guide](docs/getting_started.md) 
 
 
 # Resources For Older Products
