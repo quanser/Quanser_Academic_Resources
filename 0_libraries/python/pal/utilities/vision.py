@@ -438,8 +438,8 @@ class Camera2D():
             flag = self.capture.read(self.imageData)
         except MediaError as me:
             print(me.get_error_message())
-            if me.error_code == -578: # camera could not be found
-                raise Exception("Camera not found.")
+            # if me.error_code == -578: # camera could not be found
+            #     raise Exception("Camera not found.")
         except KeyboardInterrupt:
             print('User Interrupted')
         finally:
