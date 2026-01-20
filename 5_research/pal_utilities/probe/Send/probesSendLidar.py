@@ -21,7 +21,11 @@ ranges = np.ones((1680), dtype=np.float32)
 angles = np.linspace(0, 2*np.pi-(2*np.pi/1680), 1680, endpoint=False, dtype=np.float32)
 
 connectionSuccessful = False
+
+rng = np.random.default_rng()     # non-deterministic random number generator
+
 t_prev = time.time()
+
 try:
     connected = False
     time.sleep(0.1)
@@ -30,7 +34,7 @@ try:
             probe.check_connection()
 
         if probe.connected:
-            mag = np.random.randint(1, 3)
+            mag = rng.integers(1, 3)
             ranges_s = mag*ranges
             sent = probe.send(name='my plot', lidarData=(ranges_s, angles))
             if not sent:

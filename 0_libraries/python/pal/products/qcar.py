@@ -16,13 +16,13 @@ from quanser.hardware import HIL, HILError, PWMMode, MAX_STRING_LENGTH, Clock
 from quanser.hardware.enumerations import BufferOverflowMode
 try:
     from quanser.common import Timeout
-except:
+except ImportError:
     from quanser.communications import Timeout
 
 from pal.utilities.vision import Camera2D, Camera3D
 from pal.utilities.lidar import Lidar
 from pal.utilities.stream import BasicStream
-from pal.utilities.math import Calculus
+# from pal.utilities.math import Calculus
 from pal.products.qcar_config import  QCar_check
 from os.path import realpath, join, exists , dirname
 
@@ -50,7 +50,7 @@ except HILError as e:
     print('QCar configuration file loading unsuccessful')
     print(e.get_error_message())
 """
-A Dictionary containing QCar type-specific parameters. When a class from 
+A Dictionary containing QCar type-specific parameters. When a class from
 qcar module is called, the config file is automatically created and loaded.
 When using a virtual QCar, user will be asked to specify the QCar type.
 """
@@ -87,7 +87,7 @@ class QCar():
             boardIdentifier = "0"
         else:
             boardIdentifier = "0@tcpip://localhost:" +str(hilPort)+ "?nagle='off'"
-        
+
         try:
             self.card.open(QCAR_CONFIG["carname"], boardIdentifier)
         except HILError as e:
@@ -96,7 +96,7 @@ class QCar():
         if self.carType == 0:
             print('No QCar found!')
             return
-        
+
         self.readMode = readMode
         self.io_task_running = False
         self.pwmLimit = pwmLimit
@@ -141,7 +141,7 @@ class QCar():
 
         # Write channels
         self.WRITE_PWM_CHANNELS = np.array(
-            QCAR_CONFIG['WRITE_PWM_CHANNELS'], 
+            QCAR_CONFIG['WRITE_PWM_CHANNELS'],
             dtype=np.int32)
         self.WRITE_OTHER_CHANNELS = np.array(
             QCAR_CONFIG['WRITE_OTHER_CHANNELS'],
@@ -153,21 +153,21 @@ class QCar():
             )
         # write buffer channels:
         self.writePWMBuffer = np.zeros(
-            QCAR_CONFIG['writePWMBuffer'], 
+            QCAR_CONFIG['writePWMBuffer'],
             dtype=np.float64)
         self.writeDigitalBuffer = np.zeros(
-            QCAR_CONFIG['writeDigitalBuffer'], 
+            QCAR_CONFIG['writeDigitalBuffer'],
             dtype=np.int8)
         self.writeOtherBuffer = np.zeros(
-            QCAR_CONFIG['writeOtherBuffer'], 
+            QCAR_CONFIG['writeOtherBuffer'],
             dtype=np.float64)
 
         # Read channels
         self.READ_ANALOG_CHANNELS = np.array(
-            QCAR_CONFIG['READ_ANALOG_CHANNELS'], 
+            QCAR_CONFIG['READ_ANALOG_CHANNELS'],
             dtype=np.int32)
         self.READ_ENCODER_CHANNELS = np.array(
-            QCAR_CONFIG['READ_ENCODER_CHANNELS'], 
+            QCAR_CONFIG['READ_ENCODER_CHANNELS'],
             dtype=np.uint32)
         self.READ_OTHER_CHANNELS = np.array(
             QCAR_CONFIG['READ_OTHER_CHANNELS'],
@@ -176,13 +176,13 @@ class QCar():
 
         # Read buffers (internal)
         self.readAnalogBuffer = np.zeros(
-            QCAR_CONFIG['readAnalogBuffer'], 
+            QCAR_CONFIG['readAnalogBuffer'],
             dtype=np.float64)
         self.readEncoderBuffer = np.zeros(
-            QCAR_CONFIG['readEncoderBuffer'], 
+            QCAR_CONFIG['readEncoderBuffer'],
             dtype=np.int32)
         self.readOtherBuffer = np.zeros(
-            QCAR_CONFIG['readOtherBuffer'], 
+            QCAR_CONFIG['readOtherBuffer'],
             dtype=np.float64)
 
     def _set_options(self):
@@ -814,7 +814,7 @@ class QCarGPS:
             initialPose (list, optional): Initial pose of the QCar
                 as [x0, y0, th0] (default [0, 0, 0]).
         """
-        
+
         self._need_calibrate = calibrate
         if IS_PHYSICAL_QCAR:
             self.__initLidarToGPS(initialPose)
@@ -1047,7 +1047,7 @@ class QCarGPS:
             self.__stopLidarToGPS()
         else:
             self.lidar.terminate()
-            
+
     def __enter__(self):
         """ Used for with statement. """
         return self

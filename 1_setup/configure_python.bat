@@ -41,11 +41,13 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             call :TrimSpaces installed_status
             if "!installed_status!"=="Installed" (
                 echo !requirement!: Required and Installed
+            ) else if "!installed_status!"=="3.14" (
+                echo !requirement!: Required and Installed
+            ) else if "!installed_status!"=="3.13" (
+                echo !requirement!: Required and Installed
             ) else if "!installed_status!"=="3.12" (
                 echo !requirement!: Required and Installed
             ) else if "!installed_status!"=="3.11" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="3.13" (
                 echo !requirement!: Required and Installed
             ) else (
                 if "!requirement!"=="QUARC" (
@@ -79,13 +81,16 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             if "!installed_status!"=="Installed" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
+            ) else if "!installed_status!"=="3.14" (
+                echo !requirement!: Not Required but Installed
+                set "not_required_installed=!not_required_installed! !requirement!"
+            ) else if "!installed_status!"=="3.13" (
+                echo !requirement!: Not Required but Installed
+                set "not_required_installed=!not_required_installed! !requirement!"
             ) else if "!installed_status!"=="3.12" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
             ) else if "!installed_status!"=="3.11" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="3.13" (
                 echo !requirement!: Not Required but Installed
                 set "not_required_installed=!not_required_installed! !requirement!"
             ) else (
@@ -100,11 +105,13 @@ for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%
             call :TrimSpaces installed_status
             if "!installed_status!"=="Installed" (
                 echo !requirement!: Optional but is installed
+            ) else if "!installed_status!"=="3.14" (
+                echo !requirement!: Optional but is installed
+            ) else if "!installed_status!"=="3.13" (
+                echo !requirement!: Optional but is installed
             ) else if "!installed_status!"=="3.12" (
                 echo !requirement!: Optional but is installed
             ) else if "!installed_status!"=="3.11" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="3.13" (
                 echo !requirement!: Optional but is installed
             ) else (
                   echo !requirement!: Optional and is Missing
@@ -140,6 +147,9 @@ REM Installing python whls
 for /f "delims=" %%f in ('dir /b /a-d "%QSDK_DIR%python"\quanser_api*') do (
     set FILENAME=%%f
 )
+
+echo [93mDeleting pip cache[0m
+py -!py_ver! -m pip cache purge
 
 echo [93mInstalling Quanser Python API %FILENAME%[0m
 py -!py_ver! -m pip install --upgrade pip

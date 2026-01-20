@@ -2,6 +2,18 @@
 Change Log for releases after 2025:
 ==========================================================================================================
 
+Release (2026-01-20):
+- Added files for mechatronic actuators and sensors trainers. 
+	- Included all fundamental labs for both sensors and actuators
+	- User manuals
+	- Quick start guides
+	- Research examples
+- Added a Raspberry Pi setup guide
+- Added QArm ROS2 support
+- Improved QArm gripper support
+- Updated Outreach STEM documentation to support information on traffic lights.
+
+
 Release (2025-11-11):
 - Updated QArm and QArm mini files
 - Fixed difference in naming for QArm examples using the forward and inverse kin functions

@@ -4,7 +4,9 @@
 
 # Setting up your computer
 
-The following steps are how to set up your computer so you are ready to start using our resources. Follow the instructions for the software you will be using. If you are using both MATLAB and Python, follow the instructions in both sections. Make sure to follow the instructions at the bottom of this page to [complete the setup](#completing-the-setup).
+If you have not downloaded our resources, please go back to [Downloading Resources](../README.md#downloading-resources) and follow the instructions there. 
+
+The following steps are how to set up your computer once you've downloaded the resources so you can start using them. Follow the instructions for the software you will be using. If you are using both MATLAB and Python, follow the instructions in both sections. Make sure to follow the instructions at the bottom of this page to [complete the setup](#completing-the-setup).
 
 ## If you are using MATLAB/Simulink 
 
@@ -30,7 +32,7 @@ These steps are only necessary if you are not using hardware, and using virtual 
 ## If you are using Python
 -  Make sure you have not downloaded Python through the Microsoft store, if you have, we recommend uninstalling it first. 
 
-- Download Python 3.11, 3.12 or 3.13 through the Python foundation website (https://www.python.org/downloads/windows/).   
+- Download Python 3.11, 3.12, 3.13 or 3.14 through the Python foundation website (https://www.python.org/downloads/windows/).   
 **Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
 
 - If you do not have QUARC installed (due to virtual devices only or Python only setup), download [Quanser SDK](https://github.com/quanser/quanser_sdk), this GitHub repository links to both Windows and Linux versions.
