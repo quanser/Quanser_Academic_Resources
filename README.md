@@ -4,7 +4,7 @@
 # Quanser_Academic_Resources
 The [Quanser](https://www.quanser.com/) Academic Resources includes the research and teaching content for using Quanser products, including libraries, research examples, teaching content, user manuals, guides and more.
 
-This repository includes content for the following products: `Qube-Servo 3, Aero 2, QArm, QArm Mini, QBot Platform and older QBots, QDrone, QDrone 2, QCar and QCar 2`, and looking for resources on these solutions from [Quanser](https://www.quanser.com/) will redirect here. If you are looking for resources to other products, skip these instructions and refer to the section: [Resources For Older Products](#resources-for-older-products).
+This repository includes content for the following products: `Aero 2, Mechatronic Actuators Trainer, Mechatronic Sensors Trainer, QArm, QArm Mini, QBot Platform and older QBots, QCar, QCar 2, QDrone, QDrone 2, Qube-Servo 3`, and looking for resources on these solutions from [Quanser's website](https://www.quanser.com/) will redirect here. If you are looking for resources to other products, skip these instructions and refer to the section [Resources For Older Products](#resources-for-older-products).
 
 ### Table of Contents
 - [Downloading Resources](#downloading-resources)
@@ -16,9 +16,9 @@ This repository includes content for the following products: `Qube-Servo 3, Aero
 
 ## Downloading Resources
 
-**Note:** If you are trying to set up a Raspberry Pi (4 or 5) to use with the Mechatronic Sensors Trainer and/or the Mechatronic Actuators Trainer, skip this guide and see [Raspberry Pi Setup](1_setup/raspberry_pi/pi_setup.pdf). These devices work both in Windows computers and Raspberry Pis.
+**Note:** If you are trying to set up a Raspberry Pi (4 or 5) to use with the Mechatronic Actuators Trainer and/or the Mechatronic Sensors Trainer, skip this guide and see [Raspberry Pi Setup](1_setup/raspberry_pi/pi_setup.pdf). These devices work both in Windows computers and Raspberry Pis.
 
-Before getting started with these resources, the first step is to download them into your computer. There is two ways to do this, using Git, or downloading the files simply as a .zip file. We recommend having our resources in a C:/Users/user/Documents/Quanser folder.
+Before getting started with these resources, the first step is to download them into your computer. There is two ways to do this, using Git, or downloading the files simply as a .zip file. We recommend having our resources in a `C:/Users/user/Documents/Quanser` folder.
 
 ### With Git
 
