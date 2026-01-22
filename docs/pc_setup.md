@@ -14,7 +14,7 @@ The following steps are how to set up your computer once you've downloaded the r
 
 ### If using hardware 
 
-- Download QUARC. It will install Quanser Interactive Labs, which is used when using virtual products. To download QUARC, go to [QUARC's Product Page](https://www.quanser.com/products/quarc-real-time-control-software/#panel1v) and click on the 4th tab `QUARC ___ Installer & Documentation`. Note that you will need the provided license file you got when receiving the system.
+- Download QUARC. It will install Quanser Interactive Labs, which is used when using virtual products. To download QUARC, go to [QUARC's Product Page](https://www.quanser.com/products/quarc-real-time-control-software/) and click on `QUARC Installer & Documentation` on the PRODUCT DETAILS section. Note that you will need the provided license file you got when receiving the system.
 
 ### If using virtual devices only
 These steps are only necessary if you are not using hardware, and using virtual devices only. 
