@@ -66,7 +66,7 @@ with SensorsTrainer(btn0Pol=1, btn1Pol=1) as sensors:
             probe.send(name='Buttons',
                         scopeData=(currentTime,[buttons[0] + 4, buttons[1] + 2, buttonLatch]))
            
-        prevButton0 = buttons[1]
+        prevButton1 = buttons[1]
         
         sampleCounter += 1
         timer.sleep()

@@ -7,6 +7,8 @@
 # region: Python level imports
 import numpy as np
 import subprocess
+import sys
+import os
 from pal.utilities.timing import Timer
 from pal.products.sensors import SensorsTrainer
 from pal.utilities.probe import Probe
@@ -16,7 +18,10 @@ from pal.utilities.probe import Probe
 # Set up scope for load cell data visualization and start observer thread.
 probe = Probe(ip = 'localhost')
 probe.add_scope(numSignals=1, name='Load Cell')
-subprocess.Popen(['python', 'observer_scope.py'])
+subprocess.Popen(
+    [sys.executable, 
+     os.path.join(os.path.dirname(__file__), 'observer_scope.py')],
+    cwd=os.path.dirname(__file__))
 while not probe.connected:
     probe.check_connection()
 

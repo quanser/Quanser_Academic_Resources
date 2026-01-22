@@ -1,5 +1,5 @@
-# ultrasonic.py
-# This script reads data from the ultrasonic sensor
+# ultrasonic_single_distance.py
+# This script runs the ultrasonic sensor on distance mode
 # 
 
 # region: Python level imports

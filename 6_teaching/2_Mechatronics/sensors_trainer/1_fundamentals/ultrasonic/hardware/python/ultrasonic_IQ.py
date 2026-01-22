@@ -1,5 +1,5 @@
-# ultrasonic.py
-# This script reads data from the ultrasonic sensor
+# ultrasonic_IQ.py
+# This script runs the ultrasonic sensor on IQ mode 
 # 
 
 # region: Python level imports
