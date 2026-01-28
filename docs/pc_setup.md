@@ -32,8 +32,12 @@ These steps are only necessary if you are not using hardware, and using virtual 
 ## If you are using Python
 -  Make sure you have not downloaded Python through the Microsoft store, if you have, we recommend uninstalling it first. 
 
-- Download Python 3.11, 3.12, 3.13 or 3.14 through the Python foundation website (https://www.python.org/downloads/windows/).   
-**Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
+- Go to Python foundation website (https://www.python.org/downloads/) and scroll down to Active Python releases:
+
+    <img src="images/python_download.png" width="600">
+
+    From those links, download Python 3.11, 3.12, 3.13 or 3.14. **DO NOT USE THE PYTHON INSTALL MANAGER**   
+    **Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
 
 - If you do not have QUARC installed (due to virtual devices only or Python only setup), download [Quanser SDK](https://github.com/quanser/quanser_sdk), this GitHub repository links to both Windows and Linux versions.
 
