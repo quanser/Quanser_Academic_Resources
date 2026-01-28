@@ -34,7 +34,7 @@ These steps are only necessary if you are not using hardware, and using virtual 
 
 - Go to Python foundation website (https://www.python.org/downloads/) and scroll down to Active Python releases:
 
-    <img src="images/python_download.png" width="600">
+    <img src="images/python_download.png" width="750">
 
     From those links, download Python 3.11, 3.12, 3.13 or 3.14. **DO NOT USE THE PYTHON INSTALL MANAGER**   
     **Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
