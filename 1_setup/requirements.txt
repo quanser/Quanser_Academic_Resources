@@ -16,3 +16,4 @@ paramiko
 colormath
 sounddevice
 vispy
+watchdog

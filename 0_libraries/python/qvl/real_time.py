@@ -42,14 +42,14 @@ class QLabsRealTime:
 
                 if userArguments:
                     # this is a qlabs rt model, and use the QLabsHostName, _URIPort and actorNumber parameters
-                    cmdString="start \"QLabs_{}_{}\" \"%QUARC_DIR%\\quarc_run\" -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(modelName, actorNumber, modelName, URIPort, QLabsHostName, actorNumber, additionalArguments)
+                    cmdString="start \"QLabs_{}_{}\" quarc_run -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(modelName, actorNumber, modelName, URIPort, QLabsHostName, actorNumber, additionalArguments)
                 else:
                     # this is a qlabs rt model, but don't use additional parameters
-                    cmdString="start \"QLabs_{}_{}\" \"%QUARC_DIR%\\quarc_run\" -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, actorNumber, modelName, additionalArguments)
+                    cmdString="start \"QLabs_{}_{}\" quarc_run -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, actorNumber, modelName, additionalArguments)
 
             else:
                 # this is not a qlabs rt model, but a generic one for windows
-                cmdString="start \"Generic_{}\" \"%QUARC_DIR%\\quarc_run\" -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, modelName, additionalArguments)
+                cmdString="start \"Generic_{}\" quarc_run -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, modelName, additionalArguments)
         elif platform.system() == "Linux":
             if platform.machine() == "armv7l":
                 if qlabs_rt_model:
@@ -101,7 +101,8 @@ class QLabsRealTime:
 
         """
         if platform.system() == "Windows":
-            cmdString="start \"QLabs_Spawn_Model\" \"%QUARC_DIR%\\quarc_run\" -q -Q -t tcpip://localhost:17000 {}.rt-win64 {}".format(modelName, additionalArguments)
+            cmdString="start \"QLabs_Spawn_Model\" quarc_run -q -Q -t tcpip://localhost:17000 {}.rt-win64 {}".format(modelName, additionalArguments)
+            
         elif platform.system() == "Linux":
             if platform.machine() == "armv7l":
                 cmdString="quarc_run -q -Q -t tcpip://localhost:17000 {}.rt-linux_pi_3 {}".format(modelName, additionalArguments)
@@ -130,7 +131,7 @@ class QLabsRealTime:
 
         """
         if platform.system() == "Windows":
-            cmdString="start \"QLabs_Spawn_Model\" \"%QUARC_DIR%\\quarc_run\" -q -Q -t tcpip://localhost:17000 *.rt-win64 {}".format(additionalArguments)
+            cmdString="start \"QLabs_Spawn_Model\" quarc_run -q -Q -t tcpip://localhost:17000 *.rt-win64 {}".format(additionalArguments)
         elif platform.system() == "Linux":
             if platform.machine() == "armv7l":
                 cmdString="quarc_run -q -Q -t tcpip://localhost:17000 *.rt-linux_pi_3 {}".format(additionalArguments)
