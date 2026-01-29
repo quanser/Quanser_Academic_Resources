@@ -39,8 +39,11 @@ Use the following links for supported Windows 64-bit installers:
     - For 3.12: [Python 3.12.10 installer](https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe)
     - For 3.11: [Python 3.11.9 installer](https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe)
 
-**Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
-**IF YOU DOWNLOAD FROM THE PYTHON WEBSITE DIRECTLY, DO NOT USE THE PYTHON INSTALL MANAGER**   
+> [!WARNING]
+> ⚠️❗**Make sure to click on  the _Add Python to PATH_ option in the first screen of the installer**.
+
+> [!NOTE]
+> **IF YOU DOWNLOAD FROM THE PYTHON WEBSITE, DO NOT USE THE PYTHON INSTALL MANAGER**   
 
 - If you do not have QUARC installed (due to virtual devices only or Python only setup), download [Quanser SDK](https://github.com/quanser/quanser_sdk), this GitHub repository links to both Windows and Linux versions.
 
