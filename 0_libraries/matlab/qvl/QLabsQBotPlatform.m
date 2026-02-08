@@ -335,9 +335,9 @@ classdef QLabsQBotPlatform < QLabsActor
                     return
                 end
 
-                if ((length(obj.c.payload)-4)/2 ~= LIDAR_SAMPLES)
+                if ((length(rc.payload)-4)/2 ~= LIDAR_SAMPLES)
                     if (obj.verbose)
-                        fprintf('Received %u bytes, expected %u', length(obj.c.payload), LIDAR_SAMPLES*2)
+                        fprintf('Received %u bytes, expected %u', length(rc.payload), LIDAR_SAMPLES*2)
                     end
                     return
                 end
