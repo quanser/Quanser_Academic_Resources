@@ -344,7 +344,7 @@ classdef QLabsQBotPlatform < QLabsActor
 
                 distance = linspace(0,0,LIDAR_SAMPLES);
 
-                for count = LIDAR_SAMPLES-1
+                for count = 1:LIDAR_SAMPLES-1
                     % clamp any value at 65535 to 0
                     raw_value = mod(((obj.c.payload(4+count*2) * 256 + obj.c.payload(5+count*2))), 65535);
 
@@ -354,11 +354,11 @@ classdef QLabsQBotPlatform < QLabsActor
 
                 % Resample the data using a linear radial distribution to the desired number of points
                 % and realign the first index to be 0 (forward)
-                sampled_angles = linspace(0, 2*pi, num = samplePoints, endpoint = false);
+                sampled_angles = linspace(0, 2*pi, samplePoints);
                 sampled_distance = linspace(0, 0, samplePoints);
 
                 index_raw = 512;
-                for count = samplePoints
+                for count = 1:samplePoints
                     while (angles(index_raw) < sampled_angles(count))
                         index_raw = mod((index_raw + 1), 4096);
                     end
@@ -377,7 +377,7 @@ classdef QLabsQBotPlatform < QLabsActor
 
                 success = true;
                 angle = sampled_angles;
-                distances = distance;
+                distances = sampled_distance;;
                 return
             else
                 if (obj.verbose)
