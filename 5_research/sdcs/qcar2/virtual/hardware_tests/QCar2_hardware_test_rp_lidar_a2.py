@@ -11,7 +11,7 @@ plt.show(block=False)
 
 runTime = 10.0 # seconds
 # Lidar settings
-numMeasurements 	 = 1000	# Points
+numMeasurements 	 = 360	# Points
 lidarMeasurementMode 	 = 2
 lidarInterpolationMode = 0
 
