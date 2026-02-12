@@ -1,148 +1,99 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-REM Specify the path to the log file
+:: Specify the path to the log file
 set "LOG_FILE=%CD%\software_requirements.log"
 
-REM Check if the log file exists
+:: Check if the log file exists
 if not exist "%LOG_FILE%" (
     echo.
     echo [91mLog file not found at "%LOG_FILE%".[0m
     echo.
-    echo [92mPlease run the systemdiag_requirements.bat file first.[0m
+    echo [92mPlease run the [96mstep_1_check_requirements.bat[0m file first.[0m
     pause
     exit /b 1
 )
 
-REM Initialize variables
-set "resources="
-set "products_content_to_download="
-set "py_ver="
+:: Initialize variables
 set "missing_requirements="
-set "not_required_installed="
 
-echo Checking Software Requirements...
+set "Python_version="
+set "QSDK_status="
+set "QLabs_status="
 
-REM Parse requirements and system diagnostics
-for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%"') do (
-    set "requirement=%%A"
-    set "status=%%B"
-    set "status=!status:~1!"
-
-    call :TrimSpaces status
-    echo.
+:: Parse the log file
+for /f "tokens=1,* delims=:" %%a in ('type "%LOG_FILE%" ^| findstr /r "QSDK_user: QLabs_user: Python_user:"') do (
+    set "key=%%a"
+    set "value=%%b"
     
-    REM Check the requirement status
-    if "!status!"=="Required" (
-        for /f "tokens=1,2 delims=:" %%X in ('findstr /c:"!requirement!_user:" "%LOG_FILE%"') do (
-            set "installed_status=%%Y"
-            set "installed_status=!installed_status:~1!"
-            REM Loop to trim trailing spaces
-            call :TrimSpaces installed_status
-            if "!installed_status!"=="Installed" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="3.14" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="3.13" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="3.12" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="3.11" (
-                echo !requirement!: Required and Installed
-            ) else (
-                if "!requirement!"=="QUARC" (
-                    echo !requirement!: Required and Missing
-                    echo Please check the QUARC Installation Guide or contact Quanser tech support at tech@quanser.com
-                    echo Note: Microsoft Visual Studio is a prerequisite for using QUARC. Please Check QUARC compatibility table to download and install the correct version of Microsoft Visual Studio
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-                if "!requirement!"=="QSDK" (
-                    echo !requirement!: Missing and Required
-                    echo Please download QSDK for Windows from https://github.com/quanser/quanser_sdk_win64
-                    echo Please download QSDK for Linux from https://github.com/quanser/quanser_sdk_linux
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-                if "!requirement!"=="QLabs" (
-                    echo !requirement!: Missing and Required
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-                if "!requirement!"=="Python" (
-                    echo !requirement!: Missing and Required
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-            )
-        )
-    ) else if "!status!"=="Not Required" (
-        for /f "tokens=1,2 delims=:" %%X in ('findstr /c:"!requirement!_user:" "%LOG_FILE%"') do (
-            set "installed_status=%%Y"
-            set "installed_status=!installed_status:~1!"
-            REM Loop to trim trailing spaces
-            call :TrimSpaces installed_status
-            if "!installed_status!"=="Installed" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="3.14" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="3.13" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="3.12" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="3.11" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else (
-                echo !requirement!: Not Required and Missing
-            )
-        )
-    ) else (
-        for /f "tokens=1,2 delims=:" %%X in ('findstr /c:"!requirement!_user:" "%LOG_FILE%"') do (
-            set "installed_status=%%Y"
-            set "installed_status=!installed_status:~1!"
-            REM Loop to trim trailing spaces
-            call :TrimSpaces installed_status
-            if "!installed_status!"=="Installed" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="3.14" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="3.13" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="3.12" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="3.11" (
-                echo !requirement!: Optional but is installed
-            ) else (
-                  echo !requirement!: Optional and is Missing
-            )
-        )
-    )
+    :: Trim leading spaces from value
+    set "value=!value:~1!"
+    call :TrimSpaces value
+
+    :: Assign to appropriate variable based on key
+    if "!key!"=="Python_user" set "Python_version=!value!"
+    if "!key!"=="QSDK_user" set "QSDK_status=!value!"
+    if "!key!"=="QLabs_user" set "QLabs_status=!value!"
 )
 
+:: Display extracted values
+echo [96m========================================
+echo Found by Step 1 - System Check:
+echo ========================================[0m
+echo Python Version: %Python_version%
+echo QSDK Status: %QSDK_status%
+echo QLabs Status: %QLabs_status%
+echo [96m========================================[0m
+
 echo.
-REM Handle missing requirements
+
+if "%Python_version%"=="Not Installed" (
+    set "missing_requirements=!missing_requirements! Python,"
+    echo Python is Required and Missing 
+    echo No Python installation found on your system. Please install a suitable Python version [3.11-3.14]
+    echo and add to path before running this script. 
+    echo For download links, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
+    echo.
+    timeout /t 1 >nul
+)
+
+:: QSDK/QUARC VERSION CHECK 
+if "%QSDK_status%"=="Not Installed" (
+    set "missing_requirements=!missing_requirements! QUARC or Quanser SDK"
+    echo QUARC or Quanser SDK is Required and Missing 
+    echo They are needed to use Quanser's devices with Python.
+    echo For more information, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
+    echo or contact Quanser tech support at tech@quanser.com
+    echo.
+    timeout /t 1 >nul
+)
+
+if "%QLabs_status%"=="Not Installed" (
+    echo Quanser Interactive Labs is not installed, if you are going to use virtual devices, 
+    echo download it as described in our resources, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
+    echo.
+    timeout /t 1 >nul
+)
+
+:: Handle missing requirements
 if not "!missing_requirements!"=="" (
     echo [91mMissing Requirements: !missing_requirements![0m
     echo Please install the required software before re-running the script again.
-    goto :ending
+    endlocal
+    pause
+    exit /b 0
 )
 
-REM Handle not-required installed software
-if not "!not_required_installed!"=="" (
-    echo [91mInstalled but Not Required: !not_required_installed![0m
-    echo Unintall the not required software before re-running the script again.
-    goto :ending
-)
+timeout /t 1 >nul
+echo.
 
-for /f "tokens=1,* delims=:" %%A in ('findstr /c:"Python_user:" "%LOG_FILE%"') do (
-    set "py_ver=%%B"
-)
+echo [92mInstalling Quanser's Python Packages...[0m
 
-REM Trim leading spaces
-set "py_ver=!py_ver:~1!"
+echo.
 
-REM Installing python whls
+set "py_ver=!Python_version!"
+
+:: Installing python whls
 ::Search for the file that starts with "quanser_api"
 for /f "delims=" %%f in ('dir /b /a-d "%QSDK_DIR%python"\quanser_api*') do (
     set FILENAME=%%f
@@ -155,33 +106,36 @@ echo [93mInstalling Quanser Python API %FILENAME%[0m
 py -!py_ver! -m pip install --upgrade pip
 py -!py_ver! -m pip install --upgrade --find-links "%QSDK_DIR%python" "%QSDK_DIR%python\%FILENAME%"
 
-goto :setup_environment_variables
+timeout /t 2 >nul
 
-rem Setting up environment variables for both Windows and MATLAB
-:setup_environment_variables
 echo.
-echo [93mSetting up Environment Variables[0m
-REM Define paths
+echo.
+
+:: SETTING UP ENVIRONMENT VARIABLES
+
+echo [92mSetting up Environment Variables...[0m
+:: Define paths
 set "QAL_DIR=%USERPROFILE%\Documents\Quanser"
 set "RTMODELS_DIR=%USERPROFILE%\Documents\Quanser\0_libraries\resources\rt_models"
 set "NEW_PYTHON_PATH=%USERPROFILE%\Documents\Quanser\0_libraries\python"
 echo.
-REM Set QAL_DIR
+:: Set QAL_DIR
 echo [93mSetting QAL_DIR to: %QAL_DIR%[0m
 setx QAL_DIR "%QAL_DIR%"
+echo.
 
-REM Set RTMODELS_DIR
+:: Set RTMODELS_DIR
 echo [93mRTMODELS_DIR set to: %RTMODELS_DIR%[0m
 setx RTMODELS_DIR "%RTMODELS_DIR%"
 echo.
 
-REM Check if PYTHONPATH exists
+:: Check if PYTHONPATH exists
 for /f "tokens=2* delims= " %%a in ('reg query "HKCU\Environment" /v PYTHONPATH 2^>nul') do (
     set "PYTHONPATH=%%b"
 )
 
 if defined PYTHONPATH (
-    REM If PYTHONPATH exists, add NEW_PYTHON_PATH if not already present
+    :: If PYTHONPATH exists, add NEW_PYTHON_PATH if not already present
     echo %PYTHONPATH% | find "!NEW_PYTHON_PATH!" >nul
     if errorlevel 1 (
         set "PYTHONPATH=%PYTHONPATH%;!NEW_PYTHON_PATH!"
@@ -191,16 +145,19 @@ if defined PYTHONPATH (
         echo %NEW_PYTHON_PATH% is already in PYTHONPATH. No changes made.
     )
 ) else (
-    REM If PYTHONPATH does not exist, create it
+    :: If PYTHONPATH does not exist, create it
     echo [93mPYTHONPATH created: !NEW_PYTHON_PATH![0m
     setx PYTHONPATH "!NEW_PYTHON_PATH!"
 )
-goto :download_from_requirements
 
-REM Download packages from requirements.txt
-:download_from_requirements
 :: Define the path to requirements.txt
 set "REQUIREMENTS_FILE=requirements.txt"
+
+echo.
+echo.
+:: Install the required packages using pip
+echo [92mInstalling Python packages from %REQUIREMENTS_FILE%, please wait...[0m
+echo.
 
 :: Check if the requirements.txt file exists
 if not exist "%REQUIREMENTS_FILE%" (
@@ -215,8 +172,8 @@ if %errorlevel% neq 0 (
     pause
     exit /b
 )
+
 :: Install the required packages using pip
-echo [93mInstalling packages from %REQUIREMENTS_FILE%...[0m
 py -!py_ver! -m pip install -r "%REQUIREMENTS_FILE%"
 
 :: Check the result of the pip install command
@@ -225,11 +182,12 @@ if %errorlevel% neq 0 (
     pause
     exit /b
 )
-echo.
 echo [92mPackages installed successfully.[0m
 goto :ending
 
-REM Function to trim trailing spaces
+endlocal
+exit /b 0
+
 :TrimSpaces
 setlocal EnableDelayedExpansion
 set "var=!%1!"
@@ -243,9 +201,12 @@ if "!var:~-1!"==" " (
 endlocal & set "%1=%var%"
 goto :eof
 
+
 :ending
 echo.
-echo [92mScript completed.[0m
-echo [92mPLEASE RESTART YOUR MACHINE FOR CHANGES TO BE APPLIED.[0m
+echo [92mScript completed. System configured for Python usage.
+echo. 
+echo For MATLAB usage, also run configure_matlab.  
+echo PLEASE RESTART YOUR MACHINE FOR CHANGES TO BE APPLIED.[0m
 endlocal
 pause

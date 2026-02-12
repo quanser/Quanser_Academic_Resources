@@ -98,20 +98,20 @@ class KeyboardDrive():
         
         if self.mode == 0:
             forward = kb.states[kb.K_W]
-            backword = kb.states[kb.K_S]
+            backward = kb.states[kb.K_S]
             left = kb.states[kb.K_A]
             right = kb.states[kb.K_D]
         elif self.mode == 1:
             forward = kb.states[kb.K_UP]
-            backword = kb.states[kb.K_DOWN]
+            backward = kb.states[kb.K_DOWN]
             left = kb.states[kb.K_LEFT]
             right = kb.states[kb.K_RIGHT]
         
-        if forward or backword:
-            sign=int(forward)-int(backword)
+        if forward or backward:
+            sign=int(forward)-int(backward)
         else:
             sign = np.sign(self.key_throttle)
-        self.key_throttle += (int(forward)-int(backword))*0.2 - self.deceleration*sign
+        self.key_throttle += (int(forward)-int(backward))*0.2 - self.deceleration*sign
         self.key_throttle = np.clip(self.key_throttle,-self.max_throttle,self.max_throttle)
 
         if left or right:

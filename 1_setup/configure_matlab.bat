@@ -1,244 +1,135 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-REM Specify the path to the log file
+REM Set the log file path
 set "LOG_FILE=%CD%\software_requirements.log"
 
-REM Check if the log file exists
+:: Check if the log file exists
 if not exist "%LOG_FILE%" (
     echo.
     echo [91mLog file not found at "%LOG_FILE%".[0m
     echo.
-    echo [92mPlease run the systemdiag_requirements.bat file first.[0m
+    echo [92mPlease run the [96mstep_1_check_requirements.bat[0m [92mfile first.[0m
     pause
     exit /b 1
 )
 
-REM Initialize variables
-set "resources="
-set "products_content_to_download="
-set "py_ver="
+
+:: Initialize variables
 set "missing_requirements="
-set "not_required_installed="
 
-echo Checking Software Requirements...
+set "MATLAB_version="
+set "QUARC_status="
+set "VisualStudio_version="
+set "QLabs_status="
 
-REM Parse requirements and system diagnostics
-for /f "tokens=1,2 delims=:" %%A in ('findstr /r "Required Optional" "%LOG_FILE%"') do (
-    set "requirement=%%A"
-    set "status=%%B"
-    set "status=!status:~1!"
+:: Parse the log file
+for /f "tokens=1,* delims=:" %%a in ('type "%LOG_FILE%" ^| findstr /r "QUARC_user: QSDK_user: QLabs_user: MATLAB/Simulink_user: Python_user: Visual Studio_user:"') do (
+    set "key=%%a"
+    set "value=%%b"
 
-    call :TrimSpaces status
-    echo.
-    
-    REM Check the requirement status
-    if "!status!"=="Required" (
-        for /f "tokens=1,2 delims=:" %%X in ('findstr /c:"!requirement!_user:" "%LOG_FILE%"') do (
-            set "installed_status=%%Y"
-            set "installed_status=!installed_status:~1!"
-            REM Loop to trim trailing spaces
-            call :TrimSpaces installed_status
-            if "!installed_status!"=="Installed" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2025a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2025b" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2023a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2023b" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2024a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2024b" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2022a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2022b" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2021a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2021b" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2020a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2020b" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2019a" (
-                echo !requirement!: Required and Installed
-            ) else if "!installed_status!"=="R2019b" (
-                echo !requirement!: Required and Installed    
-            ) else (
-                if "!requirement!"=="QUARC" (
-                    echo !requirement!: Required and Missing
-                    echo Please check the QUARC Installation Guide or contact Quanser tech support at tech@quanser.com
-                    echo Note: Microsoft Visual Studio is a prerequisite for using QUARC. Please Check QUARC compatibility table to download and install the correct version of Microsoft Visual Studio
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-                if "!requirement!"=="QSDK" (
-                    echo !requirement!: Missing and Required
-                    echo Please download QSDK for Windows from https://github.com/quanser/quanser_sdk_win64
-                    echo Please download QSDK for Linux from https://github.com/quanser/quanser_sdk_linux
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-                if "!requirement!"=="QLabs" (
-                    echo !requirement!: Missing and Required
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-                if "!requirement!"=="MATLAB/Simulink" (
-                    echo !requirement!: Missing and Required
-                    set "missing_requirements=!missing_requirements! !requirement!"
-                )
-            )
-        )
-    ) else if "!status!"=="Not Required" (
-        for /f "tokens=1,2 delims=:" %%X in ('findstr /c:"!requirement!_user:" "%LOG_FILE%"') do (
-            set "installed_status=%%Y"
-            set "installed_status=!installed_status:~1!"
-            REM Loop to trim trailing spaces
-            call :TrimSpaces installed_status
-            if "!installed_status!"=="Installed" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2025a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2025b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2023a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2023b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2024a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2024b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2022a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2022b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2021a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2021b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2020a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2020b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2019a" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else if "!installed_status!"=="R2019b" (
-                echo !requirement!: Not Required but Installed
-                set "not_required_installed=!not_required_installed! !requirement!"
-            ) else (
-                echo !requirement!: Not Required and Missing
-            )
-        )
-    ) else (
-        for /f "tokens=1,2 delims=:" %%X in ('findstr /c:"!requirement!_user:" "%LOG_FILE%"') do (
-            set "installed_status=%%Y"
-            set "installed_status=!installed_status:~1!"
-            REM Loop to trim trailing spaces
-            call :TrimSpaces installed_status
-            if "!installed_status!"=="Installed" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2025a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2025b" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2023a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2023b" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2024a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2024b" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2022a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2022b" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2021a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2021b" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2020a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2020b" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2019a" (
-                echo !requirement!: Optional but is installed
-            ) else if "!installed_status!"=="R2019b" (
-                echo !requirement!: Optional but is installed
-            ) else (
-                echo !requirement!: Optional and is Missing
-            )
-        )
-    )
+    :: Trim leading spaces from value
+    set "value=!value:~1!"
+    call :TrimSpaces value
+
+    :: Assign to appropriate variable based on key
+    if "!key!"=="MATLAB/Simulink_user" set "MATLAB_version=!value!"
+    if "!key!"=="QUARC_user" set "QUARC_status=!value!"
+    if "!key!"=="Visual Studio_user" set "VisualStudio_version=!value!"
+    if "!key!"=="QLabs_user" set "QLabs_status=!value!"
 )
 
+:: Display extracted values
+echo [96m========================================
+echo Found by Step 1 - System Check:
+echo ========================================[0m
+echo MATLAB Version: %MATLAB_version%
+echo QUARC Status: %QUARC_status%
+echo Visual Studio Version: %VisualStudio_version%
+echo QLabs Status: %QLabs_status%
+echo [96m========================================[0m
+
 echo.
-REM Handle missing requirements
+
+if "%QUARC_status%"=="Not Installed" (
+    set "missing_requirements=!missing_requirements! QUARC,"
+    echo QUARC is Required and Missing
+    echo Please check the QUARC Installation Guide or contact Quanser tech support at tech@quanser.com
+    echo Note: Microsoft Visual Studio is a prerequisite for using QUARC. Please Check QUARC compatibility table to download and install the correct version of Microsoft Visual Studio
+    echo see system requirements from https://www.quanser.com/products/quarc-real-time-control-software/
+    timeout /t 1 >nul
+    echo.
+)
+
+
+if "%MATLAB_version%"=="Not Installed" (
+    set "missing_requirements=!missing_requirements! MATLAB"
+    echo MATLAB is Required and Missing
+    echo Please install MATLAB.
+    echo For more information, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
+    echo.
+    timeout /t 1 >nul
+)
+
+if "%QLabs_status%"=="Not Installed" (
+    echo Quanser Interactive Labs is not installed, if you are going to use virtual devices, 
+    echo download it as described in our resources, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
+    echo.
+    timeout /t 1 >nul
+)
+
+:: Handle missing requirements
 if not "!missing_requirements!"=="" (
     echo [91mMissing Requirements: !missing_requirements![0m
     echo Please install the required software before re-running the script again.
-    goto :ending
+    echo For more information, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
+    endlocal
+    pause
+    exit /b 0
 )
 
-REM Handle not-required installed software
-if not "!not_required_installed!"=="" (
-    echo [91mInstalled but Not Required: !not_required_installed![0m
-    echo Unintall the not required software before re-running the script again.
-    goto :ending
-)
 
-rem Setting up environment variables for both Windows and MATLAB
+timeout /t 1 >nul
+echo.
+
+:: Setting up environment variables for both Windows and MATLAB
 :setup_environment_variables
 echo.
-echo [93mSetting up Environment Variables[0m
-REM Define paths
+echo [92mSetting up Environment Variables...[0m
+echo.
+:: Define paths
 set "QAL_DIR=%USERPROFILE%\Documents\Quanser"
 set "RTMODELS_DIR=%USERPROFILE%\Documents\Quanser\0_libraries\resources\rt_models"
-echo.
-REM Set QAL_DIR
+
+:: Set QAL_DIR
 echo [93mSetting QAL_DIR to: %QAL_DIR%[0m
 setx QAL_DIR "%QAL_DIR%"
+echo.
 
-REM Set RTMODELS_DIR
+:: Set RTMODELS_DIR
 echo [93mRTMODELS_DIR set to: %RTMODELS_DIR%[0m
 setx RTMODELS_DIR "%RTMODELS_DIR%"
 echo.
 
-REM Define MATLAB base path and versions to check
+
+echo [92mUpdating MATLAB Paths...[0m
+
+:: Define MATLAB base path and versions to check
 set "MATLAB_BASE=C:\Program Files\MATLAB"
-set "MATLAB_VERSIONS=R2025b R2025a R2024b R2024a R2023b R2023a R2022b R2022a R2021b R2021a R2020b R2020a R2019b R2019a"
+set "MATLAB_VERSIONS=R2026a R2025b R2025a R2024b R2024a R2023b R2023a R2022b R2022a R2021b R2021a R2020b R2020a R2019b R2019a"
 set "USER_LIB_PATH=%USERPROFILE%\Documents\Quanser\0_libraries\matlab"
 setlocal enabledelayedexpansion
-REM Initialize a flag to track if any MATLAB versions are found
+:: Initialize a flag to track if any MATLAB versions are found
 set "VERSIONS="
 set "FOUND=0"
 
-REM Iterate through each version to check for existence
+:: Iterate through each version to check for existence
 for %%V in (%MATLAB_VERSIONS%) do (
     if exist "%MATLAB_BASE%\%%V\bin\matlab.exe" (
         echo.
         echo MATLAB version found: %%V
         
-        REM Execute the MATLAB command
-        ::powershell -Command "Start-Process -FilePath 'matlab' -ArgumentList '-batch \"addpath(''%USER_LIB_PATH%''); savepath; quit;\"' -NoNewWindow"
+        :: Execute the MATLAB command
         start "" "%MATLAB_BASE%\%%V\bin\matlab.exe" -batch "addpath('%USER_LIB_PATH%'); savepath; quit;"
         echo [92mMATLAB path updated for %%V version.[0m
         timeout /t 20
@@ -246,7 +137,21 @@ for %%V in (%MATLAB_VERSIONS%) do (
 )
 goto :ending
 
-REM Function to trim trailing spaces
+
+
+:ending
+echo.
+echo [92mScript completed. System configured for MATLAB/Simulink usage.
+echo. 
+echo For Python usage, also run configure_python.  
+echo PLEASE RESTART YOUR MACHINE FOR CHANGES TO BE APPLIED.[0m
+endlocal
+pause
+
+
+endlocal
+exit /b 0
+
 :TrimSpaces
 setlocal EnableDelayedExpansion
 set "var=!%1!"
@@ -259,10 +164,3 @@ if "!var:~-1!"==" " (
 
 endlocal & set "%1=%var%"
 goto :eof
-
-:ending
-echo.
-echo [92mScript completed.[0m
-echo [92mPLEASE RESTART YOUR MACHINE FOR CHANGES TO BE APPLIED.[0m
-endlocal
-pause
