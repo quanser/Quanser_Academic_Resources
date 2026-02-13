@@ -335,41 +335,49 @@ classdef QLabsQBotPlatform < QLabsActor
                     return
                 end
 
-                if ((length(obj.c.payload)-4)/2 ~= LIDAR_SAMPLES)
+                if ((length(rc.payload)-4)/2 ~= LIDAR_SAMPLES)
                     if (obj.verbose)
-                        fprintf('Received %u bytes, expected %u', length(obj.payload), LIDAR_SAMPLES*2)
+                        fprintf('Received %u bytes, expected %u', length(rc.payload), LIDAR_SAMPLES*2)
                     end
                     return
                 end
 
                 distance = linspace(0,0,LIDAR_SAMPLES);
 
-                for count = LIDAR_SAMPLES-1
-                    % clamp any value at 65535 to 0
-                    raw_value = mod(((obj.c.payload(4+count*2) * 256 + obj.c.payload(5+count*2))), 65535);
-
-                    % scale to LIDAR range
-                    distance(count) = (raw_value/65535)*LIDAR_RANGE;
+                for k = 1:LIDAR_SAMPLES - 1                   
+                    idx_high = 5 + (k-1)*2;
+                    idx_low  = 6 + (k-1)*2;
+                    
+                    val_high = double(rc.payload(idx_high));
+                    val_low  = double(rc.payload(idx_low));
+                    
+                    raw_combined = val_high * 256 + val_low;
+                    
+                    raw_value = mod(raw_combined, 65535);
+                    distance(k) = (raw_value / 65535) * LIDAR_RANGE;
                 end
 
                 % Resample the data using a linear radial distribution to the desired number of points
                 % and realign the first index to be 0 (forward)
-                sampled_angles = linspace(0, 2*pi, num = samplePoints, endpoint = false);
-                sampled_distance = linspace(0, 0, samplePoints);
-
-                index_raw = 512;
-                for count = samplePoints
+                
+                sampled_angles = linspace(0, 2*pi, samplePoints);
+                sampled_distance = zeros(1, samplePoints);
+                
+                index_raw = 513; % MATLAB uses 1-based indexing, so 512+1
+                
+                for count = 1:samplePoints
                     while (angles(index_raw) < sampled_angles(count))
-                        index_raw = mod((index_raw + 1), 4096);
+                        index_raw = mod(index_raw, 4096) + 1; % Modulo with 1-based indexing
                     end
-
-                    if index_raw ~= 0
-                        if (angles(index_raw)-angles(index_raw-1)) == 0
+                    
+                    if index_raw ~= 1
+                        if (angles(index_raw) - angles(index_raw - 1)) == 0
                             sampled_distance(count) = distance(index_raw);
                         else
-                            sampled_distance(count) = (distance(index_raw)-distance(index_raw-1))*(sampled_angles(count)-angles(index_raw-1))/(angles(index_raw)-angles(index_raw-1)) + distance(index_raw-1);
+                            sampled_distance(count) = (distance(index_raw) - distance(index_raw - 1)) * ...
+                                (sampled_angles(count) - angles(index_raw - 1)) / ...
+                                (angles(index_raw) - angles(index_raw - 1)) + distance(index_raw - 1);
                         end
-
                     else
                         sampled_distance(count) = distance(index_raw);
                     end
@@ -377,7 +385,7 @@ classdef QLabsQBotPlatform < QLabsActor
 
                 success = true;
                 angle = sampled_angles;
-                distances = distance;
+                distances = sampled_distance;;
                 return
             else
                 if (obj.verbose)
