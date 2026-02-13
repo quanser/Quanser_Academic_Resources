@@ -537,44 +537,50 @@ classdef QLabsQCar2 < QLabsActor
                     
                     return
                 end
+                distance = zeros(1, LIDAR_SAMPLES);
 
-                distance = linspace(0, 0, LIDAR_SAMPLES);
-
-                for count = 1:(LIDAR_SAMPLES-1)
-                    % clamp any value at 65535 to 0
-                    raw_value = mod(((double(rc.payload(5+count*2)) * 256 + double(rc.payload(6+count*2)) )), 65535);
-               
-                    %scale to LIDAR range
+                % Parse 16-bit samples from the returned payload. Payload layout: 4-byte header, then 2 bytes per sample
+                for count = 1:LIDAR_SAMPLES
+                    b1 = rc.payload(5 + (count-1)*2);
+                    b2 = rc.payload(6 + (count-1)*2);
+                    raw_value = mod(double(b1)*256 + double(b2), 65535);
                     distance(count) = (raw_value/65535)*LIDAR_RANGE;
                 end
 
-
-                % Resample the data using a linear radia distribution to the desired number of points 
+                % Resample the data using a linear radial distribution to the desired number of points
                 % and realign the first index to be 0 (forward)
-                
                 sampled_angles = linspace(0, 2*pi, samplePoints+1);
-                sampled_angles = sampled_angles (1:(end-1));
-                sampled_distance = linspace(0, 0, samplePoints);
+                sampled_angles = sampled_angles(1:end-1);
+                sampled_distance = zeros(1, samplePoints);
 
-                index_raw = 513;
+                % Start from the index closest to 0 radians to avoid hard-coded offsets
+                [~, index_raw] = min(abs(angles - 0));
+
                 for count = 1:samplePoints
-                    while (angles(index_raw) < sampled_angles(count))
-                        index_raw = mod((index_raw + 1), 4096)+1;
+                    while angles(index_raw) < sampled_angles(count)
+                        index_raw = index_raw + 1;
+                        if index_raw > LIDAR_SAMPLES
+                            index_raw = 1;
+                        end
                     end
 
-                    if (index_raw ~= 0)
-                        if (angles(index_raw)-angles(index_raw-1)) == 0
-                            sampled_distance(count) = distance(index_raw);
-                        else
-                            sampled_distance(count) = (distance(index_raw)-distance(index_raw-1))*(sampled_angles(count)-angles(index_raw-1))/(angles(index_raw)-angles(index_raw-1)) + distance(index_raw-1);
-                        end
-                    else
+                    prev_idx = index_raw - 1;
+                    if prev_idx < 1
+                        prev_idx = LIDAR_SAMPLES;
+                    end
+
+                    if (angles(index_raw) - angles(prev_idx)) == 0
                         sampled_distance(count) = distance(index_raw);
+                    else
+                        sampled_distance(count) = (distance(index_raw) - distance(prev_idx)) * ...
+                        (sampled_angles(count) - angles(prev_idx)) / ...
+                        (angles(index_raw) - angles(prev_idx)) + distance(prev_idx);
                     end
                 end
-                %sampled_distance = sampled_distance;
-                %sampled_angles = sampled_angles;
+
                 success = true;
+                sampled_angles = sampled_angles;
+                sampled_distance = sampled_distance;
                 return
             else
                 return

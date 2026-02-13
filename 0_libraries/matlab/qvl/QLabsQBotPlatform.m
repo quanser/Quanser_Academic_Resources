@@ -149,7 +149,7 @@ classdef QLabsQBotPlatform < QLabsActor
                 scale (1,3) single = [0 0 0]
                 leftLED (1,3) single = [1 0 0]
                 rightLED (1,3) single = [1 0 0]
-                enableDynamics logical = True
+                enableDynamics logical = true
                 waitForConfirmation logical = true
             end 
 
@@ -233,7 +233,7 @@ classdef QLabsQBotPlatform < QLabsActor
                 scale (1,3) single = [0 0 0]
                 leftLED (1,3) single = [1 0 0]
                 rightLED (1,3) single = [1 0 0]
-                enableDynamics logical = True
+                enableDynamics logical = true
                 waitForConfirmation logical = true
             end 
 
@@ -334,58 +334,57 @@ classdef QLabsQBotPlatform < QLabsActor
                     end
                     return
                 end
-
                 if ((length(rc.payload)-4)/2 ~= LIDAR_SAMPLES)
                     if (obj.verbose)
-                        fprintf('Received %u bytes, expected %u', length(rc.payload), LIDAR_SAMPLES*2)
+                        fprintf('Received %u bytes, expected %u\n', length(rc.payload), LIDAR_SAMPLES*2)
                     end
                     return
                 end
 
-                distance = linspace(0,0,LIDAR_SAMPLES);
+                distance = zeros(1, LIDAR_SAMPLES);
 
-                for k = 1:LIDAR_SAMPLES - 1                   
-                    idx_high = 5 + (k-1)*2;
-                    idx_low  = 6 + (k-1)*2;
-                    
-                    val_high = double(rc.payload(idx_high));
-                    val_low  = double(rc.payload(idx_low));
-                    
-                    raw_combined = val_high * 256 + val_low;
-                    
-                    raw_value = mod(raw_combined, 65535);
-                    distance(k) = (raw_value / 65535) * LIDAR_RANGE;
+                % Parse 16-bit samples from the returned payload. Payload layout: 4-byte header, then 2 bytes per sample
+                for count = 1:LIDAR_SAMPLES
+                    b1 = rc.payload(5 + (count-1)*2);
+                    b2 = rc.payload(6 + (count-1)*2);
+                    raw_value = mod(double(b1)*256 + double(b2), 65535);
+                    distance(count) = (raw_value/65535)*LIDAR_RANGE;
                 end
 
                 % Resample the data using a linear radial distribution to the desired number of points
                 % and realign the first index to be 0 (forward)
-                
-                sampled_angles = linspace(0, 2*pi, samplePoints);
+                sampled_angles = linspace(0, 2*pi, samplePoints+1);
+                sampled_angles = sampled_angles(1:end-1);
                 sampled_distance = zeros(1, samplePoints);
-                
-                index_raw = 513; % MATLAB uses 1-based indexing, so 512+1
-                
+
+                % Start from the index closest to 0 radians to avoid hard-coded offsets
+                [~, index_raw] = min(abs(angles - 0));
+
                 for count = 1:samplePoints
-                    while (angles(index_raw) < sampled_angles(count))
-                        index_raw = mod(index_raw, 4096) + 1; % Modulo with 1-based indexing
-                    end
-                    
-                    if index_raw ~= 1
-                        if (angles(index_raw) - angles(index_raw - 1)) == 0
-                            sampled_distance(count) = distance(index_raw);
-                        else
-                            sampled_distance(count) = (distance(index_raw) - distance(index_raw - 1)) * ...
-                                (sampled_angles(count) - angles(index_raw - 1)) / ...
-                                (angles(index_raw) - angles(index_raw - 1)) + distance(index_raw - 1);
+                    while angles(index_raw) < sampled_angles(count)
+                        index_raw = index_raw + 1;
+                        if index_raw > LIDAR_SAMPLES
+                            index_raw = 1;
                         end
-                    else
+                    end
+
+                    prev_idx = index_raw - 1;
+                    if prev_idx < 1
+                        prev_idx = LIDAR_SAMPLES;
+                    end
+
+                    if (angles(index_raw) - angles(prev_idx)) == 0
                         sampled_distance(count) = distance(index_raw);
+                    else
+                        sampled_distance(count) = (distance(index_raw) - distance(prev_idx)) * ...
+                        (sampled_angles(count) - angles(prev_idx)) / ...
+                        (angles(index_raw) - angles(prev_idx)) + distance(prev_idx);
                     end
                 end
 
                 success = true;
                 angle = sampled_angles;
-                distances = sampled_distance;;
+                distances = sampled_distance;
                 return
             else
                 if (obj.verbose)
