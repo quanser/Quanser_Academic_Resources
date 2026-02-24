@@ -173,7 +173,10 @@ class SignalGenerator:
 
         .. code-block:: python
 
-            generatorSine = Signal_Generator().sine(2, pi/2)
+            from pal.utilities.math import SignalGenerator
+            import math
+
+            generatorSine = SignalGenerator().sine(2, math.pi/2)
             initialOutput = next(generatorSine)
             while True:
                 timestamp = your_timing_function()
@@ -193,7 +196,9 @@ class SignalGenerator:
 
         .. code-block:: python
 
-            generatorCosine = Signal_Generator().cosine(2, pi/2)
+            from pal.utilities.math import SignalGenerator
+
+            generatorCosine = SignalGenerator().cosine(2, math.pi/2)
             initialOutput = next(generatorCosine)
             while True:
                 timestamp = your_timing_function()
@@ -213,7 +218,9 @@ class SignalGenerator:
 
         .. code-block:: python
 
-            generatorPWM = Signal_Generator().PWM(2, 0.5)
+            from pal.utilities.math import SignalGenerator
+
+            generatorPWM = SignalGenerator().PWM(2, 0.5)
             initialOutput = next(generatorPWM)
             while True:
                 timestamp = your_timing_function()

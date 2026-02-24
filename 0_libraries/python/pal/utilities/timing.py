@@ -126,12 +126,13 @@ class QTimer():
     >>>     timer.sleep()   # sleeps until next iteration must start
 
     """
-    def __init__(self, sampleRate, totalTime):
+    def __init__(self, sampleRate, totalTime, verbose=False):
         self._totalTime = totalTime
         self._sampleRate = sampleRate
         self._sampleTime = 1/sampleRate
         self._interval = Timeout.get_timeout(self._sampleTime)
         self._counter = 1
+        self._verbosity = verbose
         self._restart()
 
     def _restart(self):
@@ -143,7 +144,8 @@ class QTimer():
         '''Resets internal parameters for next iteration. Use this method as
         a condition on your while loop.'''
         if self.get_current_time() - self._sampleTime*self._counter > self._sampleTime:
-            print('Warning: desired sample time not achieved... consider slowing down.')
+            if self._verbosity:
+                print('Warning: desired sample time not achieved... consider slowing down.')
         self._counter = self._counter + 1
         self._next = self._next + self._interval
 
@@ -168,5 +170,5 @@ class QTimer():
         '''Sleeps until the next Timeout expires.'''
         while not self._next.is_expired():
             pass
-        if verbose:
+        if verbose or self._verbosity:
             print('Current Time:', f"{self.get_current_time():.3f}", 'Simulation Time:', f"{self._counter*self._sampleTime:.3f}")
