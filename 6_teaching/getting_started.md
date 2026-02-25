@@ -1,7 +1,8 @@
-<img src="images/quanser-resources-header.png" width="100%">
+<img src="../docs/images/quanser-resources-header.png" width="100%">
 <p align="right" style="font-size: 1.2em;"><a href="../README.md#getting-started-with-content"><sup>Back To Guide</sup></a>
 <br/></p>
 
+# Getting Started With Content
 
 Before going through this guide, make sure you have downloaded our resources and have set up your computer by following the steps [here](../README.md#downloading-resources). 
 

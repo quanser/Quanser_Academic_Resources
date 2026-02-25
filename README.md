@@ -55,7 +55,7 @@ To begin using these resources, you will need to install the necessary software 
 
 ## Getting Started With Content
 
-For a comprehensive guide to getting started with these resources and using your Quanser products, follow [Getting Started With Content](docs/getting_started.md). 
+For a comprehensive guide to getting started with these resources and using your Quanser products, follow [Getting Started With Content](6_teaching/getting_started.md). 
 
 
 # Resources For Older Products

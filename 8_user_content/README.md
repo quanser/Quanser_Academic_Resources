@@ -1,0 +1,78 @@
+<div align="center" style="margin-bottom:24px;">
+  <div style="width:100%; max-width:1300px; aspect-ratio: 2 / 1; overflow:hidden; border-radius:9px;">
+    <img img src="images/header_user_generated_content.png"
+         alt="Header"
+         style="width:100%; height:100%; object-fit:cover; display:block;" >
+  </div>
+</div>
+
+
+# Quanser User Generated Content
+
+Welcome to Quanser’s User Generated Content collection: a curated set of high-quality work created by the Quanser community. Explore publications, source code and implementations, datasets, course labs, and practical examples built on Quanser platforms.
+
+---
+
+## How this repo is organized  
+![Education](https://img.shields.io/badge/education-teaching%20labs%20%26%20examples-2ea44f?style=flat-square)
+![Research](https://img.shields.io/badge/research-code%20%26%20datasets-1f6feb?style=flat-square)
+
+Everything lives in one of two top-level paths:
+
+- `1-education/` for teaching-focused material (labs, examples, courseware)
+- `2-research/` for research code, pipelines, and datasets
+
+Within each path, work is organized to browse naturally by:
+1) University (or institution)  
+2) Quanser platform/product  
+3) Short work title
+
+Each folder links to the original source (repository and/or publication) and may also include related datasets, demo links, and documentation.
+
+---
+
+## Quick start (browse-first)
+
+1) Start with the index table in each section:
+   - [1-education/](1_education/README.md) index groups teaching material for browsing. 
+   - [2-research/](2-research/README.md) index groups research work for browsing. 
+
+
+2) Browse by context:
+   - Domain clusters (example: Reinforcement Learning, Navigation, Vision)
+   - Platform (e.g., QCar, QDrone, etc.)
+
+3) Open an entry folder to access the full thread:
+   - Links to publications, lab materials, and implementation repositories
+   - Dataset or course data links, when available
+---
+
+## Reproduce, build, and collaborate  
+![Use%20case](https://img.shields.io/badge/Use%20case-Reproduce%20published%20results-8250df?style=flat-square)
+![Use%20case](https://img.shields.io/badge/Use%20case-Build%20on%20community%20implementations-1f6feb?style=flat-square)
+![Use%20case](https://img.shields.io/badge/Use%20case-Collaborate%20and%20share-ffb000?style=flat-square)
+
+Use this collection to:
+- Reproduce published work on Quanser platforms
+- Reuse implementations as starting points for new experiments and labs
+- Compare approaches across institutions and platforms
+- Connect with the authors and collaborate on follow-on work
+
+> Credit policy: All credit remains with the original authors. Every entry links back to the source repository and any related publication.
+
+---
+
+## Share your work  
+![Contribute](https://img.shields.io/badge/Contribute-Share%20your%20project-ffb000?style=flat-square)
+
+Have work you’d like to share? Send us your link and we’ll help include it in the collection.
+
+To help us review it quickly, please include:
+
+* Repository link (or teaching materials link)
+* Quanser platform used (example: QDrone 2, QCar 2, QBot, QArm)
+* A 1–2 sentence description of what it does
+* Related resources when available: lab manual, paper, dataset, demo video, documentation
+
+
+If you have any updated or supplementary material for an existing entry, please feel free to share it with **Morteza Mohammadi** at **[Morteza.Mohammadi@Quanser.com](mailto:Morteza.Mohammadi@Quanser.com)**.
