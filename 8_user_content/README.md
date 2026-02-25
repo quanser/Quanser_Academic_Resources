@@ -35,7 +35,7 @@ Each folder links to the original source (repository and/or publication) and may
 
 1) Start with the index table in each section:
    - [1-education/](1_education/README.md) index groups teaching material for browsing. 
-   - [2-research/](2-research/README.md) index groups research work for browsing. 
+   - [2-research/](2_research/README.md) index groups research work for browsing. 
 
 
 2) Browse by context:
