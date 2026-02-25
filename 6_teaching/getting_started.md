@@ -2,6 +2,8 @@
 <p align="right" style="font-size: 1.2em;"><a href="../README.md#getting-started-with-content"><sup>Back To Guide</sup></a>
 <br/></p>
 
+<a name="top"></a>
+
 # Getting Started With Content
 
 Before going through this guide, make sure you have downloaded our resources and have set up your computer by following the steps [here](../README.md#downloading-resources). 
@@ -63,7 +65,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 ## MRL
@@ -83,7 +85,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 ## SDCS
 
@@ -102,7 +104,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 ## MDL
 
@@ -118,7 +120,7 @@ The Mechatronic Design Lab (MRL) is a teaching lab for sensors and actuators. Th
 
 For a more detailed description of the provided file directory, go to the [Directory Structure](#directory-structure) section.
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 <a id="solutions"></a>
 
@@ -148,7 +150,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 ## Aero 2
@@ -168,7 +170,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 ## QArm
@@ -188,7 +190,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 ## QArm Mini
@@ -208,7 +210,7 @@ For a more detailed description of the provided file directory, go to the [Direc
 
 **Note:** If needed, use the [Simulink Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink), for help getting started with Simulink, or the [QUARC Demos](https://docs.quanser.com/quarc/documentation/quarc_demos.html) for help getting started with Quanser's QUARC. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 
 <a id="curriculum"></a>
@@ -226,7 +228,7 @@ For products that have curriculum, each of their labs consists of the following 
 - **Concept Reviews**: 
     Independent reference material for student use that serves as a means for them to refresh the most important concepts and equations for any lab. These exist mostly in a separate concept_reviews folder in the Quanser folder or could be placed alongside the lab. 
 
-[Back to Top](#)   |   [Back to Guide](../README.md#getting-started-with-content)
+[Back to Top](#top)   |   [Back to Guide](../README.md#getting-started-with-content)
 
 # Directory Structure
 
