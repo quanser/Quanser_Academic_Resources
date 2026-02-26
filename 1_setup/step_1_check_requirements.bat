@@ -38,14 +38,14 @@ echo ================================ >> %LOGFILE%
 
 
 ::  Check for quarc dir existing
-set "quarc_dir=C:\Program Files\Quanser\QUARC\quarc_run.exe"
+set "quarc_dir=C:\Program Files\Quanser\QUARC\lib"
 if exist "%quarc_dir%" ( set "QUARC=%CHECK%") else ( set "QUARC=%CROSS%")
 
 ::  Check for qsdk dir existing
 set "qsdk_dir=C:\Program Files\Quanser\Quanser SDK"
 if exist "%qsdk_dir%" ( set "QSDK=%CHECK%") else ( set "QSDK=%CROSS%")
 
-::if quarc exists, we assume qsdk also exists
+::if quarc exists, we assume qsdk also exiscmdts
 if "%QUARC%"=="%CHECK%" set "QSDK=%CHECK%"
 
 :: Check if qlabs exists
@@ -105,7 +105,7 @@ echo ^|                 ^| QUARC ^| QSDK ^| QLabs ^| MATLAB/Simulink ^| Python ^
 echo +-----------------+-------+------+-------+-----------------+--------+
 echo ^| MATLAB Hardware ^|   1   ^|  -   ^|   -   ^|         1       ^|    -   ^|
 echo +-----------------+-------+------+-------+-----------------+--------+
-echo ^| MATLAB Virtual  ^|   1   ^|  -   ^|   1   ^|         1       ^|    -   ^|
+echo ^| MATLAB Virtual  ^|   0   ^|  -   ^|   1   ^|         1       ^|    -   ^|
 echo +-----------------+-------+------+-------+-----------------+--------+
 echo ^| Python Hardware ^|   -   ^|  1   ^|   -   ^|         -       ^|    1   ^|
 echo +-----------------+-------+------+-------+-----------------+--------+
@@ -183,12 +183,12 @@ echo.
 timeout /t 2 >nul
 
 :: MATLAB Requirements
-if "%QUARC%"=="1" (
-    if not "%MATLAB_SIMULINK%"=="0" (
-        set "usable_with=!usable_with! MATLAB Hardware,"
-        if "%QLABS%"=="1" (
-            set "usable_with=!usable_with! MATLAB Virtual,"
-        )
+if not "%MATLAB_SIMULINK%"=="0" (
+    if "%QUARC%"=="1" (
+        set "usable_with=!usable_with! MATLAB Hardware," 
+    )
+    if "%QLABS%"=="1" (
+        set "usable_with=!usable_with! MATLAB Virtual,"
     )
 )
 
