@@ -11,7 +11,7 @@ Isaac Sim offers a wide range of robot and environment configurations for traini
 
 ## Host Computer Technical Specs 
 
-#### Software Requirements
+### Software Requirements
 
 The host computer must be configured with the following software:
 
@@ -19,7 +19,7 @@ The host computer must be configured with the following software:
 - Isaac Sim 5.1.0 LTS  (See [Download Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/download.html) & [Workstation Installation](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/install_workstation.html))
 
 
-#### Hardware Requirements
+### Hardware Requirements
 
 Hardware specifications should meet or exceed the official [Isaac Sim Requirements](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/requirements.html) from the Isaac Sim Documentation. 
 
