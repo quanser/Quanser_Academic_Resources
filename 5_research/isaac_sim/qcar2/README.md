@@ -133,7 +133,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p speed:=1.3 -p
 > [!NOTE]
 > **All examples have been written for and tested with ROS2 Kilted.**  
 
-<!-- <img src="images/qbp_nav2_isaac_sim.png" width="70%"> -->
+<img src="images/qc2_nav2_isaac_sim.png" width="70%">
 
 As part of the provided integration with Isaac Sim we also provide an example of using Nav2 to set desired waypoints for autonomous mapping and navigation. 
 
