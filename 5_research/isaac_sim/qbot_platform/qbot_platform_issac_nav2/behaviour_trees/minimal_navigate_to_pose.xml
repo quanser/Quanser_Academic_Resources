@@ -1,0 +1,18 @@
+<root main_tree_to_execute="NavigateToPose">
+  <BehaviorTree ID="NavigateToPose">
+    <!-- Sequence: Navigate to goal -->
+    <Sequence name="navigate_to_pose_sequence">
+      <!-- Wait until initial pose is received -->
+      <Condition ID="InitialPoseReceived" name="initial_pose_received"/>
+
+      <!-- Compute path to the goal -->
+      <Action ID="ComputePathToPose" name="compute_path_to_pose"/>
+
+      <!-- Follow the computed path -->
+      <Action ID="FollowPath" name="follow_path"/>
+
+      <!-- Check if goal is reached -->
+      <Condition ID="GoalReached" name="goal_reached"/>
+    </Sequence>
+  </BehaviorTree>
+</root>
