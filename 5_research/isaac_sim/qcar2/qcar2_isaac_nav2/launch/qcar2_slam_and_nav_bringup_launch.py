@@ -13,12 +13,12 @@ def generate_launch_description():
     # QBot Platform Cartographer launch
     qcar2_cartographer_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(bringup_dir, 'launch', 'qcar2_cartographer_virtual_launch.py')
+            os.path.join(bringup_dir, 'launch', 'qcar2_cartographer_launch.py')
         )
     )
 
     # Nav2 params
-    nav2_params = os.path.join(bringup_dir, 'config', 'qcar2_slam_and_nav_virtual.yaml')
+    nav2_params = os.path.join(bringup_dir, 'config', 'qcar2_slam_and_nav.yaml')
 
     # Nav2 launch
     nav2_launch = IncludeLaunchDescription(

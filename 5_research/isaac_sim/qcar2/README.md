@@ -138,8 +138,8 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p speed:=1.3 -p
 As part of the provided integration with Isaac Sim we also provide an example of using Nav2 to set desired waypoints for autonomous mapping and navigation. 
 
 Provided is the directory `qcar2_isaac_nav2` which contains the following launch files:
-- `qcar2_cartographer_virtual_launch.py`: uses the `qcar2_2d.lua` inside the `/config` folder to configure the parameters used by the ros2 cartography package. 
-- `qcar2_slam_and_nav_bringup_virtual_launch.py`: uses the `qcar2_slam_and_nav_virtual.yaml` inside the `/config` folder to configure the behaviour tree required by nav2 bringup to initialize autonomous navigation of an unknown space. 
+- `qcar2_cartographer_launch.py`: uses the `qcar2_2d.lua` inside the `/config` folder to configure the parameters used by the ros2 cartography package. 
+- `qcar2_slam_and_nav_bringup_launch.py`: uses the `qcar2_slam_and_nav.yaml` inside the `/config` folder to configure the behaviour tree required by nav2 bringup to initialize autonomous navigation of an unknown space. 
 
 
 ***Runing the example***
@@ -178,11 +178,11 @@ Provided is the directory `qcar2_isaac_nav2` which contains the following launch
     . install/setup.bash
     ```
 
-7. Run the launch file for `qcar2_slam_and_nav_bringup_virtual_launch.py` to start the nav2 system:
+7. Run the launch file for `qcar2_slam_and_nav_bringup_launch.py` to start the nav2 system:
     ```
-    ros2 launch qcar2_isaac_nav2 qcar2_slam_and_nav_bringup_virtual_launch.py 
+    ros2 launch qcar2_isaac_nav2 qcar2_slam_and_nav_bringup_launch.py 
     ```
-    NOTE: The first time running it it might fail. Try running it again if that happens. 
+    NOTE: The first time running this file, it might fail. Try running it again if that happens. 
 
 8. Open up RViz by launching it from another terminal using the command: `rviz2`.
 
