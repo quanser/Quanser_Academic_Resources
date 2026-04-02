@@ -51,16 +51,6 @@ echo [96m========================================[0m
 
 echo.
 
-if "%QUARC_status%"=="Not Installed" (
-    set "missing_requirements=!missing_requirements! QUARC,"
-    echo QUARC is Required and Missing
-    echo Please check the QUARC Installation Guide or contact Quanser tech support at tech@quanser.com
-    echo Note: Microsoft Visual Studio is a prerequisite for using QUARC. Please Check QUARC compatibility table to download and install the correct version of Microsoft Visual Studio
-    echo see system requirements from https://www.quanser.com/products/quarc-real-time-control-software/
-    timeout /t 1 >nul
-    echo.
-)
-
 
 if "%MATLAB_version%"=="Not Installed" (
     set "missing_requirements=!missing_requirements! MATLAB"
@@ -71,11 +61,32 @@ if "%MATLAB_version%"=="Not Installed" (
     timeout /t 1 >nul
 )
 
+
+if "%QUARC_status%"=="Not Installed" (
+    echo QUARC is Missing - You will need it if running hardware. You can skip it for for virtual only setups.
+    echo If you require QUARC, please check the QUARC Installation Guide or contact Quanser tech support at tech@quanser.com
+    echo Note: Microsoft Visual Studio is a prerequisite for using QUARC. Please Check QUARC compatibility table to download and install the correct version of Microsoft Visual Studio
+    echo see system requirements from https://www.quanser.com/products/quarc-real-time-control-software/
+    timeout /t 1 >nul
+    echo.
+)
+
 if "%QLabs_status%"=="Not Installed" (
     echo Quanser Interactive Labs is not installed, if you are going to use virtual devices, 
     echo download it as described in our resources, ctrl + click: [94mhttps://www.quanser.com/pcsetup[0m 
     echo.
     timeout /t 1 >nul
+)
+
+
+if "%QLabs_status%"=="Not Installed" (
+    if "%QUARC_status%"=="Not Installed" (
+        set "missing_requirements=!missing_requirements! QLabs and/or QUARC,"
+        echo You need Quanser Interactive Labs if you are going to run virtual devices and/or QUARC if you are going to run hardware. 
+        echo Please check above messages.
+        timeout /t 1 >nul
+        echo.
+    )
 )
 
 :: Handle missing requirements
