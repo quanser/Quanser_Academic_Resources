@@ -44,7 +44,7 @@ ament_target_dependencies(command rclcpp geometry_msgs qcar2_interfaces)
 
 
 add_executable(qcar2_hardware src/qcar2_hardware.cpp)
-target_link_libraries(qcar2_hardware -lquanser_devices -lhil -lquanser_runtime -lquanser_common)
+target_link_libraries(qcar2_hardware -lhil -lquanser_devices -lquanser_runtime -lquanser_common)
 ament_target_dependencies(qcar2_hardware rclcpp std_msgs geometry_msgs sensor_msgs control_msgs qcar2_interfaces)
 
 add_executable(rgbd src/rgbd.cpp)
@@ -81,16 +81,18 @@ ament_target_dependencies(fixed_lidar_frame_virtual geometry_msgs rclcpp tf2_ros
 add_executable(nav2_qcar2_converter src/nav2_qcar_command_convert.cpp)
 ament_target_dependencies(nav2_qcar2_converter rclcpp geometry_msgs qcar2_interfaces)
 
-# # Install Python modules
-# ament_python_install_package(${PROJECT_NAME})
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+# Install Python executables
+install(PROGRAMS
+  scripts/scan_match.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
-# # Install Python executables
-# install(PROGRAMS
-#   src/nav_to_pose.py
-#   src/robot_navigator.py
-#   DESTINATION lib/${PROJECT_NAME}
-# )
-
+install(PROGRAMS
+  scripts/ekf_fusor.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 # Install nodes
 #install(TARGETS qcar2_driver_interface

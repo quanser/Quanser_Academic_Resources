@@ -73,7 +73,11 @@ Before getting started with these resources, the first step is to download them,
 
 Your QCar comes equipped with the necessary libraries that you might use as part of the existing examples, however, there is one step that you need to complete before starting to use your QCar. 
 
-Connect to a QCar by HDMI cable or remote desktop (see [User Manual Connectivity](3_user_manuals/qcar2/user_manual_connectivity.pdf) for more help). Go into your documents in the QCar into your newly created Documents/Quanser folder from the steps above and go to `1_setup`. Run the  `updatebashrc_qcar2.sh` file located in that folder. It will make sure your QCar is ready for usage. 
+Connect to a QCar by HDMI cable or remote desktop (see [User Manual Connectivity](3_user_manuals/qcar2/user_manual_connectivity.pdf) for more help). Go into your documents in the QCar into your newly created Documents/Quanser folder from the steps above and go to `1_setup`. Run the  `updatebashrc_qcar2.sh` file located in that folder. It will make sure your QCar is ready for usage:
+```bash
+chmod +x updatebashrc_qcar2.sh
+./updatebashrc_qcar2.sh
+``` 
 
 ## Getting Started With Content
 
