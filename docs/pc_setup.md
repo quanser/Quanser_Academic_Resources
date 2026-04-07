@@ -29,6 +29,8 @@ These steps are only necessary if you are not using hardware, and using virtual 
 
     <img src="images/qlabsAddOn.png" width="400">
 
+- Make sure you follow the instructions from the Getting Started section from `Quanser Interactive Labs for MATLAB` to properly install Quanser Interactive Labs. You should run `QLabs.setup` and go through the installation screen before continuing with this guide.
+
 ## If you are using Python
 -  Make sure you have not downloaded Python through the Microsoft store, if you have, we recommend uninstalling it first. 
 
