@@ -595,7 +595,7 @@ classdef QLabsActor < handle
             end
             % Get the location, rotation, and scale in world coordinates of the actor.
 
-            [success, location, rotation, scale] = obj.get_world_transform(obj);
+            [success, location, rotation, scale] = obj.get_world_transform();
 
             rotation = rotation/pi*180;
 

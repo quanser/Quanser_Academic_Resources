@@ -1,0 +1,2 @@
+qarm:qarm_action:qarm_commander:qarm_description:qarm_launch:qarm_msgs:quanser_core
+-DCATKIN_DEVEL_PREFIX=/home/thomas/ros1/devel -DCMAKE_INSTALL_PREFIX=/home/thomas/ros1/install -G Unix Makefiles

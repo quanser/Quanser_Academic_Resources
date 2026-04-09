@@ -270,7 +270,8 @@ class SensorsTrainer():
         self.userCurrent = np.zeros(1, dtype=np.float64)
 
         # encoder channel
-        self.encoder = np.zeros(2, dtype=np.int32)
+        self.encoder0 = np.zeros(1,  dtype=np.float64)
+        self.encoder1 = np.zeros(1,  dtype=np.float64)
 
         # digital channel
         self.digitalInputs = np.zeros(4, dtype=np.float64)
@@ -412,7 +413,8 @@ class SensorsTrainer():
                 print('Make sure your device is connected to your PC and has finished loading.')
 
             elif h.error_code == -1068:
-                print('Update your device firmware by following the instructions at *link*')
+                print('Update your device firmware by following the instructions located in 3_user_manuals\mech_sensors_trainer\updateFirmware.pdf')
+                print(f"Current Firmware Build: {self._firmwareBuild}")
                 print(h.get_error_message())
 
             else:
@@ -1081,7 +1083,7 @@ class SensorsDisplay():
         message : str
             Message to be printed on the LCD.
         column : int, optional
-            Column-coordinate of the message. Defaults to 0.
+            Column-coordinate of the message. Defaults to 0 (max 50 columns).
         line : int, optional
             Row-coordinate of the message. Defaults to 0 (max 23 lines).
         setColor : bool, optional

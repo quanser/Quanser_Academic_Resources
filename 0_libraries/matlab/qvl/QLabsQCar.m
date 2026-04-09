@@ -139,7 +139,7 @@ classdef QLabsQCar < QLabsActor
 %             Spawns a new QCar actor relative to an existing actor and creates a kinematic relationship.
 
             obj.sensor_scaling = double(scale(1));
-            success = spawn_id_and_parent_with_relative_transform(actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
+            success = spawn_id_and_parent_with_relative_transform@QLabsActor(obj,actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
             return
         end
 
@@ -160,7 +160,7 @@ classdef QLabsQCar < QLabsActor
 %             Spawns a new QCar actor relative to an existing actor and creates a kinematic relationship.
 
             obj.sensor_scaling = double(scale(1));
-            success = spawn_id_and_parent_with_relative_transform_degrees(actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
+            success = spawn_id_and_parent_with_relative_transform_degrees@QLabsActor(obj,actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
             return
         end
 
@@ -269,7 +269,8 @@ classdef QLabsQCar < QLabsActor
 
 %             Sets the location, rotation, and other car properties. Note that setting the location ignores collisions so ensure that the location is free of obstacles that may trap the actor if it is subsequently used in a dynamic mode. This transform can also be used to "playback" previously recorded position data without the need for a full dynamic model.
 
-            [success, location, rotation, forward_vector, up_vector, front_bumper_hit, rear_bumper_hit] = obj.set_transform_and_request_state(location, rotation/180*pi, enableDynamics, headlights, leftTurnSignal, rightTurnSignal, brakeSignal, reverseSignal, waitForConfirmation);
+            [success, location, rotation_r, forward_vector, up_vector, front_bumper_hit, rear_bumper_hit] = obj.set_transform_and_request_state(location, rotation/180*pi, enableDynamics, headlights, leftTurnSignal, rightTurnSignal, brakeSignal, reverseSignal, waitForConfirmation);
+            rotation = rotation_r/180*pi;
             return
         end
 
@@ -360,7 +361,8 @@ classdef QLabsQCar < QLabsActor
 
 %             Sets the velocity, turn angle in degrees, and other car properties.
 
-            [success, location, rotation, front_bumper_hit, rear_bumper_hit] = obj.set_velocity_and_request_state(forward, turn/180*pi, headlights, leftTurnSignal, rightTurnSignal, brakeSignal, reverseSignal);
+            [success, location, rotation_r, front_bumper_hit, rear_bumper_hit] = obj.set_velocity_and_request_state(forward, turn/180*pi, headlights, leftTurnSignal, rightTurnSignal, brakeSignal, reverseSignal);
+            rotation = rotation_r/180*pi;
             return
         end
 

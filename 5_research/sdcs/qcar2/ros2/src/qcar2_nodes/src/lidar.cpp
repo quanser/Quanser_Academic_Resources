@@ -172,7 +172,8 @@ rcl_interfaces::msg::SetParametersResult set_parameters_callback(const std::vect
 int main(int argc, char ** argv)
 {
     char error_message[1024];
-    double publish_rate = 20;           // Hz. RPLIDAR A2M12 can do 21 Hz at device level. So set to 20 Hz for the node.
+    double publish_rate = 40;           // Hz. RPLIDAR A2M12 can do 21 Hz at device level. So set to 20 Hz for the node.
+                                        // changing to 40 for autoware testing
     
     // parameters change callback
     rclcpp::Node::OnSetParametersCallbackHandle::SharedPtr parameter_cb;

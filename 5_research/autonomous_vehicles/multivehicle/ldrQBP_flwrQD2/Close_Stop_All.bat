@@ -24,7 +24,7 @@ start "ExitQBotPlat" "quarc_run" -q -Q -t tcpip://%qbot_id%:17000 *.rt-linux_qbo
 start "HostPeripheral" "quanser_host_peripheral_client.exe" -q
 
 @REM Kill all QUARC Monitor Tray icons
-start "Remove Tray Icon" "%QUARC_DIR%\quarc_tray" /q
+start "Remove Tray Icon" "quarc_tray" /q
 timeout /t 1
 
 @REM Close QUARC Console Windows

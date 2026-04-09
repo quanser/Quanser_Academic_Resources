@@ -63,7 +63,7 @@ class QLabsAnimal(QLabsCharacter):
        self.classID = self.ID_ANIMAL
        return
 
-    def enable_collsion(self, enable, waitForConfirmation=True):
+    def enable_collision(self, enable, waitForConfirmation=True):
         """Allows for the animal to respond and track the number of external collisions. Note that at least one collision filter must also be added.
 
         :param enable: Enable or disable the collision response.
@@ -134,7 +134,7 @@ class QLabsAnimal(QLabsCharacter):
             
             
     def get_collision_count(self):
-        """Get the total number of collsions this actor has experienced. Note that collisions must be enabled and at least one collision filter set for this count to be active.
+        """Get the total number of collisions this actor has experienced. Note that collisions must be enabled and at least one collision filter set for this count to be active.
 
         :return:
             - **status** - True if successful or False otherwise

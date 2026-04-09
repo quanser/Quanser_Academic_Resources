@@ -1,0 +1,8 @@
+prefix=/home/thomas/ros1/install
+
+Name: QARM
+Description: Description of QARM
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/thomas/ros1/install
+
+Name: qarm_action
+Description: Description of qarm_action
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

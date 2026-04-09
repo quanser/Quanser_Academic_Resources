@@ -1,0 +1,8 @@
+(cl:in-package qarm_msgs-msg)
+(cl:export '(HEADER-VAL
+          HEADER
+          GOAL_ID-VAL
+          GOAL_ID
+          AJS-VAL
+          AJS
+))

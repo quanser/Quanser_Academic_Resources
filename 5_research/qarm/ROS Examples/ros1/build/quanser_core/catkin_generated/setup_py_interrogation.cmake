@@ -1,0 +1,7 @@
+set(quanser_core_SETUP_PY_SETUP_MODULE "distutils.core")
+set(quanser_core_SETUP_PY_VERSION "1.0.0")
+set(quanser_core_SETUP_PY_SCRIPTS "")
+set(quanser_core_SETUP_PY_PACKAGES "quanser_core")
+set(quanser_core_SETUP_PY_PACKAGE_DIRS "src/quanser_core")
+set(quanser_core_SETUP_PY_MODULES "")
+set(quanser_core_SETUP_PY_MODULE_DIRS "")

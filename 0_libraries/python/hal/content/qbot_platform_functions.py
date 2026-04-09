@@ -7,6 +7,7 @@ from scipy.ndimage import median_filter
 from pal.utilities.math import Calculus
 from pal.utilities.stream import BasicStream
 from quanser.common import Timeout
+from quanser.image_processing import Lidar2DMatchScansGrid 
 
 class QBPMovement():
     """ This class contains the functions for the QBot Platform such as
@@ -241,3 +242,78 @@ class QBPRanging():
         plottingAngles = np.append(monitorAngles, safetyAngles)
 
         return plottingRanges, plottingAngles, obstacleFlag
+    
+
+class QBPLocalization():
+    """ This class contains the functions for the QBot Platform 
+        for localization using lidar data """
+    def __init__(self, resolution=20, max_range=5):
+        self.lidarScanMatch = Lidar2DMatchScansGrid(resolution=resolution, max_range=max_range)
+        self.pose = np.array([0.0,0.0,0.0],dtype=np.float32)
+        self.score = np.array([0.0],dtype=np.float32)
+        self.covariance = np.eye(3,dtype=np.float32)
+        self.prevPose =  np.array([0.0,0.0,0.0],dtype=np.float32)
+
+        self.refRanges = None
+        self.refAngles = None
+        self.refXY = None
+        self.refSaved = False # flag for whether reference scan has been saved 
+    
+    def save_ref(self, rangesIn, anglesIn):
+        """ This function saves input LiDAR data as a reference scan"""
+        self.refSaved = False
+
+        if rangesIn is not None and anglesIn is not None:
+            
+            # Modify the code below-------------------------------------------#
+            # save reference scan
+            # self.refRanges = 
+            # self.refAngles = 
+            # ----------------------------------------------------------------#
+
+            # set flag 
+            self.refSaved = True
+
+            # initialize generator that converts each scan point to Cartesian  
+            self.refXY = self.polar_to_cartesian(self.refRange, self.refAngles)
+
+        return self.refSaved
+        
+    def polar_to_cartesian(self, rangesIn, anglesIn):
+        """ This generator converts polar coordinates
+            to Cartesian """
+        idx = 0
+        while True:
+            yield [rangesIn[idx]*np.cos(anglesIn[idx]), 
+                   rangesIn[idx]*np.sin(anglesIn[idx])]
+            idx = (idx+4)%len(rangesIn) # plot every 4th point 
+
+    def scan_match(self, ranges, angles, transRange=(3.0, 3.0), rotRange=2*np.pi):
+        """ This function checks for a saved reference scan and then runs
+            the match method to find the transformation between the current scan"""
+        if not self.refSaved:
+            return False
+        else:
+            # Modify the code below ------------------------------------------#
+            newMatch = self.lidarScanMatch.match(ref_ranges=None, 
+                                            ref_angles=None, 
+                                            num_ref_points = None,
+                                            ranges = None, 
+                                            angles = None, 
+                                            num_points = None,
+                                            initial_pose = None, 
+                                            translation_search_range = np.array(transRange, dtype=np.float32), 
+                                            rotation_search_range = rotRange,
+                                            pose=self.pose, 
+                                            score=self.score, 
+                                            covariance=self.covariance)
+            
+            # save pose estimate 
+            # self.prevPose = 
+            # ----------------------------------------------------------------#
+
+            # iterate to the next point in the reference scan
+            self.refX, self.refY = next(self.refXY)
+    
+    def terminate(self):
+        self.lidarScanMatch.close()

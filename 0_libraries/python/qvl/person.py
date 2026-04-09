@@ -44,7 +44,7 @@ class QLabsPerson(QLabsCharacter):
        return
 
 
-    def enable_collsion(self, enable, waitForConfirmation=True):
+    def enable_collision(self, enable, waitForConfirmation=True):
         """Allows for the person to respond and track the number of external collisions. Note that at least one collision filter must also be added.
 
         :param enable: Enable or disable the collision response.

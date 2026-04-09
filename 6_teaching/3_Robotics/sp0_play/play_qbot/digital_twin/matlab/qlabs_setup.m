@@ -1,5 +1,10 @@
 caseNum = 1; % 1, 2, 3, or 4
 
+% stop all models
+system("quarc_run -q -Q -t tcpip://localhost:17000 *.rt-win64");
+pause(1)
+system("quarc_run -q -Q -t tcpip://localhost:17000 *.rt-win64");
+
 system('quanser_host_peripheral_client.exe -q');
 pause(2)
 system('quanser_host_peripheral_client.exe -uri tcpip://localhost:18444 &');
@@ -39,6 +44,7 @@ end
 disp('Connected')
 verbose = true;
 num_destroyed = qlabs.destroy_all_spawned_actors();
+
 
 % Flooring
 hFloor0 = QLabsQBotPlatformFlooring(qlabs);
@@ -84,20 +90,24 @@ hWall = QLabsWalls(qlabs, verbose);
 
 % QBot
 hQBot = QLabsQBotPlatform(qlabs, verbose);
-location = [0, 0, 0; -1.35, 0.3, 0; -1.5, 0, 0; -1.5, 0, 0];
-rotation = [0, 0, 0;    0,   0, 0;   0, 0, 90;  0, 0, -90];
+    location = [0, 0, 0; -1.35, 0.3, 0; -1.5, 0, 0; -1.5, 0, 0];
+    rotation = [0, 0, 0;    0,   0, 0;   0, 0, 90;  0, 0, -90];
     hQBot.spawn_id_degrees(0, location(caseNum, :), rotation(caseNum, :), [1, 1, 1], 1) ;
     hQBot.possess(hQBot.VIEWPOINT_TRAILING);
 
 
-    file_workspace = fullfile(getenv('RTMODELS_DIR'), 'QBotPlatform', 'QBotPlatform_Workspace.rt-win64');
-    file_driver    = fullfile(getenv('RTMODELS_DIR'), 'QBotPlatform', 'qbot_platform_driver_virtual.rt-win64');
+file_workspace = fullfile(getenv('RTMODELS_DIR'), 'QBotPlatform', 'QBotPlatform_Workspace.rt-win64');
+file_driver    = fullfile(getenv('RTMODELS_DIR'), 'QBotPlatform', 'qbot_platform_driver_virtual.rt-win64');
 
 
 % Start RT models
 pause(2)
-system(['quarc_run -D -r -t tcpip://localhost:17000 ', file_workspace]);
+system(['quarc_run -D -r -t tcpip://localhost:17000 "', file_workspace, '"']);
 pause(1)
-system(['quarc_run -D -r -t tcpip://localhost:17000 ', file_driver, ' -uri tcpip://localhost:17098']);
+system(['quarc_run -D -r -t tcpip://localhost:17000 "', file_driver, '" -uri tcpip://localhost:17098']);
 pause(3)
 
+qlabs.close()
+pause(0.5)
+
+disp('Finished Setup')

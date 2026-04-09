@@ -12,7 +12,8 @@ from pal.utilities.scope import Scope, MultiScope, XYScope
 class Probe():
     '''Class object to send data to a remote Observer.
     Includes support for Displays (for video data), Plots (standard polar
-    plot as an image) and Scope (standard time series plotter).'''
+    plot as an image), Scope (standard time series plotter), 
+    and XY Scope(Real-time display of 2D signals)'''
 
     def __init__(self,
                  ip = 'localhost'):
@@ -23,6 +24,7 @@ class Probe():
         # agentType =>  0 Video Display
         #               1 Polar Plot
         #               2 Scope
+        #               3 XY Scope
         self.numDisplays = 0
         self.numPlots = 0
         self.numScopes = 0
@@ -84,6 +86,21 @@ class Probe():
         self.agents[name] = (_scope, 2)
 
         return True
+    
+    def add_xy_scope(self,
+            numSignals = 1,
+            name = 'xyscope'
+        ):
+        self.numScopes += 1
+
+        _xyscope = RemoteXYScope(numSignals=numSignals, id=self.numScopes, ip=self.remoteHostIP)
+
+        if name == 'xyscope':
+            name = 'xyscope_'+str(self.numDisplays)
+        # agent type => 3
+        self.agents[name] = (_xyscope, 3)
+
+        return True
 
     def check_connection(self):
         '''Attempts to connect every unconnected probe in the agentList.
@@ -99,7 +116,8 @@ class Probe():
     def send(self, name,
              imageData=None,
              lidarData=None,
-             scopeData=None):
+             scopeData=None,
+             xyData=None):
         '''Ensure that at least one of imageData, lidarData, scopeData is provided,
         and that the type of data provided matches the expected name, otherwise an
         error message is printed and the method returns False.
@@ -107,6 +125,7 @@ class Probe():
         imageData => numpy array conforming to imageSize used in display definition \n
         lidarData => (ranges, angles) tuple, where ranges and angles are numpy arrays conforming to numMeasurements used in plot definition \n
         scopeData => (time, data) tuple, with data being a numpy array conforming to numSignals used in scope definition and time is the timestamp \n
+        xyData => (time, data) tuple, with data being a numpy array with shape (numSignals, 2) conforming to numSignals used in scope definition and time is the timestamp \n
         '''
 
         flag = False
@@ -126,6 +145,11 @@ class Probe():
                 print("Scope data not provided for a scope agent")
             else:
                 flag = self.agents[name][0].send(scopeData[0], data=scopeData[1])
+        elif agentType == 3:
+            if xyData is None:
+                print("XY data not provided for a xy agent")
+            else:
+                flag = self.agents[name][0].send(xyData[0], data=xyData[1])
 
         return flag
 
@@ -147,6 +171,7 @@ class ObserverAgent():
         # agentType =>  0 Video Display
         #               1 Polar Plot
         #               2 Scope
+        #               3 XY Scope 
         self.properties = properties
         self.connected = self.server.connected
         self.timeout = Timeout(seconds=0, nanoseconds=1000000)
@@ -182,6 +207,26 @@ class ObserverAgent():
             else:
                 for i in range(self.numSignals):
                     self.scope.attachSignal(name=self.signalNames[i])
+        elif self.agentType == 3:
+            self.numSignals=self.properties['numSignals']
+            self.signalNames=self.properties['signalNames']
+            self.xLabel = self.properties['xLabel']
+            self.yLabel = self.properties['yLabel']
+            self.xLim = self.properties['xLim']
+            self.yLim = self.properties['yLim']
+            self.xyscope = XYScope(
+                title=self.name,
+                xLabel=self.xLabel,
+                yLabel=self.yLabel,
+                xLim = self.xLim,
+                yLim = self.yLim
+            )
+            if self.signalNames is None:
+                for i in range(self.numSignals):
+                    self.xyscope.attachSignal(name='signal_'+str(i+1))
+            else:
+                for i in range(self.numSignals):
+                    self.xyscope.attachSignal(name=self.signalNames[i])
             # return True
         # else:
             # return False
@@ -218,6 +263,10 @@ class ObserverAgent():
         elif self.agentType == 2:
             self.data = self.server.receiveBuffer[1:]
             self.scope.sample(self.server.receiveBuffer[0], list(self.data))
+            return True
+        elif self.agentType == 3:
+            self.data = self.server.receiveBuffer[1:]
+            self.xyscope.sample(self.server.receiveBuffer[0], np.reshape(self.data, (-1,2)))
             return True
         else:
             return False
@@ -339,6 +388,36 @@ class Observer():
         self.agentList.append(scope)
 
         return True
+    
+    def add_xy_scope(self, numSignals = 1, name = None, signalNames=None, xLabel='X', yLabel='Y', xLim = (-2,2), yLim=(-2,2)):
+
+        self.numScopes += 1
+
+        if name is None:
+            name = 'Scope '+str(self.numScopes)
+
+        properties = dict()
+        properties['numSignals'] = numSignals
+        properties['name'] = name
+        properties['signalNames'] = signalNames
+        properties['xLabel'] = xLabel
+        properties['yLabel'] = yLabel
+        properties['xLim'] = xLim
+        properties['yLim'] = yLim
+
+        port = 18500+self.numScopes
+        uriAddress  = 'tcpip://localhost:'+str(port)
+
+        xyscope = ObserverAgent(uriAddress=uriAddress,
+                                id=self.numPlots,
+                                bufferSize=(numSignals*2 + 1) * 8,
+                                buffer=np.zeros((numSignals*2 + 1, 1), dtype=np.float64),
+                                agentType=3,
+                                properties=properties)
+
+        self.agentList.append(xyscope)
+
+        return True
 
     def thread_function(self, index):
         agent = self.agentList[index]
@@ -360,7 +439,7 @@ class Observer():
         refreshFlag = False
 
         for index, agent in enumerate(self.agentList):
-            if agent.agentType == 2:
+            if agent.agentType == 2 or agent.agentType == 3:
                 refreshFlag = True
                 scopeIdx = index
             self.agentThreads.append(Thread(target=self.thread_function, args=[index]))
@@ -541,3 +620,44 @@ class RemoteScope():
     def terminate(self):
         '''Terminates the connection.'''
         self.client.terminate()
+
+class RemoteXYScope():
+    def __init__(
+            self,
+            numSignals = 1,
+            id = 1,
+            ip = 'localhost'
+        ):
+
+        self.numMeasurements = numSignals
+        bufferSize = (self.numMeasurements*2+1) * 8 # X Y pair for each signal + 1 timestamp, 8 bytes per double
+        port = 18500+id
+        uriAddress  = 'tcpip://' + ip + ':'+ str(port)
+        self.client = BasicStream(uriAddress, agent='C',
+                                  sendBufferSize=bufferSize,
+                                  nonBlocking=True)
+        self.connected = self.client.connected
+        self.timeout = Timeout(seconds=0, nanoseconds=1000000)
+
+    def check_connection(self):
+        '''Checks if the client is connected to its server. returns True or False.'''
+        # First check if the server was connected.
+        self.client.checkConnection(timeout=self.timeout)
+        self.connected = self.client.connected
+
+    def send(self, time, data = None):
+        if data is None:
+            return False
+
+        if self.client.connected:
+            timestamp = np.array([time], dtype=np.float64)
+            flag = self.client.send(np.concatenate((timestamp, data), axis=None))
+            if flag == -1:
+                return False
+            else:
+                return True
+
+    def terminate(self):
+        '''Terminates the connection.'''
+        self.client.terminate()
+

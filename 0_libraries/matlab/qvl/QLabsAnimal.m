@@ -1,7 +1,7 @@
 classdef QLabsAnimal < QLabsCharacter
     properties (Constant)
-%         This class implements spawning and AI navigation of the environment for animals."""
-        
+        % This class implements spawning and AI navigation of the environment for animals."""
+        % missing collision functions        
         ID_ANIMAL = 10031
     
         GOAT = 0

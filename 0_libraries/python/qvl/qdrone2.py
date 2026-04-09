@@ -273,7 +273,7 @@ class QLabsQDrone2(QLabsActor):
 
             if (c == None):
                 if self._verbose:
-                    print("QDrone 2 get_image: No data returned from QLabs possibly due to a communcations timeout.")
+                    print("QDrone 2 get_image: No data returned from QLabs possibly due to a communications timeout.")
                 return False, -1, None
 
             if len(c.payload) >= 8:

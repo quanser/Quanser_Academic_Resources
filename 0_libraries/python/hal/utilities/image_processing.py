@@ -50,11 +50,65 @@ class ImageProcessing():
             std_dev_intrinsics = Camera intrinsics standard deviation
             std_dev_extrinsics = Camera extrinsics standard deviation
             '''
-        retval, cameraMatrix, distCoeffs, rvecs, tvecs, stdDevIntrinsics, stdDevExtrinsics, PerViewErrors = cv2.calibrateCameraExtended(objPoints, imgPoints, image.shape[::-1], None, None)
+        retval, cameraMatrix, distCoeffs, rvecs, tvecs, stdDevIntrinsics, stdDevExtrinsics, PerViewErrors = cv2.calibrateCameraExtended(objPoints, 
+                                                                                                                                        imgPoints, image.shape[::-1], 
+                                                                                                                                        None, None) #,flags=cv2.CALIB_RATIONAL_MODEL) # add to get rational model distortion coefficients - return 8 coefficients or more
 
         print("Calibration projection error: ", retval)
 
         return  cameraMatrix , distCoeffs
+    
+    def calibrate_camera_fisheye(self, imageCaptures, chessboardDimensions, boxSize):
+
+        print("Performing Camera Calibration For Fisheye Lens")
+
+        objp = np.zeros((1, chessboardDimensions[0] * chessboardDimensions[1], 3), np.float64)
+        objp[0, :, :2] = np.mgrid[0:chessboardDimensions[0], 0:chessboardDimensions[1]].T.reshape(-1, 2) * boxSize
+
+        # Arrays to store object points and image points from all the images.
+        objPoints = [] # 3d point in real world space
+        imgPoints = [] # 2d points in image plane.
+
+        for image in imageCaptures:
+            cv2.imshow("CalibImage", image)
+            cv2.waitKey(500)
+            # Find the chessboard corners
+            ret, corners = cv2.findChessboardCorners(image, (chessboardDimensions[0], chessboardDimensions[1]), None)
+
+            if ret:
+                # 2. Refine corners
+                corners2 = cv2.cornerSubPix(image, corners, (11, 11), (-1, -1), self.imageCriteria)
+                
+                # 3. Reshape for Fisheye: must be (1, N, 2)
+                # findChessboardCorners returns (N, 1, 2), so we reshape to (1, N, 2)
+                imgPoints.append(corners2.reshape(1, -1, 2).astype(np.float64))
+                objPoints.append(objp.astype(np.float64))
+
+        # 4. The Calibration Call
+        # We initialize camera_matrix and dist_coeffs as None
+        camera_matrix = np.zeros((3, 3))
+        dist_coeffs = np.zeros((4, 1))
+        
+        # Standard flags for fisheye stability
+        flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC + cv2.fisheye.CALIB_FIX_SKEW + cv2.fisheye.CALIB_CHECK_COND
+
+        # the distortion coefficients are 4 values: [k1, k2, k3, k4]
+        retval, camera_matrix, dist_coeffs, rvecs, tvecs = cv2.fisheye.calibrate(
+            objPoints,
+            imgPoints,
+            imageCaptures[0].shape[::-1], # Assuming all images same size
+            camera_matrix,
+            dist_coeffs,
+            flags=flags,
+            criteria=(cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 1e-6)
+        )
+
+        # the distortion coefficients are 4 values: [k1, k2, k3, k4]
+        print("Calibration projection error: ", retval)
+        print("Fisheye camera intrinsic matrix is:\n", camera_matrix)
+        print("Fisheye camera distortion parameters are:\n", dist_coeffs)
+
+        return camera_matrix, dist_coeffs
 
     def undistort_img(self,distImgs,cameraMatrix,distCoefficients):
  

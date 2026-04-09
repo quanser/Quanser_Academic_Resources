@@ -254,6 +254,16 @@ public:
 
     ~QCar2()
     {
+        // sending 0 commands to motor
+        t_uint32 *channels = new t_uint32[2];
+        t_double *buffer = new t_double[2];
+        t_uint32 num_channels = 2;
+        channels[0] = 1000;
+        channels[1] = 11000;
+        buffer[0] = 0.0;
+        buffer[1] = 0.0;
+        hil_write_other(card, channels, num_channels, buffer);
+
         int result;
         result = hil_close(card);
 
@@ -347,26 +357,29 @@ private:
         double measured_speed = 0;
         // method used for constructing a PD speed controller for QCar2
         //Convert desired linear speed to desired motor speed
-
+        
         if (desired_speed != 0)
         {
             measured_speed = (joint_speed_measured/(720.0*4.0))*((13.0*19.0)/(70.0*30.0))*(2.0*M_PI)*0.033;
             speed_error = desired_speed-measured_speed;
-            motor_speed_cmd = motor_speed_cmd+ (speed_error*kp+((speed_error-prior_speed_error)/delta_time.seconds())*kd)*0.0047/battery_voltage;
-            prior_speed_error = speed_error;
+            speed_error_integral += speed_error*delta_time.seconds();
+            // motor_speed_cmd = motor_speed_cmd+ (speed_error*kp+((speed_error-prior_speed_error)/delta_time.seconds())*kd)*0.0047/battery_voltage;
+            // prior_speed_error = speed_error;
+            
+            motor_speed_cmd = desired_speed*km/battery_voltage + kp*speed_error + ki*speed_error_integral;
+            // prior_speed_error = (speed_error)*delta_time.seconds() + prior_speed_error;
 
             // clip pwm command to not exceed 0.3
             if (motor_speed_cmd>0.3)
                 motor_speed_cmd =0.3;
-
+            if (motor_speed_cmd<-0.3)
+                motor_speed_cmd = -0.3;
             // check for motor deadband at PWM ~|0.03|
             if (motor_speed_cmd<0.01 && motor_speed_cmd >=0 && desired_speed > 0)
                 motor_speed_cmd =0.01+motor_speed_cmd;
             if (motor_speed_cmd<0.0 && motor_speed_cmd >=-0.01&& desired_speed < 0)
                 motor_speed_cmd =-0.01+motor_speed_cmd;
 
-            if (motor_speed_cmd<-0.3)
-                motor_speed_cmd = -0.3;
         }
         else
         {
@@ -697,9 +710,10 @@ private:
     // speed controller parameters
     double desired_rotation_speed = 0;
     double speed_error = 0;
-    double kp = 20;
-    double kd = 0.1;
-    double ki = 0.01;
+    double speed_error_integral = 0;
+    double kp = 0.1;
+    double kd = 0;
+    double ki = 1;
     double km = 0.0047; // v/rad/s
     double joint_speed_measured = 0.0;
     double battery_voltage = 0;
@@ -746,7 +760,7 @@ private:
     t_double accel_ord  = 3.0;
 
     t_double temp_bw = 4000;
-    t_double steer_bias = 0.05;
+    t_double steer_bias = -0.035;
     std::string device_type = "physical";
 };
 

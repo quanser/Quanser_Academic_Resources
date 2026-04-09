@@ -1,19 +1,29 @@
 ## QCar2_lane_following_keyboard.py
 # This example combines both the front csi and motor commands to
-# allow the QCar to follow a yellow lane. Use the keyboard to manually drive the QCar,
-# use the WASD keys to control the throttle and steering, 
-# and hold the space bar to enable the line follower (W key will still have to be pressed to go forward).
+# allow the QCar to follow a yellow lane.
+# To enable line following press space bar and press W to go forward
+# To manually drive the QCar, stop pressing the space bar and 
+# Use the WASD keys to manually drive the QCar and control throttle and steering.
 
 from pal.utilities.vision import Camera2D
 from pal.products.qcar import QCar, QCarCameras
 from pal.utilities.math import Filter
-from pal.utilities.keyboard import KeyboardDrive,QKeyboard
+
 from hal.utilities.image_processing import ImageProcessing
 
 import time
 import numpy as np
 import cv2
 import math
+
+usePygame = False
+try:
+	from quanser.devices import Keyboard, KeyState, VirtualKeyCodes
+	from pal.utilities.keyboard import KeyboardDrive, QKeyboard
+except:
+	from pal.utilities.keyboard import PygameKeyboardDrive, PygameKeyboard
+	usePygame = True
+
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 ## Timing Parameters and methods
@@ -32,14 +42,18 @@ dt = 0.033
 imageWidth  = 1640
 imageHeight = 820
 QCarCamera = QCarCameras(frameWidth=imageWidth, frameHeight=imageHeight, enableFront=True)
-
+print("Make sure you open the detection overlay window to see the line that the CSI camera sees.")
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 ## QCar, Gamepad, and probe Initialization
 myCar = QCar(readMode=1, frequency=60)
 
-kb = QKeyboard()
-kbdrive = KeyboardDrive(mode=0,maxThrottle=0.05,maxSteer=0.3)
-
+if not usePygame:
+	kb = QKeyboard()
+	kbdrive = KeyboardDrive(mode=0,maxThrottle=0.05,maxSteer=0.3)
+else:
+	kb = PygameKeyboard()
+	kbdrive = PygameKeyboardDrive(mode=0,maxThrottle=0.05,maxSteer=0.3)
+	print("Make sure to click on the Keyboard Window screen in your taskbar to read commands.")
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 ## Main Loop
 try:
@@ -80,7 +94,12 @@ try:
 		steering_kbd, throttle_kbd = kbdrive.update(kb)
 		QCarCommand = np.array([throttle_kbd, steering_kbd])
 
-		if kb.states[kb.K_SPACE]:
+		if usePygame:
+			spacebar = kb.k_space
+		else:
+			spacebar = kb.states[kb.K_SPACE]
+
+		if spacebar:
 			if math.isnan(steering):
 				QCarCommand[1] = 0
 			else:

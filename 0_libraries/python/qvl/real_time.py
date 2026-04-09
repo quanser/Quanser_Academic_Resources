@@ -32,47 +32,51 @@ class QLabsRealTime:
 
         """
         qlabs_rt_model = False
-        if 'workspace' in modelName.lower() or 'spawn' in modelName.lower(): qlabs_rt_model = True
+        if 'workspace' in modelName.lower() or 'spawn' in modelName.lower(): 
+            qlabs_rt_model = True
+
+        _URIPort = 17001
+        URIPort = _URIPort + actorNumber
+        if uriPort > _URIPort:
+            URIPort = uriPort
 
         if platform.system() == "Windows":
             if qlabs_rt_model:
-                URIPort = 17001 + actorNumber
-                if uriPort > 17001:
-                    URIPort = uriPort
-
                 if userArguments:
-                    # this is a qlabs rt model, and use the QLabsHostName, _URIPort and actorNumber parameters
-                    cmdString="start \"QLabs_{}_{}\" quarc_run -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(modelName, actorNumber, modelName, URIPort, QLabsHostName, actorNumber, additionalArguments)
+                    # this is a qlabs rt model, and use the QLabsHostName, URIPort and actorNumber parameters
+                    cmdString=f"start \"QLabs_{modelName}_{actorNumber}\" quarc_run -D -r -t tcpip://localhost:17000 \"{modelName}.rt-win64\" -uri tcpip://localhost:{URIPort} -hostname {QLabsHostName} -devicenum {actorNumber} {additionalArguments}"
                 else:
                     # this is a qlabs rt model, but don't use additional parameters
-                    cmdString="start \"QLabs_{}_{}\" quarc_run -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, actorNumber, modelName, additionalArguments)
+                    cmdString=f"start \"QLabs_{modelName}_{actorNumber}\" quarc_run -D -r -t tcpip://localhost:17000 \"{modelName}.rt-win64\" {additionalArguments}"
 
             else:
                 # this is not a qlabs rt model, but a generic one for windows
-                cmdString="start \"Generic_{}\" quarc_run -D -r -t tcpip://localhost:17000 \"{}.rt-win64\" {}".format(modelName, modelName, additionalArguments)
+                cmdString=f"start \"Generic_{modelName}\" quarc_run -D -r -t tcpip://localhost:17000 \"{modelName}.rt-win64\" {additionalArguments}"
+
         elif platform.system() == "Linux":
             if platform.machine() == "armv7l":
                 if qlabs_rt_model:
                     #Raspberry Pi 3, 4
                     if userArguments:
-                        # this is a qlabs rt model, and use the QLabsHostName, _URIPort and actorNumber parameters
-                        cmdString="quarc_run -D -r -t tcpip://localhost:17000 {}.rt-linux_pi_3 -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(modelName, self._URIPort, QLabsHostName, actorNumber, additionalArguments)
+                        # this is a qlabs rt model, and use the QLabsHostName, URIPort and actorNumber parameters
+                        cmdString=f"quarc_run -D -r -t tcpip://localhost:17000 {modelName}.rt-linux_pi_3 -uri tcpip://localhost:{URIPort} -hostname {QLabsHostName} -devicenum {actorNumber} {additionalArguments}"
                     else:
                         # this is a qlabs rt model, but don't use additional parameters
-                        cmdString="quarc_run -D -r -t tcpip://localhost:17000 {}.rt-linux_pi_3 {}".format(modelName, additionalArguments)
+                        cmdString=f"quarc_run -D -r -t tcpip://localhost:17000 {modelName}.rt-linux_pi_3 {additionalArguments}"
                 else:
                     print("This method cannot be used to deploy generic real-time models to this platform. Please refer to the QUARC command line tools documentation for more information.")
+            
             elif platform.machine() == "x86_64":
                 if qlabs_rt_model:
                     #Ubuntu x86_64
                     if userArguments:
                         # this is a qlabs rt model, and use the QLabsHostName, _URIPort and actorNumber parameters
-                        #cmdString="quarc_run -D -r -t tcpip://host.docker.internal:17000 {}.rt-linux_x86_64 -uri tcpip://host.docker.internal:{} -hostname {} -devicenum {} {}".format(modelName, self._URIPort, QLabsHostName, actorNumber, additionalArguments)
-                        cmdString="quarc_run -D -r -t tcpip://{}:17000 {}.rt-linux_x86_64 -uri tcpip://localhost:{} -hostname {} -devicenum {} {}".format(RTModelHostName, modelName, self._URIPort, QLabsHostName, actorNumber, additionalArguments)
+                        #cmdString=f"quarc_run -D -r -t tcpip://host.docker.internal:17000 {modelName}.rt-linux_x86_64 -uri tcpip://host.docker.internal:{URIPort} -hostname {QLabsHostName} -devicenum {actorNumber} {additionalArguments}"
+                        cmdString=f"quarc_run -D -r -t tcpip://{RTModelHostName}:17000 {modelName}.rt-linux_x86_64 -uri tcpip://localhost:{URIPort} -hostname {QLabsHostName} -devicenum {actorNumber} {additionalArguments}"
                     else:
                         # this is a qlabs rt model, but don't use additional parameters
-                        #cmdString="quarc_run -D -r -t tcpip://host.docker.internal:17000 {}.rt-linux_x86_64 {}".format(modelName, additionalArguments)
-                        cmdString="quarc_run -D -r -t tcpip://{}:17000 {}.rt-linux_x86_64 {}".format(RTModelHostName, modelName, additionalArguments)
+                        #cmdString=f"quarc_run -D -r -t tcpip://host.docker.internal:17000 {modelName}.rt-linux_x86_64 {additionalArguments}"
+                        cmdString=f"quarc_run -D -r -t tcpip://{RTModelHostName}:17000 {modelName}.rt-linux_x86_64 {additionalArguments}"
                 else:
                     print("This method cannot be used to deploy generic real-time models to this platform. Please refer to the QUARC command line tools documentation for more information.")            
             else:
@@ -101,14 +105,14 @@ class QLabsRealTime:
 
         """
         if platform.system() == "Windows":
-            cmdString="start \"QLabs_Spawn_Model\" quarc_run -q -Q -t tcpip://localhost:17000 {}.rt-win64 {}".format(modelName, additionalArguments)
+            cmdString=f"start \"QLabs_Spawn_Model\" quarc_run -q -Q -t tcpip://localhost:17000 {modelName}.rt-win64 {additionalArguments}"
             
         elif platform.system() == "Linux":
             if platform.machine() == "armv7l":
-                cmdString="quarc_run -q -Q -t tcpip://localhost:17000 {}.rt-linux_pi_3 {}".format(modelName, additionalArguments)
+                cmdString=f"quarc_run -q -Q -t tcpip://localhost:17000 {modelName}.rt-linux_pi_3 {additionalArguments}"
             elif platform.machine() == "x86_64":
-                #cmdString="quarc_run -q -Q -t tcpip://host.docker.internal:17000 {}.rt-linux_x86_64 {}".format(modelName, additionalArguments)
-                cmdString="quarc_run -q -Q -t tcpip://{}:17000 {}.rt-linux_x86_64 {}".format(RTModelHostName, modelName, additionalArguments)
+                #cmdString=f"quarc_run -q -Q -t tcpip://host.docker.internal:17000 {modelName}.rt-linux_x86_64 {additionalArguments}"
+                cmdString=f"quarc_run -q -Q -t tcpip://{RTModelHostName}:17000 {modelName}.rt-linux_x86_64 {additionalArguments}"
             
             else:
                 print("This Linux machine not supported for real-time model execution")
@@ -131,13 +135,13 @@ class QLabsRealTime:
 
         """
         if platform.system() == "Windows":
-            cmdString="start \"QLabs_Spawn_Model\" quarc_run -q -Q -t tcpip://localhost:17000 *.rt-win64 {}".format(additionalArguments)
+            cmdString=f"start \"QLabs_Spawn_Model\" quarc_run -q -Q -t tcpip://localhost:17000 *.rt-win64 {additionalArguments}"
         elif platform.system() == "Linux":
             if platform.machine() == "armv7l":
-                cmdString="quarc_run -q -Q -t tcpip://localhost:17000 *.rt-linux_pi_3 {}".format(additionalArguments)
+                cmdString=f"quarc_run -q -Q -t tcpip://localhost:17000 *.rt-linux_pi_3 {additionalArguments}"
             elif platform.machine() == "x86_64":
-                #cmdString="quarc_run -q -Q -t tcpip://host.docker.internal:17000 *.rt-linux_x86_64 {}".format(additionalArguments)
-                cmdString="quarc_run -q -Q -t tcpip://{}:17000 *.rt-linux_x86_64 {}".format(RTModelHostName, additionalArguments)
+                #cmdString=f"quarc_run -q -Q -t tcpip://host.docker.internal:17000 *.rt-linux_x86_64 {additionalArguments}"
+                cmdString=f"quarc_run -q -Q -t tcpip://{RTModelHostName}:17000 *.rt-linux_x86_64 {additionalArguments}"
             else:
                 print("This Linux machine not supported for real-time model execution")
                 return

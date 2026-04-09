@@ -1,6 +1,9 @@
+     
 classdef QLabsPerson < QLabsCharacter
     properties (Constant)
         % This class implements spawning and AI navigation of the environment for human pedestrians
+
+        % missing collision functions
     
         ID_PERSON = 10030
     

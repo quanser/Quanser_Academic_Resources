@@ -13,5 +13,5 @@ set POSTFIX_BIN=rt-win64
 @ECHO ON
 
 @REM Stopping all of the models
-start "Stopping QUARC Models" "%QUARC_DIR%\quarc_run" -q -Q -t shmem://%URL_INFRASTRUCTURE%:1 *.%POSTFIX_BIN%
+start "Stopping QUARC Models" "quarc_run" -q -Q -t shmem://%URL_INFRASTRUCTURE%:1 *.%POSTFIX_BIN%
 taskkill -f -im python*

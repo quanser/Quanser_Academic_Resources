@@ -15,6 +15,7 @@ from qvl.qlabs import QuanserInteractiveLabs
 from qvl.qcar import QLabsQCar
 from qvl.qcar2 import QLabsQCar2
 from qvl.free_camera import QLabsFreeCamera
+from qvl.basic_shape import QLabsBasicShape
 from qvl.real_time import QLabsRealTime
 import pal.resources.rtmodels as rtmodels
 from pal.products.qcar import QCAR_CONFIG
@@ -28,7 +29,7 @@ from pal.products.qcar import QCAR_CONFIG
 # Connecting to Quanser Interactive Labs
 
 def setup(
-        initialPosition=[16.6, 2, 0.000],
+        initialPosition=[1, -6, 5],
         initialOrientation=[0,0,np.pi/2],
         rtModel=rtmodels.QCAR
     ):
@@ -46,6 +47,14 @@ def setup(
     # Delete any previous QCar instances and stop any running spawn models
     qlabs.destroy_all_spawned_actors()
     QLabsRealTime().terminate_all_real_time_models()
+
+    pedestal = QLabsBasicShape(qlabs)
+    if initialPosition[2] > 0:
+        pedestal.spawn_degrees(location=[initialPosition[0], initialPosition[1] + 1.300, initialPosition[2]/2],  # match initial position to center of qcar
+                               rotation=initialOrientation, 
+                               scale=[2, 4, initialPosition[2]], 
+                               configuration=0, 
+                               waitForConfirmation=True)
 
     # Spawn a QCar at the given initial pose
     if QCAR_CONFIG['cartype']==1:

@@ -155,6 +155,85 @@ classdef QLabsQDrone2 < QLabsActor
                 return
             end
         end
+ 
+        function [success, location, orientation, quaternion, velocity, TOFDistance, collision, collisionLocation, collisionForce] = set_velocity_and_request_state_degrees(obj, motorsEnabled, velocity, orientation)
+            arguments
+                obj QLabsQDrone2
+                motorsEnabled single
+                velocity (1,3) single = [0 0 0]
+                orientation (1,3) single = [0 0 0]
+            end
+            
+            [success, location, orientation_r, quaternion, velocity, TOFDistance, collision, collisionLocation, collisionForce] = obj.set_velocity_and_request_state(motorsEnabled, velocity, orientation/180*pi);
+            orientation = orientation_r/180*pi;
+        end
+
+        function success = set_transform_and_dynamics(obj, location, rotation, enableDynamics, waitForConfirmation)
+            arguments
+                obj QLabsQDrone2
+                location (1,3) single 
+                rotation (1,3) single 
+                enableDynamics logical = true
+                waitForConfirmation logical = true
+
+            end
+            success = false;
+			% Sets the velocity, turn angle in radians, and other properties.
+
+            if isempty(obj.is_actor_number_valid)
+                return
+            end            
+
+            obj.c.classID = obj.ID_QDRONE2;
+            obj.c.actorNumber = obj.actorNumber;
+            obj.c.actorFunction = obj.FCN_QDRONE2_SET_WORLD_TRANSFORM;
+            obj.c.payload = [flip(typecast(single(location(1)), 'uint8')) ...
+                             flip(typecast(single(location(2)), 'uint8')) ...
+							 flip(typecast(single(location(3)), 'uint8')) ...
+							 flip(typecast(single(rotation(1)), 'uint8')) ...
+                             flip(typecast(single(rotation(2)), 'uint8')) ...
+							 flip(typecast(single(rotation(3)), 'uint8')) ...
+							 uint8(enableDynamics)];
+            obj.c.containerSize = obj.c.BASE_CONTAINER_SIZE + length(obj.c.payload);
+            
+            if waitForConfirmation
+                obj.qlabs.flush_receive()
+            end
+            
+            success = false;
+            location = [0 0 0];
+            rotation = [0 0 0];
+
+
+            if (obj.qlabs.send_container(obj.c))
+                if waitForConfirmation
+                    rc = obj.qlabs.wait_for_container(obj.ID_QDRONE2, obj.actorNumber, obj.FCN_QDRONE2_SET_WORLD_TRANSFORM_ACK);
+                    if isempty(rc)
+                        return
+                    end
+    
+                    if length(obj.c.payload) == 24
+                        location(1) = typecast(flip(rc.payload(1:4)), 'single');
+                        location(2) = typecast(flip(rc.payload(5:8)), 'single');
+                        location(3) = typecast(flip(rc.payload(9:12)), 'single');
+                        rotation(1) = typecast(flip(rc.payload(13:16)), 'single');
+                        rotation(2) = typecast(flip(rc.payload(17:20)), 'single');
+                        rotation(3) = typecast(flip(rc.payload(21:24)), 'single');
+                        success = true;
+                        return
+                    else
+                        return
+                    end
+                else
+                    success = true;
+                    return
+                end
+            else
+                success = true;
+                return
+            end
+
+        end
 
         function [success, cameraNumber, imageData] = get_image(obj, camera)
             arguments
@@ -174,14 +253,14 @@ classdef QLabsQDrone2 < QLabsActor
             obj.c.classID = obj.ID_QDRONE2;
             obj.c.actorNumber = obj.actorNumber;
             obj.c.actorFunction = obj.FCN_QDRONE2_IMAGE_REQUEST;
-            obj.c.payload = uint8(camera);
+            obj.c.payload = flip(typecast(int32(camera), 'uint8'));
             obj.c.containerSize = obj.c.BASE_CONTAINER_SIZE + length(obj.c.payload);
-
+            
             obj.qlabs.flush_receive();
 
             if (obj.qlabs.send_container(obj.c))
                 rc = obj.qlabs.wait_for_container(obj.ID_QDRONE2, obj.actorNumber, obj.FCN_QDRONE2_IMAGE_RESPONSE);
-
+                
                 if isempty(rc)
                     return
                 end

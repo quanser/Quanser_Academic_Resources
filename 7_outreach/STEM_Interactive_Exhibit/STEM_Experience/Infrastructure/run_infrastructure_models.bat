@@ -53,13 +53,13 @@ set POSTFIX_BIN=rt-win64
 @REM Please contact Quanser support (tech@quanser.com) if the QUARC Server Model is missing
 
 @REM Main
-start "Infrastructure Main" "%QUARC_DIR%\quarc_run" -l -t shmem://%URL_INFRASTRUCTURE%:1 %MODEL_MAIN%.%POSTFIX_BIN% -d %PATH_MAIN% -uri shmem://%URL_INFRASTRUCTURE%:2 -IP_GATEWAY %IP_GATEWAY%
+start "Infrastructure Main" "quarc_run" -l -t shmem://%URL_INFRASTRUCTURE%:1 %MODEL_MAIN%.%POSTFIX_BIN% -d %PATH_MAIN% -uri shmem://%URL_INFRASTRUCTURE%:2 -IP_GATEWAY %IP_GATEWAY%
 
 @REM V2V
-start "Infrastructure V2V" "%QUARC_DIR%\quarc_run" -l -t shmem://%URL_INFRASTRUCTURE%:1 %MODEL_V2V%.%POSTFIX_BIN% -d %PATH_V2V% -uri shmem://%URL_INFRASTRUCTURE%:3 -IP_GATEWAY %IP_GATEWAY%
+start "Infrastructure V2V" "quarc_run" -l -t shmem://%URL_INFRASTRUCTURE%:1 %MODEL_V2V%.%POSTFIX_BIN% -d %PATH_V2V% -uri shmem://%URL_INFRASTRUCTURE%:3 -IP_GATEWAY %IP_GATEWAY%
 
 @REM NN
-start "Infrastructure NN" "%QUARC_DIR%\quarc_run" -l -t shmem://%URL_INFRASTRUCTURE%:1 %MODEL_NN%.%POSTFIX_BIN% -d %PATH_NN% -uri shmem://%URL_INFRASTRUCTURE%:4 -IP_GATEWAY %IP_GATEWAY%
+start "Infrastructure NN" "quarc_run" -l -t shmem://%URL_INFRASTRUCTURE%:1 %MODEL_NN%.%POSTFIX_BIN% -d %PATH_NN% -uri shmem://%URL_INFRASTRUCTURE%:4 -IP_GATEWAY %IP_GATEWAY%
 for /l %%Q in (1, 1, 5) do (
     set "port=1869%%Q%"
     start "YOLO client %%Q%" /b pythonw src/NN/yolo_client.py -p !port!

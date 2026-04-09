@@ -113,7 +113,7 @@ classdef QLabsCrosswalk < QLabsActor
 %           limitation on decals.
 
             scale = [scale(3) scale(2) scale(1)];
-            success = spawn_id_and_parent_with_relative_transform(actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
+            success = spawn_id_and_parent_with_relative_transform@QLabsActor(obj, actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
             return
         end
 
@@ -136,7 +136,7 @@ classdef QLabsCrosswalk < QLabsActor
 %           limitation on decals.
 
             scale = [scale(3) scale(2) scale(1)];
-            success = spawn_id_and_parent_with_relative_transform_degrees(actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
+            success = spawn_id_and_parent_with_relative_transform_degrees@QLabsActor(obj,actorNumber, location, rotation, scale, configuration, parentClassID, parentActorNumber, parentComponent, waitForConfirmation);
             return
         end
 

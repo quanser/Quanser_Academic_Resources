@@ -545,7 +545,7 @@ class QCarLidar(Lidar):
             interpolationMaxAngle=0,
             enableFiltering=True,
             angularResolution=1*np.pi/180,
-            lidarPort = 18966 
+            lidarPort = 18966
         ):
         """Initializes a new instance of the QCarLidar class.
 

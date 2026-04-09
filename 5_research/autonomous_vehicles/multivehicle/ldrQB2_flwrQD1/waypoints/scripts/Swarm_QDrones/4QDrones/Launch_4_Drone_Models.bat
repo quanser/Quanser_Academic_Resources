@@ -28,45 +28,45 @@ set QUARC_MODEL_NAME=Commander_Stabilizer_QDrone
 ::----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ::Start a series of Quarc Monitors to be able to monitor all 4 drones and the PC
 @REM QUARC Tray - monitoring localhost processes
-start "PC_Tray" "%QUARC_DIR%\quarc_tray" /t tcpip://localhost:17000
+start "PC_Tray" "quarc_tray" /t tcpip://localhost:17000
 timeout /t 1
 
 @REM QUARC Tray - monitoring localhost processes
-start "Drone_1_Tray" "%QUARC_DIR%\quarc_tray" /t tcpip://192.168.2.%drone_1_id%:17000
+start "Drone_1_Tray" "quarc_tray" /t tcpip://192.168.2.%drone_1_id%:17000
 timeout /t 1
 
 @REM QUARC Tray - monitoring localhost processes
-start "Drone_2_Tray" "%QUARC_DIR%\quarc_tray" /t tcpip://192.168.2.%drone_2_id%:17000
+start "Drone_2_Tray" "quarc_tray" /t tcpip://192.168.2.%drone_2_id%:17000
 timeout /t 1
 
 @REM QUARC Tray - monitoring localhost processes
-start "Drone_3_Tray" "%QUARC_DIR%\quarc_tray" /t tcpip://192.168.2.%drone_3_id%:17000
+start "Drone_3_Tray" "quarc_tray" /t tcpip://192.168.2.%drone_3_id%:17000
 timeout /t 1
 
 @REM QUARC Tray - monitoring localhost processes
-start "Drone_4_Tray" "%QUARC_DIR%\quarc_tray" /t tcpip://192.168.2.%drone_4_id%:17000
+start "Drone_4_Tray" "quarc_tray" /t tcpip://192.168.2.%drone_4_id%:17000
 timeout /t 1
 
 ::----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ::Start a QUARC Console for each of the 4 drones and the PC 
 @REM QUARC Console - error/warning/status message monitoring
-start "PC_console" "%QUARC_DIR%\quarc_run" -c -t tcpip://localhost:17000 *.rt-win64
+start "PC_console" "quarc_run" -c -t tcpip://localhost:17000 *.rt-win64
 timeout /t 1
 
 @REM QUARC Console - error/warning/status message monitoring
-start "Drone_1_console" "%QUARC_DIR%\quarc_run" -c -t tcpip://192.168.2.%drone_1_id%:17000 *.rt-linux_x64
+start "Drone_1_console" "quarc_run" -c -t tcpip://192.168.2.%drone_1_id%:17000 *.rt-linux_x64
 timeout /t 1
 
 @REM QUARC Console - error/warning/status message monitoring
-start "Drone_2_console" "%QUARC_DIR%\quarc_run" -c -t tcpip://192.168.2.%drone_2_id%:17000 *.rt-linux_x64
+start "Drone_2_console" "quarc_run" -c -t tcpip://192.168.2.%drone_2_id%:17000 *.rt-linux_x64
 timeout /t 1
 
 @REM QUARC Console - error/warning/status message monitoring
-start "Drone_3_console" "%QUARC_DIR%\quarc_run" -c -t tcpip://192.168.2.%drone_3_id%:17000 *.rt-linux_x64
+start "Drone_3_console" "quarc_run" -c -t tcpip://192.168.2.%drone_3_id%:17000 *.rt-linux_x64
 timeout /t 1
 
 @REM QUARC Console - error/warning/status message monitoring
-start "Drone_4_console" "%QUARC_DIR%\quarc_run" -c -t tcpip://192.168.2.%drone_4_id%:17000 *.rt-linux_x64
+start "Drone_4_console" "quarc_run" -c -t tcpip://192.168.2.%drone_4_id%:17000 *.rt-linux_x64
 timeout /t 1
 
 ::----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -80,17 +80,17 @@ timeout /t 3
 ::please update the %QUARC_MODEL_NAME% variable defintion at the beginning of this script.
 
 @REM Drone 1 Model
-start "drone_1_Commander_Stabilizer_Qdrone" "%QUARC_DIR%\quarc_run" -D -r -t tcpip://192.168.2.%drone_1_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_1_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V1%"
+start "drone_1_Commander_Stabilizer_Qdrone" "quarc_run" -D -r -t tcpip://192.168.2.%drone_1_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_1_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V1%"
 timeout /t 1
 
 @REM Drone 2 Model
-start "drone_2_Commander_Stabilizer_Qdrone" "%QUARC_DIR%\quarc_run" -D -r -t tcpip://192.168.2.%drone_2_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_2_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V2%"
+start "drone_2_Commander_Stabilizer_Qdrone" "quarc_run" -D -r -t tcpip://192.168.2.%drone_2_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_2_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V2%"
 timeout /t 1
 
 @REM Drone 3 Model
-start "drone_3_Commander_Stabilizer_Qdrone" "%QUARC_DIR%\quarc_run" -D -r -t tcpip://192.168.2.%drone_3_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_3_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V3%"
+start "drone_3_Commander_Stabilizer_Qdrone" "quarc_run" -D -r -t tcpip://192.168.2.%drone_3_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_3_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V3%"
 timeout /t 1
 
 @REM Drone 4 Model
-start "drone_4_Commander_Stabilizer_Qdrone" "%QUARC_DIR%\quarc_run" -D -r -t tcpip://192.168.2.%drone_4_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_4_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V4%"
+start "drone_4_Commander_Stabilizer_Qdrone" "quarc_run" -D -r -t tcpip://192.168.2.%drone_4_id%:17000 %QUARC_MODEL_NAME%.rt-linux_x64 -uri tcpip://192.168.2.%drone_4_id%:17001?retries=10 -URI_Host "tcpip://192.168.2.%pc_id%:%URI_Host_V4%"
 timeout /t 1

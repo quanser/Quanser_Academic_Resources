@@ -2,6 +2,18 @@
 Change Log for releases after 2025:
 ==========================================================================================================
 
+Release (2026-04-08):
+- Added Autoware examples for qcar2
+- Isaac sim examples for QBot Platform and QCar2
+- scan_match and ekf_fusor nodes added to qcar2 ROS2 package
+- New basic IO examples for mechatronic trainers
+- QDrone2 virtual examples now include a spawn file in .m format (alongside existing python one)
+- Virtual QCar2 lane following and manual drive now support using keyboard, not just joystick
+- New guide on updating firmware for mechatronic trainers
+- Added Qube3 teaching troubleshooting guide in case scoping or virtual labs are a problem
+- Updated STEM operating manual
+
+
 Release (2026-01-20):
 - Added files for mechatronic actuators and sensors trainers. 
 	- Included all fundamental labs for both sensors and actuators

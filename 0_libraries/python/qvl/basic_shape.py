@@ -410,33 +410,33 @@ class QLabsBasicShape(QLabsActor):
         location = np.add(origin, self._rotate_vector_2d_degrees([xSize/2 + wallThickness/2, 0, 0], yaw) )
         if (0 != self.spawn_id(actorNumbers[0], location, [0, 0, yaw], [wallThickness, ySize, zHeight], self.SHAPE_CUBE, waitForConfirmation)):
             return False
-        if (True != self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
+        if (not self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
             return False
 
         location = np.add(origin, self._rotate_vector_2d_degrees([ - xSize/2 - wallThickness/2, 0, 0], yaw) )
         if (0 != self.spawn_id(actorNumbers[1], location, [0, 0, yaw], [wallThickness, ySize, zHeight], self.SHAPE_CUBE, waitForConfirmation)):
             return False
-        if (True != self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
+        if (not self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
             return False
 
 
         location = np.add(origin, self._rotate_vector_2d_degrees([0, ySize/2 + wallThickness/2, 0], yaw) )
         if (0 != self.spawn_id(actorNumbers[2], location, [0, 0, yaw], [xSize + wallThickness*2, wallThickness, zHeight], self.SHAPE_CUBE, waitForConfirmation)):
             return False
-        if (True != self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
+        if (not self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
             return False
 
 
         location = np.add(origin, self._rotate_vector_2d_degrees([0, - ySize/2 - wallThickness/2, 0], yaw) )
         if (0 != self.spawn_id(actorNumbers[3], location, [0, 0, yaw], [xSize + wallThickness*2, wallThickness, zHeight], self.SHAPE_CUBE, waitForConfirmation)):
             return False
-        if (True != self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
+        if (not self.set_material_properties(wallColor, 1, False, waitForConfirmation)):
             return False
 
         if (floorThickness > 0):
             if (0 != self.spawn_id(actorNumbers[4], [centerLocation[0], centerLocation[1], centerLocation[2]+ floorThickness/2], [0, 0, yaw], [xSize+wallThickness*2, ySize+wallThickness*2, floorThickness], self.SHAPE_CUBE, waitForConfirmation)):
                 return False
-            if (True != self.set_material_properties(floorColor, 1, False, waitForConfirmation)):
+            if (not self.set_material_properties(floorColor, 1, False, waitForConfirmation)):
                 return False
 
         return True
