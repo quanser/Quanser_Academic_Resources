@@ -17,6 +17,7 @@
 
 1. Open the Simulink model from the `hardware/matlab` folder instead.
 <br>
+
 2. Double-click the Qube-Servo 3 block and change the `Qube-Servo Setup` from `Hardware` to `Virtual`, then click `OK`.
     <div style="text-align: center;">
     <img src="images/toVirtual.png" width="450">
