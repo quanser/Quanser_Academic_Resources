@@ -38,7 +38,7 @@ clearEnv = input("Do you want to reset the virtual environment?(y/n): ")
 if clearEnv == "y":
     # Destroy all spawned actors to reset the scene
     print("Deleting current spawned actors...")
-    qlabs_setup.setup(initialPosition=[1.066, -6.218,0])
+    qlabs_setup.setup(initialPosition=[1, -6, 5])
 
 # Determine checkerboard height and width. 
 # Actual dimensions will be larger to include the border
@@ -49,7 +49,7 @@ boxSize = float(input(text))
 
 # Setup QLabs camera for camera calibration scene
 freeCamera = QLabsFreeCamera(qlabs)
-freeCamera.spawn([0, -20, 3], [0,-0.2,-3*np.pi/2])
+freeCamera.spawn([-4.471, -16.271, 8.475], [0, 0.27, 1.324])
 freeCamera.possess()
 
 # Spawn ref frame to aid with identifying how to move chessboard:
@@ -176,6 +176,7 @@ windowRefFrame.spawn_id(
 # of the spawned checkered board.
 MAXSPACE = 1000 #m
 try: 
+    print("Initial Location of Board: ", initLocationBoard)
     while True:
         text = "Enter location of checkerboard in space X,Y,Z,Roll,Pitch,Yaw. All values should be floating points, separated by a comma, and angles in radians:.. "
         checkerBoardPose = input(text)

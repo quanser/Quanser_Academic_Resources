@@ -1,14 +1,16 @@
-## task_lane_following.py
-# This example combines both the left csi and motor commands to
+## QCar2_lane_following.py
+# This example combines both the front csi and motor commands to
 # allow the QCar to follow a yellow lane. Use the joystick to manually drive the QCar
 # to a starting position and enable the line follower by holding the X button on the LogitechF710
 # To troubleshoot your camera use the hardware_test_csi_camera_single.py found in the hardware tests
 
+# the LB on the joystick is used to enable motor commands based on the RT input. 
+# Button A on gamepad is used to reverse the motor direction.
+
 from pal.utilities.vision import Camera2D
-from pal.products.qcar import QCar
+from pal.products.qcar import QCar, QCarCameras
 from pal.utilities.math import Filter
 from pal.utilities.gamepad import LogitechF710
-from pal.utilities.probe import Probe
 from hal.utilities.image_processing import ImageProcessing
 
 import time
@@ -23,12 +25,6 @@ sampleTime = 1/sampleRate
 print('Sample Time: ', sampleTime)
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-# Additional parameters
-imageWidth  = 1640
-imageHeight = 820
-cameraID 	= "3@tcpip://localhost:18964"
-
-# -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 #Setting Filter
 steeringFilter = Filter().low_pass_first_order_variable(25, 0.033)
 next(steeringFilter)
@@ -36,7 +32,13 @@ dt = 0.033
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 ## Initialize the CSI cameras
-myCam = Camera2D(cameraId=cameraID, frameWidth=imageWidth, frameHeight=imageHeight, frameRate=sampleRate)
+imageWidth  = 1640
+imageHeight = 820
+QCarCamera = QCarCameras(frameWidth=imageWidth, frameHeight=imageHeight, enableFront=True)
+
+# Other method for accessing front camera
+# cameraID 	= "2@tcpip://localhost:18963"
+# myCam = Camera2D(cameraId=cameraID, frameWidth=imageWidth, frameHeight=imageHeight, frameRate=sampleRate)
 
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 ## QCar, Gamepad, and probe Initialization
@@ -50,10 +52,10 @@ def control_from_gamepad(LB, RT, leftLateral, A):
 	'''
 	if LB == 1:
 			if A == 1 :
-				throttle_axis = -0.1 * RT #going backward
+				throttle_axis = 0.1 * (RT-0.5) #going backward
 				steering_axis = leftLateral * 0.5
 			else:
-				throttle_axis = 0.1 * RT #going forward
+				throttle_axis = 0.1 * -(RT-0.5) #going forward
 				steering_axis = leftLateral * 0.5
 	else:
 		throttle_axis = 0
@@ -69,9 +71,9 @@ try:
 	while True:
 		start = time.time()
 		# Capture RGB Image from CSI
-		myCam.read()
+		QCarCamera.readAll()
 		# Crop out a piece of the RGB to improve performance
-		croppedRGB = myCam.imageData[524:674, 0:820]
+		croppedRGB = QCarCamera.csiFront.imageData[524:674, 0:820]
 
 		# Convert to HSV and then threshold it for yellow
 		hsvBuf = cv2.cvtColor(croppedRGB, cv2.COLOR_BGR2HSV)
@@ -83,7 +85,7 @@ try:
 
 		# Overlay detected yellow lane over raw RGB image
 		binaryImage=binaryImage/255
-		processed = myCam.imageData
+		processed = QCarCamera.csiFront.imageData
 		processed[524:674, 0:820,2]=processed[524:674, 0:820,2]+(255-processed[524:674, 0:820,2])*binaryImage
 		processed[524:674, 0:820,1]=processed[524:674, 0:820,1]*(1-binaryImage)
 		processed[524:674, 0:820,0]=processed[524:674, 0:820,0]*(1-binaryImage)
@@ -119,7 +121,7 @@ except KeyboardInterrupt:
 		
 finally:
 	# Terminate camera and QCar
-	myCam.terminate()
+	QCarCamera.terminate()
 	myCar.terminate()
 	gpad.terminate()
 # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

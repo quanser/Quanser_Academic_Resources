@@ -9,7 +9,7 @@ over a network connection, and managing the connection's state.
 from quanser.communications import Stream, StreamError, PollFlag
 try:
     from quanser.common import Timeout
-except:
+except ImportError:
     from quanser.communications import Timeout
 import numpy as np
 import pickle
@@ -223,7 +223,7 @@ class StreamClient(BaseStream):
 
 class BasicStream:
     '''Class object consisting of basic stream server/client functionality'''
-    def __init__(self, uri, agent='S', receiveBuffer=np.zeros(1, dtype=np.float64), sendBufferSize=2048, 
+    def __init__(self, uri, agent='S', receiveBuffer=np.zeros(1, dtype=np.float64), sendBufferSize=2048,
                  recvBufferSize=2048, nonBlocking=False, verbose=False, reshapeOrder = 'C'):
         '''
         This functions simplifies functionality of the quanser_stream module to provide a
@@ -249,7 +249,7 @@ class BasicStream:
         self.uri 			= uri
         self.receiveBuffer  = receiveBuffer
         self.verbose        = verbose
-        self.reshapeOrder   = reshapeOrder  
+        self.reshapeOrder   = reshapeOrder
         # reshape order need to be specified as "F" when reading images streamed from a MATLAB server
 
         # If the agent is a Client, then Server isn't needed.
@@ -374,7 +374,8 @@ class BasicStream:
         iterations - (optional) number of times to poll for incoming data before terminating, default is 1 \n
          \n
         Returns: \n
-        receiveFlag - flag indicating whether the number of bytes received matches the expectation. To check the actual number of bytes received, use the bytesReceived class object. \n
+        receiveFlag (int) - flag indicating whether the number of bytes received matches the expectation. \n
+        bytesReceived - The actual number of bytes received. \n
          \n
         Stream Server as an example \n
         >>> while True:
@@ -414,6 +415,7 @@ class BasicStream:
         totalNumBytes = dim*numBytesBasedOnType
         self.data = bytearray(totalNumBytes)
         self.bytesReceived = 0
+        self.receiveFlag = 0
         # print(totalNumBytes)
         # Poll to see if data is incoming, and if so, receive it. Poll a max of 'iteration' times
         try:
@@ -429,7 +431,8 @@ class BasicStream:
                     continue # Data not available, skip receiving
 
                 # Receive data
-                self.bytesReceived = self.clientStream.receive_byte_array(self.data, totalNumBytes)
+                self.receiveFlag = self.clientStream.receive_byte_array(self.data, totalNumBytes)
+                self.bytesReceived = totalNumBytes*self.receiveFlag
 
                 # data received, so break this loop
                 break
@@ -439,9 +442,9 @@ class BasicStream:
 
         except StreamError as e:
             print(e.get_error_message())
+            self.receiveFlag = -1
         finally:
-            receiveFlag = self.bytesReceived==1
-            return receiveFlag, totalNumBytes*self.bytesReceived
+            return self.receiveFlag, self.bytesReceived
 
     def send(self, buffer):
         """
@@ -452,7 +455,7 @@ class BasicStream:
         buffer - numpy array of data to be sent \n
 
         OUTPUTS: \n
-        bytesSent - number of bytes actually sent (-1 if send failed) \n
+        sentFlag (int) - did bytes actually send (-1 if send failed) \n
          \n
         Stream Server as an example \n
         >>> while True:
@@ -478,14 +481,13 @@ class BasicStream:
 
         # Set up array to hold bytes to be sent
         byteArray = buffer.tobytes()
-        self.bytesSent = 0
-
+        self.sentFlag = 0
         # Send bytes and flush immediately after
         try:
-            self.bytesSent = self.clientStream.send_byte_array(byteArray, len(byteArray))
+            self.sentFlag = self.clientStream.send_byte_array(byteArray, len(byteArray))
             self.clientStream.flush()
         except StreamError as e:
             print(e.get_error_message())
-            self.bytesSent = -1 # If an error occurs, set bytesSent to -1 for user to check
+            self.sentFlag = -1 # If an error occurs, set sentFlag to -1 for user to check
         finally:
-            return self.bytesSent
+            return self.sentFlag

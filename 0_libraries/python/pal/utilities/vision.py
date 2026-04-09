@@ -182,6 +182,7 @@ class Camera3D():
                     self.streamIRRight.close()
 
             self.video3d.close()
+            print('Camera 3D closed gracefully.')
 
         except MediaError as me:
             print(me.get_error_message())
@@ -325,7 +326,25 @@ class Camera3D():
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback):
+        """
+        Used for the `with` statement.
+        Terminates the connection with the Sensors Trainer Display.
+
+        Parameters
+        ----------
+        exc_type : Exception type
+            The exception type, if any.
+        exc_value : Exception value
+            The exception value, if any.
+        traceback : Traceback
+            The traceback object, if any.
+        """
+        if exc_type is KeyboardInterrupt:
+            print("KeyboardInterrupt handled. Cleaning up.")
+            self.terminate()
+            return True  # Suppress the exception
+
         self.terminate()
 
 
@@ -361,7 +380,7 @@ class Camera2D():
             will be set as greyscale.
         """
         self.url = "video://localhost:"+cameraId
-
+        self.id = cameraId
         self.frameWidth = frameWidth
         self.frameHeight = frameHeight
 
@@ -419,6 +438,8 @@ class Camera2D():
             flag = self.capture.read(self.imageData)
         except MediaError as me:
             print(me.get_error_message())
+            # if me.error_code == -578: # camera could not be found
+            #     raise Exception("Camera not found.")
         except KeyboardInterrupt:
             print('User Interrupted')
         finally:
@@ -440,6 +461,7 @@ class Camera2D():
         try:
             self.capture.stop()
             self.capture.close()
+            print(f'Camera {self.id} closed gracefully.')
         except MediaError as me:
             print(me.get_error_message())
 
@@ -462,9 +484,33 @@ class Camera2D():
         )
 
     def __enter__(self):
-        """Used for with statement."""
+        """
+        Used for `with` statement.
+
+        Returns
+        -------
+        SensorsCamera
+            The current instance of the class.
+        """
         return self
 
-    def __exit__(self, type, value, traceback):
-        """Used for with statement. Terminates the Camera"""
+    def __exit__(self, exc_type, exc_value, traceback):
+        """
+        Used for the `with` statement.
+        Terminates the connection with the Sensors Trainer Display.
+
+        Parameters
+        ----------
+        exc_type : Exception type
+            The exception type, if any.
+        exc_value : Exception value
+            The exception value, if any.
+        traceback : Traceback
+            The traceback object, if any.
+        """
+        if exc_type is KeyboardInterrupt:
+            print("KeyboardInterrupt handled. Cleaning up.")
+            self.terminate()
+            return True  # Suppress the exception
+
         self.terminate()

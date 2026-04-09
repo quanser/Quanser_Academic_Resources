@@ -33,6 +33,7 @@ class _ScopeInfo():
 
         self.axes = []
 
+
 class _AxisInfo():
     def __init__(self, **kwargs):
         self._title = kwargs.pop('title', None)
@@ -58,6 +59,7 @@ class _AxisInfo():
 
         self.signals = []
 
+
 class _XYAxisInfo(_AxisInfo):
     def __init__(self, **kwargs):
         self._xLim = kwargs.pop('xLim', None)
@@ -68,11 +70,22 @@ class _XYAxisInfo(_AxisInfo):
 
         self.images = []
 
+
 class _TYAxisInfo(_AxisInfo):
     def __init__(self, **kwargs):
         self.timeWindow = kwargs.pop('timeWindow', 10)
         self.displayMode = kwargs.pop('displayMode', 0)
         super().__init__(**kwargs)
+
+
+class _BatchAxisInfo(_AxisInfo):
+    def __init__(self, **kwargs):
+        self.arrayLen = kwargs.pop('arrayLen', None)
+        self._xLim = kwargs.pop('xLim', None)
+        if self._xLim is None:
+            self._xLim = kwargs.pop('_xLim', None)
+        super().__init__(**kwargs)
+
 
 class _SignalInfo():
     def __init__(self, **kwargs):
@@ -82,6 +95,7 @@ class _SignalInfo():
         self.width = kwargs.pop('width', None)
         self.scale = kwargs.pop('scale', 1)
         self.offset = kwargs.pop('offset', 0)
+
 
 class _ImageInfo(): #XXX
     def __init__(self, **kwargs):
@@ -146,7 +160,11 @@ class MultiScope(_ScopeInfo):
             )
 
         # = Create buffers for short term storage of samples prior to plotting
-        self._bufferSize = int(np.ceil(2*self.maxSampleRate/self.fps))
+        # Use bufferSize if provided, else calculate as before
+        if 'bufferSize' in kwargs: # to support BatchScope
+            self._bufferSize = kwargs['bufferSize']
+        else:
+            self._bufferSize = int(np.ceil(2*self.maxSampleRate/self.fps))
 
         # = Create window object
         if graphicsLayoutWidget is None:
@@ -189,13 +207,17 @@ class MultiScope(_ScopeInfo):
                 self.cells[axis.row+i][axis.col+j] = axis
 
     def _addAxis(self, axisInfo):
+        # Check grid cell availability before placing axis
+        
         if isinstance(axisInfo, _TYAxisInfo):
             AxisType = TYAxis
         elif isinstance(axisInfo, _XYAxisInfo):
             AxisType = XYAxis
+        elif isinstance(axisInfo, _BatchAxisInfo):
+            AxisType = BatchAxis
         else:
             raise TypeError('Invalid Axis type provided')
-
+        
         if not self._cells_available(
                 axisInfo.row,
                 axisInfo.col,
@@ -204,13 +226,26 @@ class MultiScope(_ScopeInfo):
             ):
             raise Exception("Scope cell range invalid or already occupied ")
 
-        # = Create a new axis object and add it to the list of axes
+        # Use axisInfo.arrayLen if present, else fallback to self._bufferSize
+        bufferSize = getattr(axisInfo, 'arrayLen', self._bufferSize)
+
+        # Remove arrayLen from vars(axisInfo) to avoid double-passing
+        axis_kwargs = vars(axisInfo).copy()
+        axis_kwargs.pop('arrayLen', None)
+
         axis = AxisType(
             graphicsLayoutWidget=self.graphicsLayoutWidget,
-            bufferSize=self._bufferSize,
-            **vars(axisInfo)
+            bufferSize=bufferSize, 
+            **axis_kwargs #instead of vars(axisInfo) to avoid double-passing arrayLen
         )
 
+        # for sig in getattr(axisInfo, 'signals', []):
+        #     axis.attachSignal(sig)
+
+        # if isinstance(axisInfo, _XYAxisInfo):
+        #     for img in getattr(axisInfo, 'images', []):
+        #         axis.attachImage(img)
+        
         for sig in axisInfo.signals:
             axis.attachSignal(sig)
 
@@ -219,7 +254,6 @@ class MultiScope(_ScopeInfo):
                 axis.attachImage(img)
 
         self.axes.append(axis)
-
 
     # Really addYtAxis, but addAxis reads nicer...
     def addAxis(self, *args, **kwargs):
@@ -258,6 +292,20 @@ class MultiScope(_ScopeInfo):
         else:
             self._addAxis(_XYAxisInfo(**kwargs))
 
+    def addBatchAxis(self, *args, **kwargs):
+        """Add a batch axis to the MultiScope instance."""
+        if args:
+            if isinstance(args[0], _BatchAxisInfo):
+                self._addAxis(args[0])
+            else:
+                raise TypeError(
+                    'Must use keyword arguments, unless '
+                    + 'providing a _BatchAxisInfo object.'
+                )
+        else:
+            if 'arrayLen' not in kwargs:
+                kwargs['arrayLen'] = self._bufferSize
+            self._addAxis(_BatchAxisInfo(**kwargs))
 
     def refresh(self):
         """Refresh the MultiScope instance, updating contained axes.
@@ -546,6 +594,63 @@ class TYAxis(Axis, _TYAxisInfo):
             self._iBuffer = 0
 
 
+class BatchAxis(Axis, _BatchAxisInfo):
+    """BatchAxis: Plots a full array each update, X axis is array index."""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._dataBuffer.append(np.zeros(self._bufferSize, dtype=np.float32))
+        # Only set default xLim if not provided
+        if self._xLim is not None:
+            self.xLim = self._xLim
+        else:
+            self.xLim = (0, self._bufferSize - 1)
+        self._xBuffer = np.arange(self._bufferSize, dtype=np.float32)  # Default X
+
+    def attachSignal(self, *args, **kwargs):
+        super().attachSignal(*args, **kwargs)
+        if not hasattr(self, '_dataBuffer'):
+            self._dataBuffer = []
+        self._dataBuffer.append(np.zeros(self._bufferSize, dtype=np.float32))
+
+    def sample(self, data):
+        """
+        Accepts either:
+        - y_array (as before, X is index)
+        - (x_array, y_array) tuple for custom X positions
+        - dict with 'x' and 'y' keys
+        """
+        self.clear()
+        self._sampleQueue.appendleft(data)
+
+    def _post_initial_refresh(self, flush):
+        while True:
+            try:
+                samples = self._sampleQueue.pop()
+                # Support (x_array, y_array) or dict
+                if isinstance(samples, dict):
+                    x_array = samples['x']
+                    y_arrays = samples['y']
+                elif isinstance(samples, tuple) and len(samples) == 2:
+                    x_array, y_arrays = samples
+                else:
+                    x_array = np.arange(len(samples[0]))
+                    y_arrays = samples
+
+                self._xBuffer = x_array
+                for i, signal in enumerate(self.signals):
+                    arr = y_arrays[i]
+                    self._dataBuffer[i][:] = arr
+            except IndexError:
+                break
+
+        if flush:
+            for i, signal in enumerate(self.signals):
+                signal.add_chunk(
+                    self._xBuffer,
+                    self._dataBuffer[i]
+                )
+
+
 class Signal(_SignalInfo):
     maxChunks = 1024
 
@@ -811,6 +916,7 @@ class Scope():
         """
         MultiScope.refreshAll()
 
+
 class XYScope():
     """XYScope: A class for real-time display of 2D signals and images.
 
@@ -875,3 +981,32 @@ class XYScope():
         """Refresh all the active Scope instances.
         """
         MultiScope.refreshAll()
+
+
+class BatchScope():
+    """BatchScope: For plotting a full array each update.
+        Each update replaces the previous plot (no scrolling or time axis)."""
+    def __init__(self, title=None, arrayLen=4096, **kwargs):
+        self._ms = MultiScope(
+            title=title,
+            graphicsLayoutWidget=kwargs.pop('graphicsLayoutWidget', None),
+            arrayLen=arrayLen,
+        )
+        self._ms.addBatchAxis(arrayLen=arrayLen, **kwargs)
+
+    def attachSignal(self, **kwargs):
+        self._ms.axes[0].attachSignal(**kwargs)
+
+    def sample(self, data):
+        self.clear()
+        self._ms.axes[0].sample(data)
+
+    def clear(self):
+        self._ms.axes[0].clear()
+
+    def refresh(self):
+        self._ms.refresh()
+
+    def refreshAll():
+        MultiScope.refreshAll()
+

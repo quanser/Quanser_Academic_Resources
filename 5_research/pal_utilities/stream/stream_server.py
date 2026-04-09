@@ -62,7 +62,7 @@ try:
 
             # Receive data from client
             recvFlag, bytesReceived = myServer.receive(iterations=2, timeout=timeout)
-            print('Bytes received:', bytesReceived)
+            print('Total bytes received:', bytesReceived)
             if not recvFlag:
                 counter += 1
                 if counter > 10:

@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(autoware_control_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 # Note that need to set the PYTHONPATH env var even after sourcing ROS2 from /opt/ros
@@ -16,6 +17,8 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/MotorCommands.msg"
   "msg/BooleanLeds.msg"
+  "srv/AutowareCommandConvert.srv"
+  DEPENDENCIES autoware_control_msgs
 )
 
 if(BUILD_TESTING)

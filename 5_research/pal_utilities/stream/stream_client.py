@@ -67,10 +67,11 @@ try:
 
             # Send data to server after converting image to float32 data type
             # bytes_sent = myClient.send( np.array( myCam1.image_data, dtype=np.float32 )/255 )
-            bytesSent = myClient.send( myCam1.imageData )
-            print('Bytes sent:', bytesSent)
+            sentFlag = myClient.send( myCam1.imageData )
+            print('Did bytes send:', sentFlag)
+            print('Total bytes sent:', len(myCam1.imageData.tobytes()))
 
-            if bytesSent == -1:
+            if sentFlag == -1:
                 print('Server application not receiving.')
                 break
 

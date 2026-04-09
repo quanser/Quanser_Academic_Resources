@@ -24,7 +24,6 @@ def wrap_to_2pi(th: float) -> float:
     """
     return np.mod(np.mod(th, TWO_PI) + TWO_PI, TWO_PI)
 
-
 def wrap_to_pi(th: float) -> float:
     """Wrap an angle in radians to the interval [-pi, pi).
 
@@ -39,7 +38,6 @@ def wrap_to_pi(th: float) -> float:
     if th > np.pi:
         th -= TWO_PI
     return th
-
 
 def angle(v1: np.ndarray, v2: np.ndarray) -> float:
     """Compute the angle in radians between two vectors.
@@ -58,7 +56,6 @@ def angle(v1: np.ndarray, v2: np.ndarray) -> float:
     except:
         th = 0
     return th
-
 
 def signed_angle(v1: np.ndarray, v2: np.ndarray = None) -> float:
     """Find the signed angle between two vectors
@@ -85,13 +82,10 @@ def signed_angle(v1: np.ndarray, v2: np.ndarray = None) -> float:
         return np.arctan2(np.arctan2(v1[1], v1[0]))
     return wrap_to_pi(np.arctan2(v2[1], v2[0]) - np.arctan2(v1[1], v1[0]))
 
-
-
 def get_mag_and_angle(v):
     mag = np.linalg.norm(v)
     alpha = np.arctan2(v[1], v[0])
     return mag, alpha
-
 
 def find_overlap(a: np.ndarray, b: np.ndarray, i: int, j: int) -> tuple:
     """Finds slices that correspond to overlapping cells of two 2D numpy arrays
@@ -126,7 +120,6 @@ def find_overlap(a: np.ndarray, b: np.ndarray, i: int, j: int) -> tuple:
     bSlice = (slice(ib[0],ib[1]),slice(jb[0],jb[1]))
 
     return aSlice, bSlice
-
 
 def ddt_filter(u, state, A, Ts):
     # d/dt with filtering:
@@ -180,7 +173,10 @@ class SignalGenerator:
 
         .. code-block:: python
 
-            generatorSine = Signal_Generator().sine(2, pi/2)
+            from pal.utilities.math import SignalGenerator
+            import math
+
+            generatorSine = SignalGenerator().sine(2, math.pi/2)
             initialOutput = next(generatorSine)
             while True:
                 timestamp = your_timing_function()
@@ -200,7 +196,9 @@ class SignalGenerator:
 
         .. code-block:: python
 
-            generatorCosine = Signal_Generator().cosine(2, pi/2)
+            from pal.utilities.math import SignalGenerator
+
+            generatorCosine = SignalGenerator().cosine(2, math.pi/2)
             initialOutput = next(generatorCosine)
             while True:
                 timestamp = your_timing_function()
@@ -220,7 +218,9 @@ class SignalGenerator:
 
         .. code-block:: python
 
-            generatorPWM = Signal_Generator().PWM(2, 0.5)
+            from pal.utilities.math import SignalGenerator
+
+            generatorPWM = SignalGenerator().PWM(2, 0.5)
             initialOutput = next(generatorPWM)
             while True:
                 timestamp = your_timing_function()
@@ -249,6 +249,7 @@ class SignalGenerator:
                 val = amplitude
             else:
                 val = -amplitude
+
 
 class Calculus:
     """Class object consisting of basic derivative and integration functions"""
@@ -355,6 +356,7 @@ class Calculus:
             if temp < maxSaturation and temp > minSaturation:
                 integrand = temp
 
+
 class Integrator:
     def __init__(self, integrand=0, minSaturation=-np.inf, maxSaturation=np.inf):
         self.maxSaturation = maxSaturation
@@ -369,6 +371,7 @@ class Integrator:
 
     def reset(self, resetValue):
         self.integrand = resetValue
+
 
 class Filter:
     """Class object consisting of different filter functions"""
@@ -496,6 +499,7 @@ class Filter:
             newValue = yield average
             window = np.append(newValue, window[0:samples-1])
             average = window.mean()
+
 
 class Signal:
     @staticmethod

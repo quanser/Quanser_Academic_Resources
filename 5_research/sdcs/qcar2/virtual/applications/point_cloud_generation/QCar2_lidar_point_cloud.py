@@ -29,7 +29,7 @@ map    		  	  = np.zeros((sideLengthScale, sideLengthScale), dtype=np.float32) #
 
 
 # Lidar settings
-numMeasurements 	 = 1000	# Points
+numMeasurements 	 = 360	# Points
 lidarMeasurementMode 	 = 2
 lidarInterpolationMode = 0
 
@@ -53,6 +53,8 @@ try:
 
 		# Capture LIDAR data
 		myLidar.read()
+
+		# print(len(myLidar.distances), len(myLidar.angles))
 
 		# convert angles from lidar frame to body frame
 		anglesInBodyFrame = myLidar.angles * -1 + np.pi

@@ -67,11 +67,11 @@ try:
             myCam1.read()
 
             # Send data to server after converting image to float32 data type
-            #bytesSent = myClient.send( np.array( myCam1.image_data, dtype=np.float32 )/255 )
-            bytesSent = myClient.send(myCam1.imageData)# cv2.cvtColor(myCam1.imageData, cv2.COLOR_BGR2RGB)   )
-            print('Bytes sent:', bytesSent)
+            #sentFlag = myClient.send( np.array( myCam1.image_data, dtype=np.float32 )/255 )
+            sentFlag = myClient.send(myCam1.imageData)# cv2.cvtColor(myCam1.imageData, cv2.COLOR_BGR2RGB)   )
+            print('Bytes sent:', sentFlag)
 
-            if bytesSent == -1:
+            if sentFlag == -1:
                 print('Server application not receiving.')
                 break
 
