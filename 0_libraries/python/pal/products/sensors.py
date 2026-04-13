@@ -413,7 +413,7 @@ class SensorsTrainer():
                 print('Make sure your device is connected to your PC and has finished loading.')
 
             elif h.error_code == -1068:
-                print('Update your device firmware by following the instructions located in 3_user_manuals\mech_sensors_trainer\updateFirmware.pdf')
+                print(r'Update your device firmware by following the instructions located in 3_user_manuals\mech_sensors_trainer\updateFirmware.pdf')
                 print(f"Current Firmware Build: {self._firmwareBuild}")
                 print(h.get_error_message())
 
