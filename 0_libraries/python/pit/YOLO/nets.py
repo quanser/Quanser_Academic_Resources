@@ -179,6 +179,54 @@ class YOLOv8():
             result.conf=conf
             self.processedResults.append(result)
         return self.processedResults
+    
+    def post_processing_shapes(self):
+        # Output: fixed (5, 7) array, zero-padded if fewer than 5 objects detected
+        # Columns: [class_id, cx, cy, H_median, S_median, V_median, blob_px]
+        self.resultArr = np.zeros((5, 7))
+
+        if len(self.objectsDetected) == 0:
+            return np.float32(self.resultArr)
+
+        # Convert the stored BGR frame to HSV once, reused for all objects
+        img_hsv = cv2.cvtColor(self.img, cv2.COLOR_BGR2HSV)
+        # masks.data shape: (N, H_mask, W_mask) -- one binary mask per detected object
+        masks = self.predictions[0].masks.data.cpu().numpy()
+
+        all_results = []
+        for i in range(len(self.objectsDetected)):
+            row = np.zeros(7)
+
+            row[0] = self.objectsDetected[i]  # YOLO class ID
+
+            # Bounding box corners [x1, y1, x2, y2] -> centroid
+            points = self.predictions[0].boxes.xyxy.cpu()[i]
+            row[1] = int((points[0] + points[2]) / 2)  # cx
+            row[2] = int((points[1] + points[3]) / 2)  # cy
+
+            # Masks come at YOLO's internal resolution; resize to match self.img
+            # Threshold at 0.5 produces a clean boolean mask
+            mask = cv2.resize(masks[i], (self.imageWidth, self.imageHeight)) > 0.5
+            row[6] = int(np.sum(mask))  # blob size = number of True pixels
+
+            # Index into the HSV image using the boolean mask -> (N_pixels, 3)
+            # Median is more robust than mean: ignores mask-edge bleed and
+            # avoids the circular-hue averaging problem with mean
+            masked_pixels = img_hsv[mask]
+            if len(masked_pixels) > 0:
+                row[3] = np.median(masked_pixels[:, 0]) *2  # H: 0-360
+                row[4] = np.median(masked_pixels[:, 1])  # S: 0-255
+                row[5] = np.median(masked_pixels[:, 2])  # V: 0-255
+
+            all_results.append(row)
+
+        # Keep only the 5 largest objects by blob size (col 6)
+        all_results.sort(key=lambda r: r[6], reverse=True)
+        for i, row in enumerate(all_results[:5]):
+            self.resultArr[i] = row
+
+
+        return np.float32(self.resultArr)
 
     def post_process_render(self, showFPS = True, bbox_thickness = 4):
         '''Annotate input image with colored segmentation mask and distances.
