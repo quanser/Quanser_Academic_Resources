@@ -1,6 +1,12 @@
 ==========================================================================================================
 Change Log for releases after 2025:
 ==========================================================================================================
+Release (2026-05-29)
+- Example updates for QCar 2 related to occupancy grid mapping
+- Updated requirements check logic and diagnostics for multiply python versions 
+- Updated Leader Follower logic for QBot Platform and QDrone2
+- Added examples for user_content 
+- Included new 9_demos subdirectory to include smart city example for SDCS 
 
 Release (2026-04-08):
 - Added Autoware examples for qcar2

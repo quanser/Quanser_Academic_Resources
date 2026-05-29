@@ -37,9 +37,12 @@ echo Requirements and System Diagnostics Log >> %LOGFILE%
 echo ================================ >> %LOGFILE%
 
 
-::  Check for quarc dir existing
-set "quarc_dir=C:\Program Files\Quanser\QUARC\lib"
-if exist "%quarc_dir%" ( set "QUARC=%CHECK%") else ( set "QUARC=%CROSS%")
+::  Check for QUARC by running the quarc_run console command
+set "QUARC=%CROSS%"
+where quarc_run >nul 2>nul
+if %errorlevel% equ 0 (
+    set "QUARC=%CHECK%"
+) 
 
 ::  Check for qsdk dir existing
 set "qsdk_dir=C:\Program Files\Quanser\Quanser SDK"
@@ -78,19 +81,48 @@ for %%v in (%version%) do (
 :next1
 
 :: List all installed Python versions and check backwards from python 3.14 till 3.11
-for /f "tokens=2 delims=:" %%v in ('py -0 2^>nul') do (
-    for /f "tokens=1,2 delims=. " %%a in ("%%v") do (
-        set "MINOR=%%b"
-        :: Extract only the first two characters
-        set "MINOR=!MINOR:~0,2!"  
-
-        if %%a equ 3 (
-            if "!MINOR!"=="14" (set "PYTHON=3.14" & goto :FOUND)
-            if "!MINOR!"=="13" (set "PYTHON=3.13" & goto :FOUND)
-            if "!MINOR!"=="12" (set "PYTHON=3.12" & goto :FOUND)
-            if "!MINOR!"=="11" (set "PYTHON=3.11" & goto :FOUND)
+set "PYTHON=%CROSS%"
+set "PYTHON_VERSIONS="
+set "PYTHON_COUNT=0"
+set "BEST_PYTHON_NUM=0"
+for /f "usebackq tokens=1* delims= " %%v in (`py -0p 2^>nul`) do (
+    set "python_tag=%%v"
+    if "!python_tag:~0,1!"=="-" (
+        set "python_tag=!python_tag:~1!"
+        if "!python_tag:~0,2!"=="V:" set "python_tag=!python_tag:~2!"
+        for /f "tokens=1,2 delims=.:-" %%a in ("!python_tag!") do (
+            set "major=%%a"
+            set "minor=%%b"
+            if defined minor (
+                set "minor=!minor:~0,2!"
+                set "python_version=!major!.!minor!"
+                echo !PYTHON_VERSIONS! | findstr /c:"!python_version!" >nul 2>&1
+                if errorlevel 1 (
+                    if "!PYTHON_VERSIONS!"=="" (
+                        set "PYTHON_VERSIONS=!python_version!"
+                    ) else (
+                        set "PYTHON_VERSIONS=!PYTHON_VERSIONS!, !python_version!"
+                    )
+                    set /a PYTHON_COUNT+=1
+                )
+                if "!major!"=="3" (
+                    set /a version_num=!major!*100 + !minor!
+                    if !version_num! gtr !BEST_PYTHON_NUM! (
+                        set /a BEST_PYTHON_NUM=!version_num!
+                        set "PYTHON=!major!.!minor!"
+                    )
+                )
+            )
         )
     )
+)
+
+
+if defined PYTHON_VERSIONS (
+    echo Detected Python versions: !PYTHON_VERSIONS! >> %LOGFILE%
+    if %PYTHON_COUNT% gtr 1 echo Warning: More than one version of Python installed, QUARC/QSDK will only be installed on the latest version of Python.
+    echo.
+
 )
 
 :FOUND

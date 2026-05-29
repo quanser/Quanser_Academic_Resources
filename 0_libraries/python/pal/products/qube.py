@@ -239,6 +239,34 @@ class __QubeServo():
         except HILError as h:
             print(h.get_error_message())
 
+    def enable_amplifier(self, enable = True):
+        """
+        Enables or disables the amplifier of the Qube-Servo.
+        Note that when the amplifier is disabled, the motor will not respond to voltage commands.
+
+        Parameters
+        ----------
+        enable : bool
+            Set to `True` to enable the amplifier, or `False` to disable it.
+        """
+        # Enable amplifier
+        if type(enable) is not bool:
+            if enable == 1:
+                enable = True
+            elif enable == 0:
+                enable = False
+            else:
+                raise ValueError('enable_amplifier function only accepts boolean values or 0/1 integers.')
+        try:
+            self.card.write_digital(
+                self.WRITE_DIGITAL_CHANNELS,
+                len(self.WRITE_DIGITAL_CHANNELS),
+                np.array([1 if enable else 0], dtype=np.int8)
+            )
+
+        except HILError as h:
+            print(h.get_error_message())
+
     def read_outputs(self):
         """Reads all outputs for the Qube-Servo.
 

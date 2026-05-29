@@ -23,8 +23,8 @@ By driving around a closed container and analyzing Wi-Fi reflections, the system
 
 ## Experimental Setup
 
-- **Platforms:** Two QCar 1s 
-  - QCar #1: Wi-Fi transmitter  
+- **Platforms:** Two QCar 1s
+  - QCar #1: Wi-Fi transmitter
   - QCar #2: CSI receiver (Raspberry Pi with Nexmon)
 - **Motion:** Circular trajectories around a closed box
 - **Sensing:** Wi-Fi Channel State Information (CSI)
@@ -38,17 +38,22 @@ By driving around a closed container and analyzing Wi-Fi reflections, the system
 
 ## Links
 
-- **GitHub Repository:**  
+- **GitHub Repository:**
   https://github.com/SiamiLab/MobileCSIObjectDetection
 
-- **Dataset:**  
+- **Dataset:**
   https://github.com/SiamiLab/MobileCSIObjectDetection/tree/main/dataset
 
-- **Reference Paper:**  
-  *Mobile Wi-Fi CSI-Based Object Detection Using Autonomous Robots*  
-  IEEE PerCom Workshops, 2025  
-  DOI: 10.1109/PerComWorkshops65533.2025.00116  
+- **Reference Paper:**
+  *Mobile Wi-Fi CSI-Based Object Detection Using Autonomous Robots*
+  IEEE PerCom Workshops, 2025
+  DOI: 10.1109/PerComWorkshops65533.2025.00116
   https://ieeexplore.ieee.org/document/11038594
+
+---
+## Author Preferred Contact
+
+For questions or discussion, please use **[GitHub Issues](https://github.com/SiamiLab/MobileCSIObjectDetection/issues)** on the project repository. For direct contact, the preferred email is **[behzad.k@northeastern.edu](mailto:behzad.k@northeastern.edu)**.
 
 ---
 

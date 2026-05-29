@@ -1,0 +1,3 @@
+quarc_run -q -t tcpip://192.168.2.11:17000 Small_Map_Outreach_02.rt-linux_nvidia -uri tcpip://localhost:17001 -d /tmp
+quarc_run -q -t tcpip://192.168.2.12:17000 Small_Map_Outreach_02.rt-linux_nvidia -uri tcpip://localhost:17002 -d /tmp
+quarc_run -q -t tcpip://192.168.2.13:17000 Small_Map_Outreach_02.rt-linux_nvidia -uri tcpip://localhost:17003 -d /tmp

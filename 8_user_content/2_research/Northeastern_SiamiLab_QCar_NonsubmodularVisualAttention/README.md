@@ -44,14 +44,20 @@ The catch is that the MSE-based scoring objective is **non-submodular**, so clas
 
 ## Links
 
-- **GitHub Repository:**  
+- **GitHub Repository:**
   https://github.com/SiamiLab/NonsubmodularVisualAttention?tab=readme-ov-file
 
-- **Dataset (IEEE DataPort):**  
+- **Dataset (IEEE DataPort):**
   https://ieee-dataport.org/documents/visual-inertial-navigation-cancer-ribbon-dataset
 
-- **Paper (arXiv PDF):**  
+- **Paper (arXiv PDF):**
   https://arxiv.org/pdf/2510.00942
+
+---
+
+## Author Preferred Contact
+
+For questions or discussion, please use **[GitHub Issues](https://github.com/SiamiLab/NonsubmodularVisualAttention/issues)** on the project repository. For direct contact, the preferred email is **[behzad.k@northeastern.edu](mailto:behzad.k@northeastern.edu)**.
 
 ---
 

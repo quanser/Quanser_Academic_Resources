@@ -1,13 +1,13 @@
 # Real-Time Adaptive Motion Planning via Diffusion + Potential Fields
 
-![RAMP repository overview screenshot](https://private-user-images.githubusercontent.com/50802328/462830839-ad1f25e2-40ca-4d0e-ac7e-5d7b37ca8544.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Njk1NDc2OTgsIm5iZiI6MTc2OTU0NzM5OCwicGF0aCI6Ii81MDgwMjMyOC80NjI4MzA4MzktYWQxZjI1ZTItNDBjYS00ZDBlLWFjN2UtNWQ3YjM3Y2E4NTQ0LmpwZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjAxMjclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwMTI3VDIwNTYzOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWYwOGU0NmMwN2Q4NWQ5ZWQ4ZjA2Mjg3MWUzYmVkZWY1MjdjNmUwMzI2NDU0NjNlMmE1OTU1MjlkZDFjZGQwMzMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.tXwt584whhxxCUDODWtvlvaD-BC6u8h1sdXU-6ouz7w)
+![RAMP repository overview screenshot]![alt text](image.png)
 <!-- Image source: wondmgezahu/RAMP repository (README), branch: main. -->
 
 ## Overview
 
 RAMP is a real-time planner that generates trajectories directly from **obstacle point clouds**. It combines:
 
-- a **point-cloud guided, energy-based diffusion** planner (global trajectory proposals), with  
+- a **point-cloud guided, energy-based diffusion** planner (global trajectory proposals), with
 - **potential-field refinement** (local last-meter collision avoidance),
 
 and supports **online refinement** when a moving threat (a “pursuer”) gets close.
@@ -44,11 +44,17 @@ and supports **online refinement** when a moving threat (a “pursuer”) gets c
 
 ## Links
 
-- **GitHub Repository:**  
+- **GitHub Repository:**
   https://github.com/wondmgezahu/RAMP
 
-- **Paper (arXiv):**  
+- **Paper (arXiv):**
   https://arxiv.org/abs/2507.09383
+
+---
+
+## Author Preferred Contact
+
+For questions or discussion, please use **[GitHub Issues](https://github.com/wondmgezahu/RAMP/issues)** on the project repository. For direct contact, the preferred emails are **[teshome.w@northeastern.edu](mailto:teshome.w@northeastern.edu)** and **[behzad.k@northeastern.edu](mailto:behzad.k@northeastern.edu)**.
 
 ---
 
