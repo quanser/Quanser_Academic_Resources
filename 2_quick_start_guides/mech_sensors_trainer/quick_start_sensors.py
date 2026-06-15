@@ -23,7 +23,7 @@ except ImportError:
 try:
     import numpy as np
 except ImportError:
-    print("Error: Could not find numpy library. Please install it with 'pip install numpy'")
+    print("Error: Could not find numpy library. Please install it with 'pip install \"numpy<2.4\"'")
     sys.exit(0)
 
 try:

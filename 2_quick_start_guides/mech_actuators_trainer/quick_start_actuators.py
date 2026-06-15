@@ -8,12 +8,51 @@
 # and they would all work the same way since all 4 blocks 
 # are commanded at the same time.
 
-import numpy as np
+# region: import libraries needed for ActuatorsTrainer with error messages
+import sys
 
-from pal.products.actuators import ActuatorsTrainer
-from pal.utilities.timing import Timer
-from pal.utilities.math import SignalGenerator
-import os
+try:
+    from quanser.hardware import HIL
+except ImportError:
+    print("Error: Could not find Quanser's python libraries. Make sure you installed Quanser SDK or QUARC (with Python libraries) and followed "
+          "the instructions in https://github.com/quanser/Quanser_Academic_Resources/blob/dev-windows/docs/pc_setup.md#completing-the-setup. " \
+          "You can install Quanser SDK from https://github.com/quanser/quanser_sdk")
+    sys.exit(0)
+
+try:
+    from pal.utilities.timing import Timer
+    from pal.utilities.math import SignalGenerator
+    from pal.products.actuators import ActuatorsTrainer
+except ImportError:
+    print("Error: Could not import Quanser Academic's libraries. Make sure you followed "
+          "the instructions in https://github.com/quanser/Quanser_Academic_Resources/blob/dev-windows/docs/pc_setup.md#completing-the-setup "
+          "and restarted your computer afterwards.")
+    sys.exit(0)
+
+try:
+    import numpy as np
+except ImportError:
+    print("Error: Could not find numpy library. Please install it with 'pip install \"numpy<2.4\"'")
+    sys.exit(0)
+
+try:
+    import scipy
+except ImportError:
+    print("Error: Could not find scipy library. Please install it with 'pip install scipy'")
+    sys.exit(0)
+
+try:
+    import matplotlib
+except ImportError:
+    print("Error: Could not find matplotlib library. Please install it with 'pip install matplotlib'")
+    sys.exit(0)
+
+try:
+    import cv2
+except ImportError:
+    print("Error: Could not find openCV (cv2) library. Please install it with 'pip install opencv-python'")
+    sys.exit(0)
+# endregion
 
 simulationTime = 200 # will run for this amount of seconds
 frequency = 400 # Hz
