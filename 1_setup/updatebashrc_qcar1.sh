@@ -2,8 +2,8 @@
 
 # Lines to add to .bashrc
 BASHRC="$HOME/.bashrc"
-LINE1='export PYTHONPATH=$HOME/Documents/Quanser/0_libraries/python'
-LINE2='export QAL_DIR=$HOME/Documents/Quanser'
+LINE1='export PYTHONPATH="$HOME/Documents/Quanser/0_libraries/python"'
+LINE2='export QAL_DIR="$HOME/Documents/Quanser"'
 
 echo "Updating ~/.bashrc if needed..."
 
@@ -25,12 +25,10 @@ fi
 # check for an internet connection before attempting to install packages
 if nc -zw1 google.com 443; then
     echo "internet connection identified"
-    sudo apt update
-    sudo apt install quanser-sdk -y
-    echo "packages were attempted to be installed"
+    #echo "packages were attempted to be installed"
 else
     echo "no internet connection found"
-    echo "no packages were attempted to be installed"
+    #echo "no packages were attempted to be installed"
 fi
 
-source "$BASHRC"
+source $BASHRC
