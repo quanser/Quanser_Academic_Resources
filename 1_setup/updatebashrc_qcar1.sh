@@ -7,6 +7,7 @@ LINE2='export QAL_DIR="$HOME/Documents/Quanser"'
 
 echo "Updating ~/.bashrc if needed..."
 
+# Check if lines already exist in .bashrc, if not, add them
 if ! grep -q 'Quanser/0_libraries/python' "$BASHRC"; then
     echo "$LINE1" >> "$BASHRC"
     echo "PYTHONPATH added to ~/.bashrc"
