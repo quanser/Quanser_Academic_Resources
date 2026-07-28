@@ -2,6 +2,9 @@
 Change Log for releases after 2025:
 ==========================================================================================================
 
+Update (2026-07-28):
+- 16 new directories inside the 8_user_content folder from different institutions 
+
 Release (2026-07-07):
 - Updated step_1_check_requirements.bat 
 	- Fixed check for quarc installation without hardcoded directory
