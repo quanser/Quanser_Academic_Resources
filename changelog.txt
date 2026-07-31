@@ -2,8 +2,12 @@
 Change Log for releases after 2025:
 ==========================================================================================================
 
-Update (2026-07-28):
+Release (2026-07-31):
 - 16 new directories inside the 8_user_content folder from different institutions 
+- QCar2 quick start guide has been updated to have a more robust check whether the encoder is working properly or not.
+- Existing QBot Platform ROS2 package replaced by qbot_hardware.
+- Added RL policy deployment package (qbot_rl_deploy) for mapless navigation.
+
 
 Release (2026-07-07):
 - Updated step_1_check_requirements.bat 
