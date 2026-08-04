@@ -806,7 +806,7 @@ class QCarGPS:
 
     """
 
-    def __init__(self, initialPose=[0, 0, 0], calibrate=False, gpsPort = 18967, lidarIdealPort = 18968,education=True):
+    def __init__(self, initialPose=[0, 0, 0], calibrate=False, gpsPort = 18967, lidarIdealPort = 18968,education=None):
         """
         Initializes the QCarGPS class with the initial pose of the QCar.
 
@@ -819,7 +819,10 @@ class QCarGPS:
         if IS_PHYSICAL_QCAR:
             self.__initLidarToGPS(initialPose)
         
-        self.education = education
+        if education is None:
+            self.education = not IS_PHYSICAL_QCAR
+        else:
+            self.education = education
         self._timeout = Timeout(seconds=0, nanoseconds=1)
         # Setup GPS client and connect to GPS server
         self.position = np.zeros((3))
@@ -990,7 +993,10 @@ class QCarGPS:
             self.scanTime = self._lidar_client.receiveBuffer[0]
             self.distances = self._lidar_client.receiveBuffer[1:385]
             self.angles = self._lidar_client.receiveBuffer[385:769]
-
+            self.angles, self.distances = self.filter_rplidar_data(
+                self.angles,
+                self.distances
+            )
         return recvFlag
 
 
