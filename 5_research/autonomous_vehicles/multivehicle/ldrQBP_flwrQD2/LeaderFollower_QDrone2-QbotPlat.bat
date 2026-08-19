@@ -47,7 +47,7 @@ timeout /t 2
 @REM Mission Server
 start "LeaderFollower" "quarc_run" -q -Q MS_Drone1_Qbot1.rt-win64
 @REM Drone
-start "Drone" "quarc_run" -q -Q -t tcpip://%drone_id%:17000 QDrone.rt-linux_qdrone2 -uri tcpip://%drone_id%:17001
+start "Drone" "quarc_run" -q -Q -t tcpip://%drone_id%:17000 QD2_DroneStack_PID_R2023a.rt-linux_qdrone2 -uri tcpip://%drone_id%:17001
 @REM QBot
 start "QBot" "quarc_run" -q -Q -t tcpip://%qbot_id%:17000 qbot_driver.rt-linux_qbot_platform -uri tcpip://%qbot_id%:17001
 
@@ -62,7 +62,7 @@ timeout /t 3
 @REM RUN ALL MODELS
 
 @REM Mission Server
-start "LeaderFollower" "quarc_run" -r  MS_QD2_QBPlat.rt-win64 -drone_ip %drone_id% -qbot_ip %qbot_id%
+start "LeaderFollower" "quarc_run" -r  MS_QD2_QBPlat_R2021a.rt-win64 -drone_ip %drone_id% -qbot_ip %qbot_id%
 @REM Wait for Mission Server Startup
 timeout /t 20
 @REM Drone

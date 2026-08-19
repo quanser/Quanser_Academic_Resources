@@ -1,12 +1,37 @@
 ==========================================================================================================
 Change Log for releases after 2025:
 ==========================================================================================================
-Release (2026-05-29)
-- Example updates for QCar 2 related to occupancy grid mapping
-- Updated requirements check logic and diagnostics for multiply python versions 
-- Updated Leader Follower logic for QBot Platform and QDrone2
-- Added examples for user_content 
-- Included new 9_demos subdirectory to include smart city example for SDCS 
+
+Release (2026-07-31):
+- 16 new directories inside the 8_user_content folder from different institutions 
+- QCar2 quick start guide has been updated to have a more robust check whether the encoder is working properly or not.
+- Existing QBot Platform ROS2 package replaced by qbot_hardware.
+- Added RL policy deployment package (qbot_rl_deploy) for mapless navigation.
+
+
+Release (2026-07-07):
+- Updated step_1_check_requirements.bat 
+	- Fixed check for quarc installation without hardcoded directory
+	- Checks for python install to be in the desired range of 3.11 and 3.14
+- Updated QCar2 setup bash file
+- Updated quick start guide for the mechatronics actuators 
+	trainers to check for libraries
+- New QCar 1 and QBot platform setup bash files
+- ldrQBP_flwrQD2 - LeaderFollower_QDrone2-QbotPlat.bat 
+	file has correct mission server file name
+- 3_Robotics/sp5/tool manipulation lab updated to add 
+	check inverse kinematics function
+
+Release (2026-05-29):
+- Documentation for 1_setup 
+- Changes to step1__check_requirements.txt now includes:
+	- A more complete check for QUARC rather than a hard coded directory
+	- A check for multiple versions of python to warn users during setup 
+- Changes QCar point cloud generation to avoid memory issues 
+- Changes to the QArm mini QSG 
+- 11 new directories inside the 8_user_content folder from different institutions 
+- Inclusion of a YOLO transfer learning example under research/applied_ai
+- Updated documentation inside 5_research 
 
 Release (2026-04-08):
 - Added Autoware examples for qcar2

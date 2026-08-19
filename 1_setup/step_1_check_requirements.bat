@@ -37,12 +37,11 @@ echo Requirements and System Diagnostics Log >> %LOGFILE%
 echo ================================ >> %LOGFILE%
 
 
-::  Check for QUARC by running the quarc_run console command
+::  Check for QUARC via the QUARC_DIR environment variable and its lib folder
 set "QUARC=%CROSS%"
-where quarc_run >nul 2>nul
-if %errorlevel% equ 0 (
-    set "QUARC=%CHECK%"
-) 
+if defined QUARC_DIR (
+    if exist "%QUARC_DIR%\lib" ( set "QUARC=%CHECK%" )
+)
 
 ::  Check for qsdk dir existing
 set "qsdk_dir=C:\Program Files\Quanser\Quanser SDK"
@@ -80,7 +79,7 @@ for %%v in (%version%) do (
 
 :next1
 
-:: List all installed Python versions and check backwards from python 3.14 till 3.11
+:: List all installed Python versions and pick the highest one within the supported range (3.11 - 3.14)
 set "PYTHON=%CROSS%"
 set "PYTHON_VERSIONS="
 set "PYTHON_COUNT=0"
@@ -106,10 +105,12 @@ for /f "usebackq tokens=1* delims= " %%v in (`py -0p 2^>nul`) do (
                     set /a PYTHON_COUNT+=1
                 )
                 if "!major!"=="3" (
-                    set /a version_num=!major!*100 + !minor!
-                    if !version_num! gtr !BEST_PYTHON_NUM! (
-                        set /a BEST_PYTHON_NUM=!version_num!
-                        set "PYTHON=!major!.!minor!"
+                    if !minor! geq 11 if !minor! leq 14 (
+                        set /a version_num=!major!*100 + !minor!
+                        if !version_num! gtr !BEST_PYTHON_NUM! (
+                            set /a BEST_PYTHON_NUM=!version_num!
+                            set "PYTHON=!major!.!minor!"
+                        )
                     )
                 )
             )
@@ -120,7 +121,8 @@ for /f "usebackq tokens=1* delims= " %%v in (`py -0p 2^>nul`) do (
 
 if defined PYTHON_VERSIONS (
     echo Detected Python versions: !PYTHON_VERSIONS! >> %LOGFILE%
-    if %PYTHON_COUNT% gtr 1 echo Warning: More than one version of Python installed, QUARC/QSDK will only be installed on the latest version of Python.
+    if %PYTHON_COUNT% gtr 1 echo Warning: More than one version of Python installed, QUARC/QSDK will only be installed on the latest supported version of Python.
+    echo Only Python 3.11 - 3.14 are supported. Other detected versions will be ignored.
     echo.
 
 )

@@ -37,5 +37,11 @@ https://github.com/DennisLank/BA_Quanser_WebApp
 
 ---
 
+## Author Preferred Contact
+
+For questions or feedback, please use **[GitHub Discussions](https://github.com/DennisLank/BA_Quanser_WebApp/discussions)** or **[GitHub Issues](https://github.com/DennisLank/BA_Quanser_WebApp/issues)** on the project repository.
+
+---
+
 ## Author
- Dennis Marvin Lank (Ostfalia University of Applied Sciences)
+Developed by Dennis Marvin Lank as part of his bachelor's thesis at Ostfalia University of Applied Sciences.

@@ -38,8 +38,5 @@ Samuel Newport, Farbod Fahimi, and Richard Tantaris, "Experimental Validation of
 ## Authors
 Samuel Newport
 
-## Authors
-Samuel Newport
-
 ## Faculty Supervision
 Dr. Farbod Fahimi · Dr. Richard Tantaris

@@ -1,0 +1,2 @@
+# used to ensure that shell scripts have LF line endings even if they are modified in another OS (e.g. Windows)
+*.sh text eol=lf

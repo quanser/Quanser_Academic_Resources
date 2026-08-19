@@ -33,6 +33,11 @@ https://github.com/vegetableclean/qcar-touchdrive
 
 ---
 
+## Author Preferred Contact
+
+For questions, bug reports, or feature requests, please use **[GitHub Issues](https://github.com/vegetableclean/qcar-touchdrive/issues)** on the project repository.
+
+---
+
 ## Author
-Chieh Tsai (Emery)  
-Autonomic Computing Lab (ACL), University of Arizona
+Developed by Chieh Tsai under the supervision of Prof. Salim Hariri, Autonomic Computing Lab, University of Arizona.
