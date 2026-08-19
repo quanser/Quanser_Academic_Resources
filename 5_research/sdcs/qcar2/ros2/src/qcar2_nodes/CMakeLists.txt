@@ -68,13 +68,12 @@ target_link_libraries(csi cv_bridge::cv_bridge image_transport::image_transport 
 ament_target_dependencies(csi rclcpp cv_bridge image_transport OpenCV std_msgs sensor_msgs)
 
 # TF
-# qcar2 -> lidar
-add_executable(fixed_lidar_frame src/fixed_lidar_frame.cpp)
-ament_target_dependencies(fixed_lidar_frame geometry_msgs rclcpp tf2_ros)
+# qcar2 -> lidar & qcar2 -> imu
+add_executable(sensor_frame_transform src/sensor_frame_transform.cpp)
+ament_target_dependencies(sensor_frame_transform geometry_msgs rclcpp tf2_ros)
 
-add_executable(fixed_lidar_frame_virtual src/fixed_lidar_frame_virtual.cpp)
-ament_target_dependencies(fixed_lidar_frame_virtual geometry_msgs rclcpp tf2_ros)
-
+add_executable(sensor_frame_transform_virtual src/sensor_frame_transform_virtual.cpp)
+ament_target_dependencies(sensor_frame_transform_virtual geometry_msgs rclcpp tf2_ros)
 
 # nav2
 # nav2 -> qcar2
@@ -117,10 +116,10 @@ install(TARGETS nav2_qcar2_converter
   DESTINATION lib/${PROJECT_NAME})
 
 # Install TF
-install(TARGETS fixed_lidar_frame
+install(TARGETS sensor_frame_transform
   DESTINATION lib/${PROJECT_NAME})
 
-install(TARGETS fixed_lidar_frame_virtual
+install(TARGETS sensor_frame_transform_virtual
   DESTINATION lib/${PROJECT_NAME})
 
 # Install launch files
