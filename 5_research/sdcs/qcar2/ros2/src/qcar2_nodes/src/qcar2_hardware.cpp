@@ -360,7 +360,7 @@ private:
         
         if (desired_speed != 0)
         {
-            measured_speed = (joint_speed_measured/(720.0*4.0))*((13.0*19.0)/(70.0*30.0))*(2.0*M_PI)*0.033;
+            measured_speed = (joint_speed_measured/(720.0*4.0))*((13.0*19.0)/(70.0*37.0))*(2.0*M_PI)*0.033;
             speed_error = desired_speed-measured_speed;
             speed_error_integral += speed_error*delta_time.seconds();
             // motor_speed_cmd = motor_speed_cmd+ (speed_error*kp+((speed_error-prior_speed_error)/delta_time.seconds())*kd)*0.0047/battery_voltage;

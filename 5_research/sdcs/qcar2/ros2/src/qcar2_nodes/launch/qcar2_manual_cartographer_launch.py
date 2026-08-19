@@ -32,12 +32,7 @@ def generate_launch_description():
         )
     )
 
-    qcar2_to_lidar_tf_node = Node(
-            package='qcar2_nodes',
-            executable='fixed_lidar_frame',
-            name='fixed_lidar_frame')
-
-    configuration_basename_la = DeclareLaunchArgument(
+     configuration_basename_la = DeclareLaunchArgument(
             'configuration_basename',
             default_value='qcar2_2d.lua',
             description='Name of LUA file for cartographer')
@@ -80,6 +75,5 @@ def generate_launch_description():
         resolution_la,
         publish_period_sec_la,
         cartographer_node,
-        cartographer_occupancy_grid_node,
-        qcar2_to_lidar_tf_node,
+        cartographer_occupancy_grid_node
     ])

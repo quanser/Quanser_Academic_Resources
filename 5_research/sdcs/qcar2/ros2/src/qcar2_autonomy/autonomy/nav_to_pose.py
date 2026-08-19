@@ -439,7 +439,7 @@ class PathFollower(Node):
       # self.get_logger().info(f"motion Falg received was:{self.motion_flag}")
 
     def joint_state_callback(self, msg):
-      self.qcar2_measurred_speed = (msg.velocity[0]/(720.0*4.0))*((13.0*19.0)/(70.0*30.0))*(2.0*np.pi)*0.033
+      self.qcar2_measurred_speed = (msg.velocity[0]/(720.0*4.0))*((13.0*19.0)/(70.0*37.0))*(2.0*np.pi)*0.033
 
     def imu_callback(self,msg):
        self.gyroscope = [msg.angular_velocity.x,msg.angular_velocity.y,msg.angular_velocity.z]

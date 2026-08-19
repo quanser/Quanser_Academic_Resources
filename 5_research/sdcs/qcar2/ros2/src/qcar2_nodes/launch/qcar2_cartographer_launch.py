@@ -38,10 +38,6 @@ def generate_launch_description():
         arguments = ['0', '0', '0', '3.14159', '0', '0','map_rotated','map'],
         output = 'screen')
     
-    qcar2_to_lidar_tf_node = Node(
-            package='qcar2_nodes',
-            executable='fixed_lidar_frame',
-            name='fixed_lidar_frame')
     
     configuration_basename_la = DeclareLaunchArgument(
             'configuration_basename',
@@ -94,5 +90,4 @@ def generate_launch_description():
         publish_period_sec_la,
         cartographer_node,
         cartographer_occupancy_grid_node,
-        qcar2_to_lidar_tf_node,
     ])
