@@ -1,4 +1,0 @@
-Author(s):
-Keywords:
-Github:
-
