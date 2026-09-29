@@ -33,6 +33,9 @@ This project is an AI-based autonomous racing stack developed for the virtual QC
 - **GitHub Repository:**  
 https://github.com/buntydjoseph-dot/Formula-Student-AI-QCar-Autonomous-Navigation
 
+- **Video Demonstration:**  
+[Video on LinkedIn](https://www.linkedin.com/posts/joshvajonathanjoseph99_from-simulation-to-reality-qcar-deployment-ugcPost-7408932375604281344-xOx_/)
+
 ---
 
 ## Author

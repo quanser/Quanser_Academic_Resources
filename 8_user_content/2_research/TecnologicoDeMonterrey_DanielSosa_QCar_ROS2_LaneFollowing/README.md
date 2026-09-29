@@ -39,4 +39,4 @@ https://github.com/dsosa114/movilidad_inteligente
 
 ## Author
 Daniel Sosa  
-Tecnológico de Monterrey, Monterrey, Nuevo León, Mexico
+Tecnológico de Monterrey Campus Puebla, Puebla, México

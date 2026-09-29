@@ -41,7 +41,8 @@ The **LLM decides but never drives**. YOLO perception, RGB D localization, visua
 https://github.com/TomasEzFranco/LLM_Based_Manipulation
 
 * **Video Demonstration:**  
-https://www.youtube.com/watch?v=ye8d9MgdUjU
+1. https://www.youtube.com/watch?v=ye8d9MgdUjU
+2. https://www.youtube.com/watch?v=bDskIsZQqGQ
 
 * **Author Portfolio:**  
 https://tomasezfranco.github.io/

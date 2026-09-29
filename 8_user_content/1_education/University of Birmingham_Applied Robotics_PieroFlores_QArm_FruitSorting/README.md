@@ -30,7 +30,9 @@ The project uses classical robotics and computer vision methods throughout, with
 
 ## Links
 - **GitHub Repository:**  
-https://github.com/PieroJF/Robot-qarm-ruit-sorting
+https://github.com/PieroJF/Robot-qarm-fruit-sorting
+
+- **License:** MIT
 
 ---
 

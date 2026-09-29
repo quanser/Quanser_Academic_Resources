@@ -43,5 +43,12 @@ https://gareginmazmanyan.com/projects/vla.html
 ---
 
 ## Author
-Garegin Mazmanyan  
+[Garegin Mazmanyan](https://gareginmazmanyan.com/) - ORCID: [0009-0009-6197-6182](https://orcid.org/0009-0009-6197-6182)  
 MS Thesis, Computer Science, University of Arizona
+
+---
+
+## Advisors
+- [Dr. Hossein Rastgoftar](https://ame.engineering.arizona.edu/faculty-staff/faculty/hossein-rastgoftar)
+- [Dr. Chicheng Zhang](https://zcc1307.github.io/)
+- [Dr. Eduardo Blanco](https://eduardoblanco.github.io/)

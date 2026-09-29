@@ -1,5 +1,4 @@
-# Orbital-Stabilization Control for Quanser Aero
-
+# Control Design and Robustification via Orbital-Stabilization Methods: with Application to 2-DOF Dual-Rotor Control
 
 ## Overview
 This repository provides a complete control workflow for the **Aero 1** helicopter configuration using **orbital-stabilization methods**. It includes controller code, simulations, modeling and model verification materials, observer design, identified coefficients (pitch/thrust/yaw), and **experimental demonstrations**.
@@ -25,6 +24,14 @@ This repository provides a complete control workflow for the **Aero 1** helicopt
 https://github.com/finnferdinand/orbital-stabilization-quanser-aero
 - **Report (PDF):** 
 https://github.com/finnferdinand/orbital-stabilization-quanser-aero/blob/main/Finn%20Ferdinand%20Schj%C3%B8ll%20Sandvand.%20A%20Comparion%20of%20Control%20Methods%20for%20Double%20Integrator%20Systems%2C%202024.pdf
+- **Master's Thesis:** 
+https://hdl.handle.net/11250/5332313
+
+---
+
+## Author Preferred Contact
+
+For questions or discussion, please use **[GitHub Issues](https://github.com/finnferdinand/orbital-stabilization-quanser-aero/issues)** on the project repository, or contact **[finnferdinandss@gmail.com](mailto:finnferdinandss@gmail.com)**.
 
 ---
 

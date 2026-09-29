@@ -38,6 +38,12 @@ https://github.com/SarathKumarKomathukattil/deep-learning-perception-system/blob
 
 ---
 
+## Author Preferred Contact
+
+For project-related questions, please use the **[GitHub repository Issues section](https://github.com/SarathKumarKomathukattil/deep-learning-perception-system/issues)**.
+
+---
+
 ## Author
 Sarath Kumar Komathukattil  
 ME7743 Dissertation, MSc Mechatronic Systems, Kingston University London  

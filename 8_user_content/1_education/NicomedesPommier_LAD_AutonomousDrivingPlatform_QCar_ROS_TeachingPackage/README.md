@@ -37,7 +37,7 @@ The 12 units run in order: Introduction, Vehicle Dynamics, ROS 2 Concepts, Sensi
 
 ## Links
 - **GitHub Repository:**  
-https://github.com/NicomedesPommier/L.A.D
+https://github.com/NicomedesPommier/LAD_IFAC2026
 
 ---
 
