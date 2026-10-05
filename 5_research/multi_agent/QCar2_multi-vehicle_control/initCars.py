@@ -52,7 +52,7 @@ QCars.append({
 })
 
 QCars.append({
-    "RobotType": "QC2", 
+    "RobotType": "QCar2", 
     "Location": [22.5478, 00.814, 0], 
     "Rotation": [0, 0, 1.5707963267948966], 
     'Radians': True,

@@ -1,4 +1,17 @@
 function Spawn_QDrone()
+    newPathEntry = fullfile(getenv('QAL_DIR'), '0_libraries', 'matlab', 'qvl');
+    pathCell = regexp(path, pathsep, 'split');
+    if ispc  % Windows is not case-sensitive
+      onPath = any(strcmpi(newPathEntry, pathCell));
+    else
+      onPath = any(strcmp(newPathEntry, pathCell));
+    end
+    
+    if onPath == 0
+        path(path, newPathEntry)
+        savepath
+    end
+
     %% Communications
     
     try

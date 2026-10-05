@@ -125,27 +125,24 @@ echo.
 
 echo [92mUpdating MATLAB Paths...[0m
 
-:: Define MATLAB base path and versions to check
-set "MATLAB_BASE=C:\Program Files\MATLAB"
-set "MATLAB_VERSIONS=R2026a R2025b R2025a R2024b R2024a R2023b R2023a R2022b R2022a R2021b R2021a R2020b R2020a R2019b R2019a"
 set "USER_LIB_PATH=%USERPROFILE%\Documents\Quanser\0_libraries\matlab"
 setlocal enabledelayedexpansion
-:: Initialize a flag to track if any MATLAB versions are found
-set "VERSIONS="
 set "FOUND=0"
 
-:: Iterate through each version to check for existence
-for %%V in (%MATLAB_VERSIONS%) do (
-    if exist "%MATLAB_BASE%\%%V\bin\matlab.exe" (
-        echo.
-        echo MATLAB version found: %%V
-        
-        :: Execute the MATLAB command
-        start "" "%MATLAB_BASE%\%%V\bin\matlab.exe" -batch "addpath('%USER_LIB_PATH%'); savepath; quit;"
-        echo [92mMATLAB path updated for %%V version.[0m
-        timeout /t 20
+:: Find MATLAB installations recorded in the Windows registry.
+for /f "usebackq delims=" %%R in (`powershell -NoProfile -Command "$keys = @('HKLM:\SOFTWARE\MathWorks\MATLAB','HKLM:\SOFTWARE\WOW6432Node\MathWorks\MATLAB'); foreach ($root in $keys) { if (Test-Path $root) { $items = @(Get-Item $root) + @(Get-ChildItem $root -ErrorAction SilentlyContinue); foreach ($item in $items) { $props = Get-ItemProperty $item.PSPath; foreach ($prop in $props.PSObject.Properties) { if ($prop.Value -is [string] -and (Test-Path (Join-Path $prop.Value 'bin\matlab.exe'))) { (Resolve-Path $prop.Value).Path } } } } }"`) do (
+    set "FOUND=1"
+    echo.
+    echo MATLAB installation found at: %%R
+    start "" /wait "%%R\bin\matlab.exe" -batch "addpath('%USER_LIB_PATH%'); savepath; quit;"
+    if errorlevel 1 (
+        echo MATLAB path update failed for %%R.
+    ) else (
+        echo MATLAB path updated for %%R.
     )
 )
+
+if "!FOUND!"=="0" echo MATLAB installation was not found in the Windows registry.
 goto :ending
 
 

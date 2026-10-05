@@ -1,13 +1,19 @@
 ==========================================================================================================
 Change Log for releases after 2025:
 ==========================================================================================================
+Release (2026-10-05):
+- Added documentation for multiagent examples
+- Documentation changes for virtual QDrone2
+- RT Model updates based on QUARC 2026 release
+- Updates to AVRS documentation 
+- MATLAB check requirements system check updates
+- Added 15 more directories for 8_user_content folder 
 
 Release (2026-07-31):
 - 16 new directories inside the 8_user_content folder from different institutions 
 - QCar2 quick start guide has been updated to have a more robust check whether the encoder is working properly or not.
 - Existing QBot Platform ROS2 package replaced by qbot_hardware.
 - Added RL policy deployment package (qbot_rl_deploy) for mapless navigation.
-
 
 Release (2026-07-07):
 - Updated step_1_check_requirements.bat 

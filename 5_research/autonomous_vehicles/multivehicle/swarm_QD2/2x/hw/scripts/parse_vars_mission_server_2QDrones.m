@@ -46,16 +46,16 @@ function parse_vars( input_data )
 	assignin('base','pos_1',input_data(28:30,:));
 
 	%% Measured Position (x,y,z) (m) for Vehicle 2
-	assignin('base','pos_2',input_data(31:33,:));
+	assignin('base','pos_2',input_data(35:37,:));
 
 	%% Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 1
-	assignin('base','rot_1',input_data(34:36,:));
+	assignin('base','rot_1',input_data(31:33,:));
 
 	%% Measured Orientation (Roll, Pitch, Yaw) (rad) for Vehicle 2
-	assignin('base','rot_2',input_data(37:39,:));
+	assignin('base','rot_2',input_data(38:40,:));
 
 	%% isTracking signal for each of the vehicles in the swarm
-	assignin('base','is_tracking',input_data(40:41,:));
+	assignin('base','is_tracking',input_data([34,41],:));
 
 
 end
