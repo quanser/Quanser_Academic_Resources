@@ -85,7 +85,8 @@ class QArmUtilities():
 
         OUTPUTS:
         p4      : End-effector frame {4} position vector expressed in base frame {0}
-        R04     : rotation matrix from end-effector frame {4} to base frame {0}"""
+        R04     : rotation matrix from end-effector frame {4} to base frame {0}
+        gamma   : the end-effector orientation angle with respect to the horizontal plane."""
 
         # From phi space to theta space
         theta = phi.copy()
@@ -120,7 +121,9 @@ class QArmUtilities():
         # R03 = T03(1:3,1:3);
         R04 = T04[0:3,0:3]
 
-        return p4, R04
+        gamma = theta[1] + theta[2] + theta[3] - np.pi/2
+
+        return p4, R04, gamma
 
     def inverse_kinematics(self, p, gamma, phi_prev):
         """
@@ -133,6 +136,7 @@ class QArmUtilities():
         INPUTS:
             p: end-effector position vector expressed in base frame {0}
             gamma: wrist rotation angle gamma
+            phi_prev: the last measured joint angles of the manipulator
 
         OUTPUTS:
             phiOptimal : Best solution depending on phi_prev
@@ -211,7 +215,7 @@ class QArmUtilities():
         if self._check_joint_limits(phiOptimal) or np.isnan(phiOptimal).any():
             phiOptimal = [0, 0, 0, 0]
 
-        return phi, phiOptimal
+        return phiOptimal, phi
 
     def _check_joint_limits(self, phi):
 
@@ -382,13 +386,13 @@ class QArmKeyboardNavigator():
     def activate_joint(self, mode='joint'):
 
         if mode=='joint':
-            if self.kbd.k_1:
+            if self.kbd.K_1:
                 self.active_joint = 0 # joint 1 base yaw
-            elif self.kbd.k_2:
+            elif self.kbd.K_2:
                 self.active_joint = 1 # joint 2 shoulder pitch
-            elif self.kbd.k_3:
+            elif self.kbd.K_3:
                 self.active_joint = 2 # joint 3 elbow pitch
-            elif self.kbd.k_4:
+            elif self.kbd.K_4:
                 self.active_joint = 3 # joint 4 wrist pitch
         elif mode=='task':
             if self.kbd.k_x:
@@ -407,7 +411,7 @@ class QArmKeyboardNavigator():
         UP and DOWN arrows to increase or decrease the joint's cmd
         respectively.'''
 
-        if self.kbd.k_up:
+        if self.kbd.K_UP:
             cmd = speed
         elif self.kbd.k_down:
             cmd = -1*speed
